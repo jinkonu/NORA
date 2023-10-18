@@ -16,6 +16,6 @@ public class MovieController {
 
     @GetMapping("/{id}")
     public Movie showMovie(@PathVariable String id) {
-        return MovieService.findByKobis(id);
+        return movieService.findByKobisId(id);
     }
 }

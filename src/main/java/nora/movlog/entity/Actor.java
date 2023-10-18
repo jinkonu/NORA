@@ -16,4 +16,8 @@ public class Actor {
 
     /* 배우 데이터 */
     private String name;    // 한국 이름
+
+    public Actor(String name) {
+        this.name = name;
+    }
 }

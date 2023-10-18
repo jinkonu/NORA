@@ -3,12 +3,11 @@ package nora.movlog.repository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nora.movlog.dto.MovieKobisDto;
+import nora.movlog.entity.Movie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.HashMap;
 
 /*
 외부 API에 쿼리 날리는 리포지토리 클래스
@@ -17,7 +16,7 @@ import java.util.HashMap;
 
 @Repository
 public class MovieApiRepository {
-    public MovieKobisDto findByKobis(String movieCd) throws JsonProcessingException {
+    public Movie findByKobis(String movieCd) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
 
         String key = "4c9099b4c7f44c7a34192082ead54dbe";
@@ -41,6 +40,7 @@ public class MovieApiRepository {
                 .bodyToMono(String.class)
                 .block();
 
-        return mapper.readValue(result, MovieKobisDto.class);
+        MovieKobisDto movieDto = mapper.readValue(result, MovieKobisDto.class);
+        return Movie.fromKobistoEntity(movieDto);
     }
 }
