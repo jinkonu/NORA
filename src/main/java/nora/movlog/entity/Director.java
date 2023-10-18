@@ -10,9 +10,9 @@ import lombok.Data;
 public class Director {
     /* 데이터 관리 및 조회용 */
     @Id @GeneratedValue
-    private Long id;        // for database
+    private Long id;        // DB ID
 
 
     /* 감독 데이터 */
-    private String name;    // for korean name
+    private String name;    // 한국 이름
 }

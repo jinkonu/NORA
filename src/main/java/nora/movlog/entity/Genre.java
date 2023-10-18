@@ -10,7 +10,7 @@ import lombok.Data;
 public class Genre {
     /* 데이터 관리 및 조회용 */
     @Id @GeneratedValue
-    private Long id;    // for database
+    private Long id;    // DB ID
 
 
 
