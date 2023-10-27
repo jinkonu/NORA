@@ -2,8 +2,10 @@ package nora.movlog.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nora.movlog.entity.Movie;
 import nora.movlog.service.MovieService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,12 +26,15 @@ public class SearchController {
     private final MovieService movieService;
 
     @GetMapping()
-    public String search(@RequestParam(value = "query", required = false) String query) {
-        return "searchForm";
-    }
+    public String search(@RequestParam(value = "query", required = false) String query, Model model) {
+        Movie searchResult = movieService.search(query);
 
-    @GetMapping("/movie")
-    public HashMap<String, String> searchMovie(@RequestParam String searchDt) {
-        return movieService.search(searchDt);
+        if (!query.isEmpty())
+            model.addAttribute(searchResult);
+
+        /* for test */
+        System.out.println("searchResult = " + searchResult);
+
+        return "searchForm";
     }
 }

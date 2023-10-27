@@ -3,9 +3,6 @@ package nora.movlog.repository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
-import nora.movlog.dto.MovieInfo;
-import nora.movlog.dto.MovieKobisDto;
 import nora.movlog.entity.Movie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,22 +16,47 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Repository
 public class MovieApiRepository {
-    public Movie findByKobis(String movieCd) throws JsonProcessingException {
-        String key = "4c9099b4c7f44c7a34192082ead54dbe";
-        String url = "http://www.kobis.or.kr";
-        String urlPath = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json";
+    static String kobisKey = "4c9099b4c7f44c7a34192082ead54dbe";
+    static String kobisUrl = "http://www.kobis.or.kr";
+    static String kobisSearchByIdUrlPath = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json";
+    static String kboisSearchByNameUrlPath = "/kobisopenapi/webservice/rest/movie/searchMovieList.json";
 
+
+    // kobis api 주소에 http 요청을 날리는 메서드
+    public Movie findByKobisString(String searchDt) throws JsonProcessingException {
         // 아래 부분은 향후 Utility와 같은 이름의 클래스로 따로 빼야 할듯
-        // kobis api 주소에 http 요청을 날리는 메서드
         WebClient client = WebClient.builder()
-                .baseUrl(url)
+                .baseUrl(kobisUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
         String result = client.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path(urlPath)
-                        .queryParam("key", key)
+                        .path(kboisSearchByNameUrlPath)
+                        .queryParam("key", kobisKey)
+                        .queryParam("movieNm", searchDt)    // 지금은 영화 제목에만 넣고 있음
+                        .build())
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        JsonNode movieDtoNode = new ObjectMapper().readTree(result).get("movieListResult");
+
+        return Movie
+    }
+
+    // kobis api 주소에 http 요청을 날리는 메서드
+    public Movie findByKobisId(String movieCd) throws JsonProcessingException {
+        // 아래 부분은 향후 Utility와 같은 이름의 클래스로 따로 빼야 할듯
+        WebClient client = WebClient.builder()
+                .baseUrl(kobisUrl)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        String result = client.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(kobisSearchByIdUrlPath)
+                        .queryParam("key", kobisKey)
                         .queryParam("movieCd", movieCd)
                         .build())
                 .retrieve()

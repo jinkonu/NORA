@@ -22,7 +22,7 @@ public class MovieService {
         Movie movie = null;
 
         try {
-            movie = movieApiRepository.findByKobis(kobisId);
+            movie = movieApiRepository.findByKobisId(kobisId);
         } catch (IOException e) {
             // 키 값 기반 검색이기 때문에 예외가 발생할 경우가 거의 없을듯
         }
@@ -30,7 +30,7 @@ public class MovieService {
         return movie;
     }
 
-    public HashMap<String, String> search(String searchDt) {
-        return new HashMap<>();
+    public Movie search(String searchDt) {
+        return movieApiRepository.findByKobisString(searchDt);
     }
 }
