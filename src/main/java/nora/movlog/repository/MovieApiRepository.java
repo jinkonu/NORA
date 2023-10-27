@@ -1,7 +1,10 @@
 package nora.movlog.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import nora.movlog.dto.MovieInfo;
 import nora.movlog.dto.MovieKobisDto;
 import nora.movlog.entity.Movie;
 import org.springframework.http.HttpHeaders;
@@ -17,8 +20,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Repository
 public class MovieApiRepository {
     public Movie findByKobis(String movieCd) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-
         String key = "4c9099b4c7f44c7a34192082ead54dbe";
         String url = "http://www.kobis.or.kr";
         String urlPath = "/kobisopenapi/webservice/rest/movie/searchMovieInfo.json";
@@ -40,7 +41,8 @@ public class MovieApiRepository {
                 .bodyToMono(String.class)
                 .block();
 
-        MovieKobisDto movieDto = mapper.readValue(result, MovieKobisDto.class);
-        return Movie.fromKobistoEntity(movieDto);
+        JsonNode movieDtoNode = new ObjectMapper().readTree(result).get("movieInfoResult").get("movieInfo");
+
+        return Movie.createFromKobisJsonNode(movieDtoNode);
     }
 }

@@ -1,24 +1,22 @@
 package nora.movlog.entity;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import lombok.Data;
-import nora.movlog.dto.MovieKobisDto;
+import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Data
 @Entity
+@Slf4j
 public class Movie {
     /* 데이터 관리 및 조회용 */
     @Id @GeneratedValue
     private Long            id;         // DB ID
-
-    private Long            tmbdId;     // TMBD API ID
     private String          kobisId;    // KOBIS API ID
 
 
@@ -26,60 +24,22 @@ public class Movie {
     /* 영화 데이터 */
     private String          titleKo;    // 한국어 제목
     private String          titleEn;    // 영어 제목
-    private LocalDateTime   openDate;   // 개봉 날짜
+    private LocalDate openDate;   // 개봉 날짜
     private Long            showTime;   // 상영 시간
     private WatchGrade      watchGrade; // 상영 등급
     private String          nation;     // 개봉 국가
-    private String          genre;      // 장르
+    @ManyToMany( cascade = CascadeType.ALL)
+    private Set<Genre>      genre;      // 장르
     @ManyToMany ( cascade = CascadeType.ALL )
     private Set<Director>   directors;  // 감독
     @ManyToMany ( cascade = CascadeType.ALL )
     private Set<Actor>      actors;     // 배우
 
-    public static Movie fromKobistoEntity(MovieKobisDto movieDto) {
-        Movie movie = new Movie();
 
-        movie.setKobisId(movieDto.getMovieCd());
-        movie.setTitleKo(movieDto.getMovieNm());
-        movie.setTitleEn(movieDto.getMovieNmEn());
-        movie.setOpenDate(LocalDateTime.parse(movieDto.getOpenDt(), DateTimeFormatter.BASIC_ISO_DATE));
-        movie.setShowTime(Long.parseLong(movieDto.getShowTm()));
-        movie.setWatchGrade(watchGradeParser(movieDto.getAudits()));
-        movie.setGenre(genreParser(movieDto.getGenres()));
-        movie.setDirectors(directorParser(movieDto.getDirectors()));
-        movie.setActors(actorParser(movieDto.getActors()));
 
-        return movie;
-    }
-
-    private static Set<Actor> actorParser(List<Map<String, String>> actors) {
-        Set<Actor> actorSet = new HashSet<>();
-
-        for (Map<String, String> act : actors) {
-            String name = act.get("peopleNm");
-            Actor actor = new Actor(name);
-        }
-
-        return actorSet;
-    }
-
-    private static Set<Director> directorParser(List<Map<String, String>> directors) {
-        Set<Director> directorSet = new HashSet<>();
-
-        for (Map<String, String> dir : directors) {
-            String name = dir.get("peopleNm");
-            Director director = new Director(name);
-        }
-
-        return directorSet;
-    }
-
-    private static String genreParser(List<Map<String, String>> genres) {
-        return genres.get(0).get("genreNm");
-    }
-
-    private static WatchGrade watchGradeParser(List<Map<String, String>> audits) {
-        String grade = audits.get(0).get("watchGradeNm");
+    /* 메서드 */
+    private static WatchGrade watchGradeParser(JsonNode audits) {
+        String grade = audits.get(audits.size() - 1).get("watchGradeNm").textValue();
 
         return switch (grade) {
             case "15세이상관람가"  -> WatchGrade.FIFTEEN;
@@ -88,5 +48,50 @@ public class Movie {
             default            -> WatchGrade.ADULT;
         };
     }
+    public static Movie createFromKobisJsonNode(JsonNode jsonNode) {
+        Movie movie = new Movie();
+
+        movie.setKobisId(jsonNode.get("movieCd").textValue());
+        movie.setTitleKo(jsonNode.get("movieNm").textValue());
+        movie.setOpenDate(LocalDate.parse(jsonNode.get("openDt").textValue(), DateTimeFormatter.ofPattern("yyyyMMdd")));
+        movie.setShowTime(Long.parseLong(jsonNode.get("showTm").textValue()));
+        movie.setWatchGrade(watchGradeParser(jsonNode.get("audits")));
+        movie.setGenre(genreParser(jsonNode.get("genres")));
+        movie.setDirectors(directorParser(jsonNode.get("directors")));
+        movie.setActors(actorParser(jsonNode.get("actors")));
+
+        return movie;
+    }
+
+    private static Set<Genre> genreParser(JsonNode genres) {
+        HashSet<Genre> genreSet = new HashSet<>();
+
+        for (JsonNode genre : genres) {
+            genreSet.add(new Genre(genre.get("genreNm").textValue()));
+        }
+
+        return genreSet;
+    }
+
+    private static Set<Director> directorParser(JsonNode directors) {
+        HashSet<Director> directorSet = new HashSet<>();
+
+        for (JsonNode director : directors) {
+            directorSet.add(new Director(director.get("peopleNm").textValue()));
+        }
+
+        return directorSet;
+    }
+
+    private static Set<Actor> actorParser(JsonNode actors) {
+        HashSet<Actor> actorSet = new HashSet<>();
+
+        for (JsonNode actor : actors) {
+            actorSet.add(new Actor(actor.get("peopleNm").textValue()));
+        }
+
+        return actorSet;
+    }
+
 }
 

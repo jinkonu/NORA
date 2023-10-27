@@ -1,11 +1,12 @@
 package nora.movlog.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import nora.movlog.service.MovieService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
@@ -15,11 +16,17 @@ import java.util.HashMap;
 후에 두 가지를 한꺼번에 할 수 있도록 해야할듯
  */
 
-@RequestMapping("/search")
 @RequiredArgsConstructor
-@RestController
+@RequestMapping("/search")
+@Controller
+@Slf4j
 public class SearchController {
     private final MovieService movieService;
+
+    @GetMapping()
+    public String search(@RequestParam(value = "query", required = false) String query) {
+        return "searchForm";
+    }
 
     @GetMapping("/movie")
     public HashMap<String, String> searchMovie(@RequestParam String searchDt) {
