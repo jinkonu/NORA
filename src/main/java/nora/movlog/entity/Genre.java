@@ -9,17 +9,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-public class Actor {
+public class Genre {
     /* 데이터 관리 및 조회용 */
     @Id
     @GeneratedValue
     private Long id;        // DB ID
 
 
-    /* 배우 데이터 */
-    private String name;    // 한국 이름
+    /* 장르 데이터 */
+    private String name;    // 장르 이름
 
-    public Actor(String name) {
+    public Genre(String name) {
         this.name = name;
     }
 }

@@ -6,7 +6,9 @@ import nora.movlog.repository.MovieApiRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /*
 영화 페이지 서비스
@@ -22,7 +24,7 @@ public class MovieService {
         Movie movie = null;
 
         try {
-            movie = movieApiRepository.findByKobis(kobisId);
+            movie = movieApiRepository.findByKobisId(kobisId);
         } catch (IOException e) {
             // 키 값 기반 검색이기 때문에 예외가 발생할 경우가 거의 없을듯
         }
@@ -30,7 +32,15 @@ public class MovieService {
         return movie;
     }
 
-    public HashMap<String, String> search(String searchDt) {
-        return new HashMap<>();
+    public List<Movie> search(String searchDt) {
+        List<Movie> movieList = new ArrayList<>();
+
+        try {
+            movieList = movieApiRepository.findByKobisString(searchDt);
+        } catch (IOException e) {
+            // 잘못된 이름을 검색할 경우 예외 발생 대신 검색결과가 없으므로 발생할 경우가 거의 없을듯
+        }
+
+        return movieList;
     }
 }
