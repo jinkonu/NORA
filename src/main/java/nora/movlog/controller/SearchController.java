@@ -30,7 +30,7 @@ public class SearchController {
         // 사용자가 form에 검색어를 입력하면 if 문을 통과하여,
         // 쿼리를 가지고 검색한 후, 그 결과를 List<Movie> 형태로 searchForm.html에 넣어준다.
         if (query != null)
-            model.addAttribute(movieService.search(query));
+            model.addAttribute("result", movieService.search(query));
 
         return "searchForm";
     }

@@ -41,10 +41,6 @@ public class MovieService {
             // 잘못된 이름을 검색할 경우 예외 발생 대신 검색결과가 없으므로 발생할 경우가 거의 없을듯
         }
 
-        for (Movie movie : movieList) {
-            System.out.println("movie = " + movie);
-        }
-
         return movieList;
     }
 }

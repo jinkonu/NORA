@@ -13,7 +13,21 @@
 <body>
 <input type="text" id="comment" />
 <button type="button" id="query">search</button>
-<hr/>
+
+<h1>검색 결과</h1>
+<th:block th:if="${result != null}"/>
+  <table>
+    <tr>
+      <th>제목</th>
+      <th>제작년도</th>
+      <th>국가</th>
+    </tr>
+    <tr th:each="movie : ${result}">
+      <td th:text="${movie.titleKo}">N/A</td>
+      <td th:text="${movie.prdtYear}">N/A</td>
+      <td th:text="${movie.nation}">N/A</td>
+    </tr>
+  </table>
 
 <!-- 동적으로 JS가 생성한 사용자 검색어가 추가될 부분 -->
 <ul id="list"></ul>
@@ -22,7 +36,7 @@
   // 사용자가 입력할 input 태그
   const comment = document.querySelector("#comment");
 
-  document.querySelector('#query').addEventListener('click', (e) => {
+  document.querySelector('#query').addEventListener('click', () => {
     let urlParam = new URLSearchParams(location.search)
     urlParam.set("query", comment.value)
     new_urlParam = urlParam.toString();
