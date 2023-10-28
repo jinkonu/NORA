@@ -4,5 +4,6 @@ public enum WatchGrade {
     ALL,
     TWELVE,
     FIFTEEN,
-    ADULT
+    ADULT,
+    NONE
 }
