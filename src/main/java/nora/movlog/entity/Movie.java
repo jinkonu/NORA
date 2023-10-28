@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +22,7 @@ public class Movie {
     /* 영화 데이터 */
     private String          titleKo;    // 한국어 제목
     private String          titleEn;    // 영어 제목
-    private LocalDate openDate;   // 개봉 날짜
+    private String          prdtYear;   // 제작 연도
     private Long            showTime;   // 상영 시간
     private WatchGrade      watchGrade; // 상영 등급
     private String          nation;     // 개봉 국가
@@ -38,6 +36,50 @@ public class Movie {
 
 
     /* 메서드 */
+    // "영화 상세정보" 검색
+    public static Movie createFromKobisMovieInfo(JsonNode jsonNode) {
+        Movie movie = new Movie();
+
+        movie.setKobisId(jsonNode.get("movieCd").textValue());
+        movie.setTitleKo(jsonNode.get("movieNm").textValue());
+        movie.setTitleEn(jsonNode.get("movieEnNm").textValue());
+        movie.setPrdtYear(jsonNode.get("prdtYear").textValue());
+        movie.setShowTime(Long.parseLong(jsonNode.get("showTm").textValue()));
+        movie.setWatchGrade(watchGradeParser(jsonNode.get("audits")));
+        movie.setGenre(genreParser(jsonNode.get("genres")));
+        movie.setDirectors(directorParser(jsonNode.get("directors")));
+        movie.setActors(actorParser(jsonNode.get("actors")));
+
+        return movie;
+    }
+
+    // "영화목록" 검색
+    public static Movie createFromKobisMovieList(JsonNode jsonNode) {
+        Movie movie = new Movie();
+
+        movie.setKobisId(jsonNode.get("movieCd").textValue());
+        movie.setTitleKo(jsonNode.get("movieNm").textValue());
+        movie.setTitleEn(jsonNode.get("movieNmEn").textValue());
+        movie.setPrdtYear(jsonNode.get("prdtYear").textValue());
+
+        return movie;
+
+//        "movieCd": "20232909",
+//                "movieNm": "펄프픽션",
+//                "movieNmEn": "",
+//                "prdtYear": "2023",
+//                "openDt": "",
+//                "typeNm": "장편",
+//                "prdtStatNm": "기타",
+//                "nationAlt": "한국",
+//                "genreAlt": "드라마",
+//                "repNationNm": "한국",
+//                "repGenreNm": "드라마",
+//                "directors": [],
+//        "companys": []
+    }
+
+
     private static WatchGrade watchGradeParser(JsonNode audits) {
         String grade = audits.get(audits.size() - 1).get("watchGradeNm").textValue();
 
@@ -47,20 +89,6 @@ public class Movie {
             case "전체관람가"     -> WatchGrade.ALL;
             default            -> WatchGrade.ADULT;
         };
-    }
-    public static Movie createFromKobisJsonNode(JsonNode jsonNode) {
-        Movie movie = new Movie();
-
-        movie.setKobisId(jsonNode.get("movieCd").textValue());
-        movie.setTitleKo(jsonNode.get("movieNm").textValue());
-        movie.setOpenDate(LocalDate.parse(jsonNode.get("openDt").textValue(), DateTimeFormatter.ofPattern("yyyyMMdd")));
-        movie.setShowTime(Long.parseLong(jsonNode.get("showTm").textValue()));
-        movie.setWatchGrade(watchGradeParser(jsonNode.get("audits")));
-        movie.setGenre(genreParser(jsonNode.get("genres")));
-        movie.setDirectors(directorParser(jsonNode.get("directors")));
-        movie.setActors(actorParser(jsonNode.get("actors")));
-
-        return movie;
     }
 
     private static Set<Genre> genreParser(JsonNode genres) {
@@ -93,5 +121,16 @@ public class Movie {
         return actorSet;
     }
 
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "kobisId='" + kobisId + '\'' +
+                ", titleKo='" + titleKo + '\'' +
+                ", prdtYear='" + prdtYear + '\'' +
+                ", showTime=" + showTime +
+                ", watchGrade=" + watchGrade +
+                ", nation='" + nation + '\'' +
+                '}';
+    }
 }
 

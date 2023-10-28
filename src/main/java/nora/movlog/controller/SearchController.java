@@ -2,7 +2,6 @@ package nora.movlog.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nora.movlog.entity.Movie;
 import nora.movlog.service.MovieService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
