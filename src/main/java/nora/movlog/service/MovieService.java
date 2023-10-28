@@ -31,6 +31,14 @@ public class MovieService {
     }
 
     public Movie search(String searchDt) {
-        return movieApiRepository.findByKobisString(searchDt);
+        Movie movie = null;
+
+        try {
+            return movieApiRepository.findByKobisString(searchDt);
+        } catch (IOException e) {
+
+        }
+
+        return movie;
     }
 }

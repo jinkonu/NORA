@@ -42,7 +42,9 @@ public class MovieApiRepository {
 
         JsonNode movieDtoNode = new ObjectMapper().readTree(result).get("movieListResult");
 
-        return Movie
+        System.out.println("movieDtoNode.get(\"movieList\").get(0).get(\"movieNm\") = " + movieDtoNode.get("movieList").get(0).get("movieNm"));
+
+        return new Movie();
     }
 
     // kobis api 주소에 http 요청을 날리는 메서드
