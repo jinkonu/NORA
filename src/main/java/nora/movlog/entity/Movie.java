@@ -10,7 +10,6 @@ import java.util.Set;
 
 @Data
 @Entity
-@Slf4j
 public class Movie {
     /* 데이터 관리 및 조회용 */
     @Id @GeneratedValue
