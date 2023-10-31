@@ -16,7 +16,6 @@ public interface MovieRepository {
 
 
     // UPDATE
-    Movie update(Long id);
 
 
     // DELETE

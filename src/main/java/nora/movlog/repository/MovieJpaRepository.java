@@ -25,15 +25,8 @@ public class MovieJpaRepository implements MovieRepository {
 
     @Override
     public List<Movie> findByName(String name) {
-        return em.createQuery("select m from Movie m where m.titleKo = :n")
+        return em.createQuery("select m from Movie m where m.titleKo like :n", Movie.class)
                 .setParameter("n", name)
                 .getResultList();
-    }
-
-    @Override
-    public Movie update(Long id) {
-        Movie movie = findById(id);
-
-        return movie;
     }
 }
