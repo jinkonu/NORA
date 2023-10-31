@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
-import java.util.List;
-
 /*
 "Search" 페이지
 지금은 searchMovie와 searchMember로 쪼개서 검색하도록
@@ -27,7 +24,7 @@ public class SearchController {
 
     @GetMapping()
     public String search(@RequestParam(value = "query", required = false) String query, Model model) {
-        // 사용자가 form에 검색어를 입력하면 if 문을 통과하여,
+        // 사용자가 form에 검색어를 submit하면 if 문을 통과하여,
         // 쿼리를 가지고 검색한 후, 그 결과를 List<Movie> 형태로 searchForm.html에 넣어준다.
         if (query != null)
             model.addAttribute("result", movieService.search(query));

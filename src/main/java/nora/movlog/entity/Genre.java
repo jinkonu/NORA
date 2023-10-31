@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-public class Genre {
+public class
+Genre {
     /* 데이터 관리 및 조회용 */
     @Id
     @GeneratedValue
