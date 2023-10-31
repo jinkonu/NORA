@@ -3,7 +3,6 @@ package nora.movlog.entity;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,6 +34,15 @@ public class Movie {
 
 
     /* 메서드 */
+    // MovieJpaRepository 테스트를 위한 mock Movie 객체 생성
+    public static Movie createMockMovie(String titleKo) {
+        Movie movie = new Movie();
+
+        movie.setTitleKo(titleKo);
+
+        return movie;
+    }
+
     // "영화 상세정보" 검색
     public static Movie createFromKobisMovieInfo(JsonNode jsonNode) {
         Movie movie = new Movie();
@@ -59,7 +67,7 @@ public class Movie {
         if (!nations.isEmpty())
             return nations.get(0).get("nationNm").textValue();
 
-        return new String();
+        return "";
     }
 
     private static WatchGrade watchGradeParser(JsonNode audits) {
