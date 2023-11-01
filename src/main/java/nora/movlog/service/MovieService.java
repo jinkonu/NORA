@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.lang.management.MonitorInfo;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,17 +42,18 @@ public class MovieService {
     @Transactional( readOnly = true )
     public List<Movie> search(String searchDt) {
         List<Movie> dbMovieList = movieJpaRepository.findByName(searchDt);
+        List<Movie> apiMovieList = new ArrayList<>();
 
         if (dbMovieList.size() < NumberConstant.MIN_SEARCH_LIST_SIZE) {
             try {
-                List<Movie> apiMovieList = movieApiRepository.findByKobisString(searchDt);
+                apiMovieList = movieApiRepository.findByKobisString(searchDt);
+                join(apiMovieList);
             } catch (IOException e) {
                 // 잘못된 이름을 검색할 경우 예외 발생 대신 검색결과가 없으므로 발생할 경우가 거의 없을듯
             }
         }
 
-
-
+        dbMovieList.addAll(apiMovieList);
         return dbMovieList;
     }
 
