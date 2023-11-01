@@ -11,8 +11,8 @@ import java.util.Set;
 @Entity
 public class Movie {
     /* 데이터 관리 및 조회용 */
-    @Id @GeneratedValue
-    private Long            id;         // DB ID
+    @Id
+    private String          id;         // DB ID == API ID
     private String          kobisId;    // KOBIS API ID
 
 
@@ -35,9 +35,10 @@ public class Movie {
 
     /* 메서드 */
     // MovieJpaRepository 테스트를 위한 mock Movie 객체 생성
-    public static Movie createMockMovie(String titleKo) {
+    public static Movie createMockMovie(String id, String titleKo) {
         Movie movie = new Movie();
 
+        movie.setId(id);
         movie.setTitleKo(titleKo);
 
         return movie;
