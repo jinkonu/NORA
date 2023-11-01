@@ -52,7 +52,12 @@ public class Movie {
         movie.setKobisId(jsonNode.get("movieCd").asText("NONE"));
         movie.setTitleKo(jsonNode.get("movieNm").asText("NONE"));
         movie.setTitleEn(jsonNode.get("movieNmEn").asText("NONE"));
-        movie.setShowTime(Long.parseLong(jsonNode.get("showTm").asText("0")));
+
+        if (jsonNode.get("showTm").asText().isEmpty())
+            movie.setShowTime((long) 0);
+        else
+            movie.setShowTime(Long.parseLong(jsonNode.get("showTm").asText()));
+
         movie.setPrdtYear(jsonNode.get("prdtYear").asText("NONE"));
 
         // using parser

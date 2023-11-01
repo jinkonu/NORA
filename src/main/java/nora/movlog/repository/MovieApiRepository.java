@@ -12,6 +12,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.ArrayList;
 import java.util.List;
 
+import static nora.movlog.constant.NumberConstant.*;
+
 /*
 외부 API에 쿼리 날리는 리포지토리 클래스
 포함 API : Kobis
@@ -48,7 +50,7 @@ public class MovieApiRepository {
 
         JsonNode movieMetaNode = new ObjectMapper().readTree(result).get("movieListResult");
         JsonNode movieDtoNode = movieMetaNode.get("movieList");
-        int movieCnt = movieMetaNode.get("totCnt").asInt();
+        int movieCnt = Math.min(movieMetaNode.get("totCnt").asInt(), MAX_SEARCH_LIST_SIZE);
 
         for (int i = 0; i < movieCnt; i++)
             movieList.add(findByKobisId(movieDtoNode.get(i).get("movieCd").textValue()));
