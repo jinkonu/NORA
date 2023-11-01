@@ -19,14 +19,14 @@ public class MovieJpaRepository implements MovieRepository {
     }
 
     @Override
-    public Movie findById(Long id) {
+    public Movie findById(String id) {
         return em.find(Movie.class, id);
     }
 
     @Override
     public List<Movie> findByName(String name) {
         return em.createQuery("select m from Movie m where m.titleKo like :n", Movie.class)
-                .setParameter("n", name)
+                .setParameter("n", "%" + name + "%")
                 .getResultList();
     }
 }
