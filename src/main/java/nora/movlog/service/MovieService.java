@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /*
@@ -57,7 +55,7 @@ public class MovieService {
 
     // DB ID 기반 조회
     @Transactional( readOnly = true )
-    public Movie findOne(Long id) {
+    public Movie findOne(String id) {
         return movieJpaRepository.findById(id);
     }
 

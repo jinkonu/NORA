@@ -10,7 +10,7 @@ public interface MovieRepository {
 
 
     // READ
-    Movie findById(Long id);
+    Movie findById(String id);
 
     List<Movie> findByName(String name);
 
