@@ -18,14 +18,12 @@ import java.util.List;
 
 
 @RequiredArgsConstructor
-@Transactional
 @Service
 public class MovieService {
     private final MovieApiRepository movieApiRepository;
     private final MovieJpaRepository movieJpaRepository;
 
     // KOBIS "movieCd"를 기반으로 KOBIS API에 질의해서 검색
-    @Transactional( readOnly = true )
     public Movie findByKobisId(String kobisId) {
         Movie movie = null;
 
@@ -39,6 +37,7 @@ public class MovieService {
     }
 
     // 현재까지 영화 제목 기반으로만 검색 -> 1차적으로 DB 검색 -> 없거나 부족하면 KOBIS API에 질의
+    @Transactional( readOnly = false )
     public List<Movie> search(String searchDt) {
         List<Movie> movieList = movieJpaRepository.findByName(searchDt);
 
