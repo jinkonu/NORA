@@ -9,10 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
-영화 페이지 서비스
+영화 서비스
  */
 
 
@@ -37,19 +38,21 @@ public class MovieService {
     }
 
     // 현재까지 영화 제목 기반으로만 검색 -> 1차적으로 DB 검색 -> 없거나 부족하면 KOBIS API에 질의
-    @Transactional( readOnly = false )
+    @Transactional( readOnly = true )
     public List<Movie> search(String searchDt) {
-        List<Movie> movieList = movieJpaRepository.findByName(searchDt);
+        List<Movie> dbMovieList = movieJpaRepository.findByName(searchDt);
 
-        if (movieList.size() < NumberConstant.MIN_SEARCH_LIST_SIZE) {
+        if (dbMovieList.size() < NumberConstant.MIN_SEARCH_LIST_SIZE) {
             try {
-                movieList.addAll(movieApiRepository.findByKobisString(searchDt));
+                List<Movie> apiMovieList = movieApiRepository.findByKobisString(searchDt);
             } catch (IOException e) {
                 // 잘못된 이름을 검색할 경우 예외 발생 대신 검색결과가 없으므로 발생할 경우가 거의 없을듯
             }
         }
 
-        return movieList;
+
+
+        return dbMovieList;
     }
 
     // DB ID 기반 조회
@@ -58,5 +61,12 @@ public class MovieService {
         return movieJpaRepository.findById(id);
     }
 
-    // DB 이름 기반 조회
+    // DB에 신규 영화 저장
+    @Transactional( readOnly = false )
+    public void join(List<Movie> movieList) {
+        for (Movie movie : movieList) {
+            if (movieJpaRepository.findById(movie.getId()) == null)
+                movieJpaRepository.save(movie);
+        }
+    }
 }
