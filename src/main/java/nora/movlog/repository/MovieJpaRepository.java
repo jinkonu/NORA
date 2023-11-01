@@ -18,6 +18,10 @@ public class MovieJpaRepository implements MovieRepository {
         em.persist(movie);
     }
 
+    public void flush() {
+        em.flush();
+    }
+
     @Override
     public Movie findById(String id) {
         return em.find(Movie.class, id);
