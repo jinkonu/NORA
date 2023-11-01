@@ -48,6 +48,7 @@ public class Movie {
     public static Movie createFromKobisMovieInfo(JsonNode jsonNode) {
         Movie movie = new Movie();
 
+        movie.setKobisId(jsonNode.get("movieCd").asText());
         movie.setKobisId(jsonNode.get("movieCd").asText("NONE"));
         movie.setTitleKo(jsonNode.get("movieNm").asText("NONE"));
         movie.setTitleEn(jsonNode.get("movieNmEn").asText("NONE"));
