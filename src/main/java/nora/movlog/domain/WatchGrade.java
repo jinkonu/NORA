@@ -1,4 +1,4 @@
-package nora.movlog.entity;
+package nora.movlog.domain;
 
 public enum WatchGrade {
     ALL,

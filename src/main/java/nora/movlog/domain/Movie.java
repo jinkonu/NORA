@@ -1,21 +1,16 @@
-package nora.movlog.entity;
+package nora.movlog.domain;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
 public class Movie {
-    /* 데이터 관리 및 조회용 */
+    /* id from TMDB */
     @Id
-    private String          id;         // DB ID == API ID
-    private String          kobisId;    // KOBIS API ID
-
-
+    private String          id;         // TMDB ID == DB ID
 
     /* 영화 데이터 */
     private String          titleKo;    // 한국어 제목
@@ -44,6 +39,7 @@ public class Movie {
         return movie;
     }
 
+    /*
     // "영화 상세정보" 검색
     public static Movie createFromKobisMovieInfo(JsonNode jsonNode) {
         Movie movie = new Movie();
@@ -122,11 +118,11 @@ public class Movie {
 
         return actorSet;
     }
-
+*/
     @Override
     public String toString() {
         return "Movie{" +
-                "kobisId='" + kobisId + '\'' +
+                "id='" + id + '\'' +
                 ", titleKo='" + titleKo + '\'' +
                 ", prdtYear='" + prdtYear + '\'' +
                 ", showTime=" + showTime +

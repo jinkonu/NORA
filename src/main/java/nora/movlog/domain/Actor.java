@@ -1,25 +1,25 @@
-package nora.movlog.entity;
+package nora.movlog.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @NoArgsConstructor
 @Data
 @Entity
-public class Director {
+public class Actor {
     /* 데이터 관리 및 조회용 */
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;        // DB ID
 
 
-    /* 감독 데이터 */
+    /* 배우 데이터 */
     private String name;    // 한국 이름
 
-    public Director(String name) {
+    public Actor(String name) {
         this.name = name;
     }
 }
