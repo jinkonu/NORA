@@ -1,6 +1,6 @@
 package nora.movlog.repository;
 
-import nora.movlog.entity.Movie;
+import nora.movlog.domain.Movie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -2,14 +2,13 @@ package nora.movlog.service;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.constant.NumberConstant;
-import nora.movlog.entity.Movie;
+import nora.movlog.domain.Movie;
 import nora.movlog.repository.MovieApiRepository;
 import nora.movlog.repository.MovieJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.lang.management.MonitorInfo;
 import java.util.ArrayList;
 import java.util.List;
 

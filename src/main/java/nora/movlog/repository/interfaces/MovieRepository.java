@@ -1,6 +1,6 @@
 package nora.movlog.repository.interfaces;
 
-import nora.movlog.entity.Movie;
+import nora.movlog.domain.Movie;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package nora.movlog.service;
 
-import nora.movlog.entity.Movie;
+import nora.movlog.domain.Movie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +10,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static nora.movlog.constant.NumberConstant.*;
@@ -43,9 +44,15 @@ class MovieServiceTest {
         String searchParam = "돼지";
 
         List<Movie> searchResult = movieService.search(searchParam);
+        List<Movie> dbMovieList = new ArrayList<>();
 
-        for (Movie movie : searchResult) {
-            assertThat(movieService.findOne(movie.getId())).isNotNull();
-        }
+        for (Movie movie : searchResult)
+            dbMovieList.add(movieService.findOne(movie.getId()));
+
+        List<Movie> duplicate = searchResult.stream()
+                .filter(dbMovieList::contains)
+                .toList();
+
+        assertThat(duplicate.size()).isEqualTo(searchResult.size());
     }
 }
