@@ -17,7 +17,7 @@ public class Director {
     /* 감독 데이터 */
     private String name;    // 한국 이름
 
-    public Director(String name) {
-        this.name = name;
+    public Director(String id) {
+        this.id = id;
     }
 }

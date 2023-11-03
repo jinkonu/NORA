@@ -52,6 +52,7 @@ public class Movie {
         movie.setTitleEn(dto.getTitleEn());
         movie.setRunTime(dto.getRunTime());
         movie.setPrdtYear(dto.getPrdtYear());
+        movie.setWatchGrade(dto.getWatchGrade());
 
         return movie;
     }
