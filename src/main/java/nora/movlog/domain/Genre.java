@@ -16,7 +16,7 @@ Genre {
 
 
     /* 장르 데이터 */
-    private String name;      // 장르 이름
+    private String name;      // 한국 이름
 
     public Genre(String name) {
         this.name = name;
