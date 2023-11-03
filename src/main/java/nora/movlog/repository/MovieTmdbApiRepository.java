@@ -23,14 +23,25 @@ public class MovieTmdbApiRepository {
     public MovieTmdbDto findById(String id) throws JsonProcessingException {
         List<JsonNode> nodes = new ArrayList<>();
 
-        nodes.add(mapJsonNode(id, "", tmdbCreditsPath));    // basic info + credits info
-        nodes.add(mapJsonNode(id, tmdbGradePath, ""));    // grade info
+        nodes.add(mapJsonNode(tmdbSearchByIdUrlPath + id, tmdbCreditsPath, ""));               // basic info + credits info
+        nodes.add(mapJsonNode(tmdbSearchByIdUrlPath + id + "/" + tmdbGradePath, "", ""));    // grade info
 
         return MovieTmdbDto.create(nodes);
     }
 
+    // 문자열 기반으로 TMDB API에 질의해서 dto 제공
+    public List<MovieTmdbDto> findByQuery(String query) throws JsonProcessingException {
+        List<MovieTmdbDto> dtos = new ArrayList<>();
+        JsonNode result = mapJsonNode(tmdbSearchByQueryUrlPath, "", query).get("results");
+
+        for (JsonNode node : result)
+            dtos.add(findById(node.get("id").asText()));
+
+        return dtos;
+    }
+
     // JsonNode Mapper
-    public JsonNode mapJsonNode(String id, String path, String append) throws JsonProcessingException {
+    public JsonNode mapJsonNode(String path, String append, String query) throws JsonProcessingException {
         WebClient client = WebClient.builder()
                 .baseUrl(tmdbUrl)
                 .defaultHeader(HttpHeaders.AUTHORIZATION, tmdbKey)
@@ -38,8 +49,9 @@ public class MovieTmdbApiRepository {
 
         String result = client.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path(tmdbSearchByIdUrlPath + id + path)
+                        .path(path)
                         .queryParam("append_to_response", append)
+                        .queryParam("query", query)
                         .queryParam("language", LANGUAGE_KOREAN)
                         .build())
                 .retrieve()
