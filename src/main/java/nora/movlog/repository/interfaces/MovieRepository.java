@@ -1,6 +1,6 @@
 package nora.movlog.repository.interfaces;
 
-import nora.movlog.entity.Movie;
+import nora.movlog.domain.Movie;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public interface MovieRepository {
 
 
     // READ
-    Movie findById(Long id);
+    Movie findById(String id);
 
     List<Movie> findByName(String name);
 
