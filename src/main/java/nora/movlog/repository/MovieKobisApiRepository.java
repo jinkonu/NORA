@@ -16,7 +16,7 @@ import static nora.movlog.constant.NumberConstant.*;
 import static nora.movlog.domain.constant.StringConstant.*;
 
 /*
-KOBIS API에 쿼리 날리는 리포지토리 클래스
+KOBIS API에 쿼리 날리는 리포지토리
  */
 
 @Repository
@@ -54,7 +54,6 @@ public class MovieKobisApiRepository {
 
     // movieCd 기반으로 검색
     public Movie findByKobisId(String movieCd) throws JsonProcessingException {
-        // 아래 부분은 향후 Utility와 같은 이름의 클래스로 따로 빼야 할듯
         WebClient client = WebClient.builder()
                 .baseUrl(kobisUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -72,7 +71,7 @@ public class MovieKobisApiRepository {
 
         JsonNode movieDtoNode = new ObjectMapper().readTree(result).get("movieInfoResult").get("movieInfo");
 
-        return Movie.createFromKobisMovieInfo(movieDtoNode);
+        return new Movie();
     }
 
 
