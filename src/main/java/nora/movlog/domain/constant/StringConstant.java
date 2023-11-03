@@ -12,7 +12,6 @@ public class StringConstant {
     public static String tmdbUrl = "https://api.themoviedb.org/3/";
     public static String tmdbSearchByQueryUrlPath = "search/movie";
     public static String tmdbSearchByIdUrlPath = "movie/";
-    public static String tmdbTitlePath = "alternative_titles";
     public static String tmdbCreditsPath = "credits";
     public static String tmdbGradePath = "release_dates";
 
