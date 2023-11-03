@@ -30,13 +30,13 @@ public class MovieTmdbDto {
         JsonNode node = nodes.get(0);
         JsonNode gradeNode = nodes.get(1);
 
-        dto.setId(node.get("id").textValue());
+        dto.setId(node.get("id").asText());
         titleMapper(dto, node);
-        dto.setRunTime(node.get("runtime").textValue());
+        dto.setRunTime(node.get("runtime").asText());
         dto.setPrdtYear(prdtYearMapper(node));
         dto.setNation(nationMapper(node));
         dto.setGenres(genreMapper(node));
-        creditMapper(dto, node);
+        creditMapper(dto, node.get("credits"));
         dto.setWatchGrade(gradeMapper(gradeNode));
 
         return dto;
@@ -48,9 +48,9 @@ public class MovieTmdbDto {
         JsonNode results = node.get("results");
 
         for (JsonNode grade : results) {
-            if (!grade.get("iso_3166_1").get("certification").textValue().isEmpty())
+            if (grade.get("iso_3166_1").asText().equals("KR") && !grade.get("release_dates").get(0).get("certification").asText().isEmpty())
                 krGradeNode = grade;
-            else if (grade.get("iso_3166_1").textValue().equals("US"))
+            else if (grade.get("iso_3166_1").asText().equals("US"))
                 usGradeNode = grade;
         }
 
@@ -65,7 +65,7 @@ public class MovieTmdbDto {
     }
 
         private static WatchGrade krGradeMapper(JsonNode node) {
-            return switch (node.get("release_dates").get(0).get("certification").textValue()) {
+            return switch (node.get("release_dates").get(0).get("certification").asText()) {
                 case "All" -> ALL;
                 case "12"  -> TWELVE;
                 case "15"  -> FIFTEEN;
@@ -75,7 +75,7 @@ public class MovieTmdbDto {
         }
 
         private static WatchGrade usGradeMapper(JsonNode node) {
-            return switch (node.get("release_dates").get(0).get("certification").textValue()) {
+            return switch (node.get("release_dates").get(0).get("certification").asText()) {
                 case "G"            -> ALL;
                 case "PG", "PG-13"  -> TWELVE;
                 case "R", "NC-17"   -> ADULT;
@@ -84,18 +84,18 @@ public class MovieTmdbDto {
         }
 
     private static void titleMapper(MovieTmdbDto dto, JsonNode node) {
-        if (node.get("original_language").textValue().equals("ko")) {
-            dto.setTitleKo(node.get("title").textValue());
+        if (node.get("original_language").asText().equals("ko")) {
+            dto.setTitleKo(node.get("title").asText());
             dto.setTitleEn("");
         }
         else {
-            dto.setTitleKo(node.get("title").textValue());
-            dto.setTitleEn(node.get("original_title").textValue());
+            dto.setTitleKo(node.get("title").asText());
+            dto.setTitleEn(node.get("original_title").asText());
         }
     }
 
     private static String prdtYearMapper(JsonNode node) {
-        return node.get("release_date").textValue().substring(0, 4);
+        return node.get("release_date").asText().substring(0, 4);
     }
 
     private static Set<String> nationMapper(JsonNode node) {
@@ -103,7 +103,7 @@ public class MovieTmdbDto {
 
         if (!node.get("production_countries").isEmpty())
             for (JsonNode country : node.get("production_countries"))
-                nations.add(country.get("iso_3166_1").textValue());
+                nations.add(country.get("iso_3166_1").asText());
 
         return nations;
     }
@@ -113,7 +113,7 @@ public class MovieTmdbDto {
 
         if (!node.get("genres").isEmpty())
             for (JsonNode genre : node.get("genres"))
-                genres.add(genre.get("name").textValue());
+                genres.add(genre.get("name").asText());
 
         return genres;
     }
@@ -133,7 +133,7 @@ public class MovieTmdbDto {
         Set<String> actors = new HashSet<>();
 
         for (int i = 0; i < Math.min(3, actorNode.size()); i++)
-            actors.add(actorNode.get(i).get("original_name").textValue());
+            actors.add(actorNode.get(i).get("original_name").asText());
 
         return actors;
     }
@@ -142,8 +142,8 @@ public class MovieTmdbDto {
         Set<String> directors = new HashSet<>();
 
         for (int i = 0; i < directorNode.size(); i++)
-            if (directorNode.get(i).get("job").textValue().equals("director"))
-                directors.add(directorNode.get(i).get("original_name").textValue());
+            if (directorNode.get(i).get("job").asText().equals("Director"))
+                directors.add(directorNode.get(i).get("original_name").asText());
 
         return directors;
     }
