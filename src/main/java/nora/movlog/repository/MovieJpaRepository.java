@@ -18,10 +18,6 @@ public class MovieJpaRepository implements MovieRepository {
         em.persist(movie);
     }
 
-    public void flush() {
-        em.flush();
-    }
-
     @Override
     public Movie findById(String id) {
         return em.find(Movie.class, id);
@@ -32,5 +28,9 @@ public class MovieJpaRepository implements MovieRepository {
         return em.createQuery("select m from Movie m where m.titleKo like :n", Movie.class)
                 .setParameter("n", "%" + name + "%")
                 .getResultList();
+    }
+
+    public void flush() {
+        em.flush();
     }
 }
