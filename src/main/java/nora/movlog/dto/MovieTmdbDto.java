@@ -2,7 +2,6 @@ package nora.movlog.dto;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
-import nora.movlog.domain.Movie;
 import nora.movlog.domain.WatchGrade;
 
 import java.util.HashSet;
@@ -25,12 +24,6 @@ public class MovieTmdbDto {
     private Set<String> directors;
     private Set<String> actors;
     private WatchGrade watchGrade;
-
-    public static Movie createMovie(List<JsonNode> nodes) {
-        MovieTmdbDto dto = create(nodes);
-
-        return Movie.createFromTmdbDto(dto);
-    }
 
     public static MovieTmdbDto create(List<JsonNode> nodes) {
         MovieTmdbDto dto = new MovieTmdbDto();
