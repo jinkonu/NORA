@@ -23,6 +23,7 @@ class MovieServiceTest {
 
     @Autowired MovieService movieService;
 
+    @Rollback( value = false )
     @Test
     @DisplayName("문자열 기반 검색")
     void search_문자열_기반_검색() {
