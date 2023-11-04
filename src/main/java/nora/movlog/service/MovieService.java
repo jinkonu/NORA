@@ -1,8 +1,6 @@
 package nora.movlog.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-import nora.movlog.constant.NumberConstant;
 import nora.movlog.domain.*;
 import nora.movlog.dto.MovieTmdbDto;
 import nora.movlog.repository.MovieJpaRepository;
@@ -14,7 +12,6 @@ import nora.movlog.repository.interfaces.NationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.image.DirectColorModel;
 import java.io.IOException;
 import java.util.*;
 
@@ -23,8 +20,6 @@ import static nora.movlog.constant.NumberConstant.*;
 /*
 영화 서비스
  */
-
-
 
 @RequiredArgsConstructor
 @Service
@@ -116,13 +111,13 @@ public class MovieService {
 
     // Director 조회해서 채워줌
     @Transactional( readOnly = true )
-    public Set<Director> fillDirectors(Set<String> ids) {
+    public Set<Director> fillDirectors(Map<String, String> ids) {
         Set<Director> directors = new HashSet<>();
 
-        for (String id : ids) {
+        for (String id : ids.keySet()) {
             Optional<Director> director = directorRepository.findById(id);
             if (director.isPresent()) directors.add(director.get());
-            else directorRepository.save(new Director(id));
+            else directorRepository.save(new Director(id, ids.get(id)));
         }
 
         return directors;
@@ -130,13 +125,13 @@ public class MovieService {
 
     // Actor 조회해서 채워줌
     @Transactional( readOnly = true )
-    public Set<Actor> fillActors(Set<String> ids) {
+    public Set<Actor> fillActors(Map<String, String> ids) {
         Set<Actor> actors = new HashSet<>();
 
-        for (String id : ids) {
+        for (String id : ids.keySet()) {
             Optional<Actor> actor = actorRepository.findById(id);
             if (actor.isPresent()) actors.add(actor.get());
-            else actorRepository.save(new Actor(id));
+            else actorRepository.save(new Actor(id, ids.get(id)));
         }
 
         return actors;

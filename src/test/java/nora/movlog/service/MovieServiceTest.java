@@ -27,7 +27,7 @@ class MovieServiceTest {
     @Test
     @DisplayName("문자열 기반 검색")
     void search_문자열_기반_검색() {
-        String searchParam = "돼지";
+        String searchParam = "보이";
 
         List<Movie> searchResult = movieService.search(searchParam);
 

@@ -28,7 +28,9 @@ class MovieTmdbApiRepositoryTest {
     static String nation = "US";
     static String genre = "범죄";
     static String director = "Joel Coen";
+    static String directorId = "1223";
     static String actor = "William H. Macy";
+    static String actorId = "3905";
     static WatchGrade watchGrade = WatchGrade.ADULT;
 
     @Test
@@ -45,8 +47,8 @@ class MovieTmdbApiRepositoryTest {
         assertThat(dto.getPrdtYear()).isEqualTo(prdtYear);
         assertThat(dto.getNation()).contains(nation);
         assertThat(dto.getGenres()).contains(genre);
-        assertThat(dto.getDirectors()).contains(director);
-        assertThat(dto.getActors()).contains(actor);
+        assertThat(dto.getDirectors().get(directorId)).isEqualTo(director);
+        assertThat(dto.getActors().get(actorId)).isEqualTo(actor);
         assertThat(dto.getWatchGrade()).isEqualTo(watchGrade);
     }
 

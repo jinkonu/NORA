@@ -23,7 +23,7 @@ public class MovieTmdbApiRepository {
     public MovieTmdbDto findById(String id) throws JsonProcessingException {
         List<JsonNode> nodes = new ArrayList<>();
 
-        nodes.add(mapJsonNode(tmdbSearchByIdUrlPath + id, tmdbCreditsPath, ""));               // basic info + credits info
+        nodes.add(mapJsonNode(tmdbSearchByIdUrlPath + id, tmdbCreditsPath, ""));                    // basic info + credits info
         nodes.add(mapJsonNode(tmdbSearchByIdUrlPath + id + "/" + tmdbGradePath, "", ""));    // grade info
 
         return MovieTmdbDto.create(nodes);
