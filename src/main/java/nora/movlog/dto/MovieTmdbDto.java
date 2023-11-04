@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 import nora.movlog.domain.WatchGrade;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static nora.movlog.domain.WatchGrade.*;
 
@@ -21,8 +19,8 @@ public class MovieTmdbDto {
     private String prdtYear;
     private Set<String> nation;
     private Set<String> genres;
-    private Set<String> directors;
-    private Set<String> actors;
+    private Map<String, String> directors;
+    private Map<String, String> actors;
     private WatchGrade watchGrade;
 
     public static MovieTmdbDto create(List<JsonNode> nodes) {
@@ -122,28 +120,28 @@ public class MovieTmdbDto {
         JsonNode actorNode = node.get("cast");
         JsonNode directorNode = node.get("crew");
 
-        Set<String> actors = actorMapper(actorNode);
-        Set<String> director = directorMapper(directorNode);
+        Map<String, String> actors = actorMapper(actorNode);
+        Map<String, String> directors = directorMapper(directorNode);
 
         dto.setActors(actors);
-        dto.setDirectors(director);
+        dto.setDirectors(directors);
     }
 
-    private static Set<String> actorMapper(JsonNode actorNode) {
-        Set<String> actors = new HashSet<>();
+    private static Map<String, String> actorMapper(JsonNode actorNode) {
+        Map<String, String> actors = new HashMap<>();
 
         for (int i = 0; i < Math.min(3, actorNode.size()); i++)
-            actors.add(actorNode.get(i).get("original_name").asText());
+            actors.put(actorNode.get(i).get("id").asText(), actorNode.get(i).get("original_name").asText());
 
         return actors;
     }
 
-    private static Set<String> directorMapper(JsonNode directorNode) {
-        Set<String> directors = new HashSet<>();
+    private static Map<String, String> directorMapper(JsonNode directorNode) {
+        Map<String, String> directors = new HashMap<>();
 
         for (int i = 0; i < directorNode.size(); i++)
             if (directorNode.get(i).get("job").asText().equals("Director"))
-                directors.add(directorNode.get(i).get("original_name").asText());
+                directors.put(directorNode.get(i).get("id").asText(), directorNode.get(i).get("original_name").asText());
 
         return directors;
     }
