@@ -93,7 +93,9 @@ public class MovieTmdbDto {
     }
 
     private static String prdtYearMapper(JsonNode node) {
-        return node.get("release_date").asText().substring(0, 4);
+        String yearStr=node.get("release_date").asText();
+        if(yearStr.length()<4) return "";
+        else return yearStr.substring(0, 4);
     }
 
     private static Set<String> nationMapper(JsonNode node) {
