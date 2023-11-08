@@ -25,7 +25,9 @@
     <tr th:each="movie : ${result}">
       <td th:text="${movie.titleKo}">N/A</td>
       <td th:text="${movie.prdtYear}">N/A</td>
-      <td th:text="${movie.nation}">N/A</td>
+      <td th:each="nation : ${movie.nations}">
+        <span th:text="${nation.id}"></span>
+      </td>
     </tr>
   </table>
 
