@@ -89,7 +89,11 @@ public class MovieService {
         for (String id : ids) {
             Optional<Nation> nation = nationRepository.findById(id);
             if (nation.isPresent()) nations.add(nation.get());
-            else nationRepository.save(new Nation(id));
+            else {
+                nationRepository.save(new Nation(id));
+                nation = nationRepository.findById(id);
+                if (nation.isPresent()) nations.add(nation.get());
+            }
         }
 
         return nations;
