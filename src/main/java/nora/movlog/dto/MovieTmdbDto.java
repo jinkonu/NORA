@@ -2,11 +2,11 @@ package nora.movlog.dto;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
-import nora.movlog.domain.WatchGrade;
+import nora.movlog.domain.movie.WatchGrade;
 
 import java.util.*;
 
-import static nora.movlog.domain.WatchGrade.*;
+import static nora.movlog.domain.movie.WatchGrade.*;
 
 @Data
 public class MovieTmdbDto {

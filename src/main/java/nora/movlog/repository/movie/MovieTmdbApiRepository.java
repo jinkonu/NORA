@@ -1,4 +1,4 @@
-package nora.movlog.repository;
+package nora.movlog.repository.movie;
 
 /*
 TMDB API에 쿼리 날리는 리포지토리

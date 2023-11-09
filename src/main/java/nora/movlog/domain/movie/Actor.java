@@ -1,4 +1,4 @@
-package nora.movlog.domain;
+package nora.movlog.domain.movie;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

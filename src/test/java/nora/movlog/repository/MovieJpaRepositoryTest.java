@@ -1,6 +1,7 @@
 package nora.movlog.repository;
 
-import nora.movlog.domain.Movie;
+import nora.movlog.domain.movie.Movie;
+import nora.movlog.repository.movie.MovieJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class MovieJpaRepositoryTest {
 
-    @Autowired MovieJpaRepository movieRepository;
+    @Autowired
+    MovieJpaRepository movieRepository;
     static String id1 = "19940315";
     static String title1 = "펄프 픽션";
     static String id2 = "19960051";

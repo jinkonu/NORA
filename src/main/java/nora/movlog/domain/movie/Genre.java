@@ -1,4 +1,4 @@
-package nora.movlog.domain;
+package nora.movlog.domain.movie;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-public class Nation {
+public class Genre {
     /* 데이터 관리 및 조회용 */
     @Id
-    private String id;      // DB ID - iso-3166 code
+    private String id;        // DB ID
 
-    public static Nation create(String id) {
-        return new Nation(id);
+    public static Genre create(String id) {
+        return new Genre(id);
     }
 }

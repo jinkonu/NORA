@@ -1,10 +1,10 @@
-package nora.movlog.service;
+package nora.movlog.service.movie;
 
 import lombok.RequiredArgsConstructor;
-import nora.movlog.domain.*;
+import nora.movlog.domain.movie.Movie;
 import nora.movlog.dto.MovieTmdbDto;
-import nora.movlog.repository.MovieJpaRepository;
-import nora.movlog.repository.MovieTmdbApiRepository;
+import nora.movlog.repository.movie.MovieJpaRepository;
+import nora.movlog.repository.movie.MovieTmdbApiRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

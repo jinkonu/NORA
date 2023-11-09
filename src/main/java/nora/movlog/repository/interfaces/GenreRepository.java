@@ -1,6 +1,6 @@
 package nora.movlog.repository.interfaces;
 
-import nora.movlog.domain.Genre;
+import nora.movlog.domain.movie.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

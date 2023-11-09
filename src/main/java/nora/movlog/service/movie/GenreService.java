@@ -1,7 +1,7 @@
-package nora.movlog.service;
+package nora.movlog.service.movie;
 
 import lombok.RequiredArgsConstructor;
-import nora.movlog.domain.Genre;
+import nora.movlog.domain.movie.Genre;
 import nora.movlog.repository.interfaces.GenreRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
