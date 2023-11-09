@@ -2,7 +2,7 @@ package nora.movlog.repository;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import nora.movlog.domain.movie.WatchGrade;
-import nora.movlog.dto.MovieTmdbDto;
+import nora.movlog.dto.movie.MovieTmdbDto;
 import nora.movlog.repository.movie.MovieTmdbApiRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ class MovieTmdbApiRepositoryTest {
         assertThat(dto.getRunTime()).isEqualTo(runTime);
         assertThat(dto.getPrdtYear()).isEqualTo(prdtYear);
         assertThat(dto.getNation()).contains(nation);
-        assertThat(dto.getGenres()).contains(genre);
+        assertThat(dto.getGenres().get(0)).contains(genre);
         assertThat(dto.getDirectors().get(directorId)).isEqualTo(director);
         assertThat(dto.getActors().get(actorId)).isEqualTo(actor);
         assertThat(dto.getWatchGrade()).isEqualTo(watchGrade);
