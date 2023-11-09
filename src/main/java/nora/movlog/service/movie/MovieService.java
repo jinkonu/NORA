@@ -33,7 +33,7 @@ public class MovieService {
     /* CREATE */
 
     // 현재까지 영화 제목 기반으로만 검색 -> 1차적으로 DB 검색 -> 없거나 부족하면 KOBIS API에 질의
-    @Transactional( readOnly = true )
+    @Transactional
     public List<Movie> search(String searchDt) throws IOException {
         List<Movie> dbMovieList = movieJpaRepository.findByName(searchDt);
         List<MovieTmdbDto> tmdbDtos = new ArrayList<>();
@@ -52,13 +52,13 @@ public class MovieService {
     }
 
     // DB에 신규 영화 저장
-    @Transactional( readOnly = false )
+    @Transactional
     public void join(Movie movie) {
         movieJpaRepository.save(movie);
     }
 
-    // MovieTmdbDto -> Movie
-    @Transactional( readOnly = false )
+    // MovieTmdbDto로부터 Movie 객체 생성
+    @Transactional
     public Movie createFromTmdbDto(MovieTmdbDto dto) {
         // 연관관계 없는 필드만 채움
         Movie movie = Movie.createFromTmdbDto(dto);
