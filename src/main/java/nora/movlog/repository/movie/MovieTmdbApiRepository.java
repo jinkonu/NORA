@@ -47,7 +47,7 @@ public class MovieTmdbApiRepository {
         List<String> ids = new ArrayList<>();
 
         for (JsonNode node : results)
-            if (parseDouble(results.get("popularity").asText()) > LEAST_POPULARITY)
+            if (parseDouble(node.get("popularity").asText()) > LEAST_POPULARITY)
                 ids.add(node.get("id").asText());
 
         return ids;

@@ -84,11 +84,8 @@ public class MovieTmdbDto {
         JsonNode actorNode = node.get("cast");
         JsonNode directorNode = node.get("crew");
 
-        Map<String, String> actors = actorMapper(actorNode);
-        Map<String, String> directors = directorMapper(directorNode);
-
-        dto.setActors(actors);
-        dto.setDirectors(directors);
+        dto.setActors(actorMapper(actorNode));
+        dto.setDirectors(directorMapper(directorNode));
     }
 
     private static Map<String, String> actorMapper(JsonNode actorNode) {
