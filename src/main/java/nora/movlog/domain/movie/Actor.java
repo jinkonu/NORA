@@ -16,13 +16,9 @@ public class Actor {
     private String id;      // DB ID
 
     /* 배우 데이터 */
-    private String name;    // 한국 이름
+    private String name;    // 영어 이름
 
-    public Actor(String id) {
-        this.id = id;
-    }
-
-    public static Actor create(String id) {
-        return new Actor(id);
+    public static Actor create(String id, String name) {
+        return new Actor(id, name);
     }
 }
