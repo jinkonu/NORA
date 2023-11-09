@@ -22,11 +22,13 @@ public class ActorService {
 
         for (String id : ids.keySet()) {
             Optional<Actor> actor = actorRepository.findById(id);
-            if (actor.isPresent()) actors.add(actor.get());
+
+            if (actor.isPresent())
+                actors.add(actor.get());
             else {
-                Actor newActor = Actor.create(id);
-                actorRepository.save(newActor);
-                actors.add(newActor);
+                actorRepository.save(Actor.create(id, ids.get(id)));
+                actor = actorRepository.findById(id);
+                actors.add(actor.get());
             }
         }
 
