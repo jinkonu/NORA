@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 
-import static nora.movlog.domain.constant.StringConstant.tmdbSearchByIdUrlPath;
+import static nora.movlog.domain.constant.StringConstant.TMDB_SEARCH_BY_ID_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -54,7 +54,7 @@ class MovieTmdbApiRepositoryTest {
     void mapJsonNode_http_GET_요청을_통해_JsonNode_생성() throws IOException {
         String titleFromNode;
 
-        JsonNode node = movieRepository.mapJsonNode(tmdbSearchByIdUrlPath + id, "", "");
+        JsonNode node = movieRepository.mapJsonNode(TMDB_SEARCH_BY_ID_PATH + id, "", "");
 
         titleFromNode = node.get("title").textValue();
 
