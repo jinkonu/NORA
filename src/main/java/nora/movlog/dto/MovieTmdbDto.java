@@ -2,11 +2,11 @@ package nora.movlog.dto;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
-import nora.movlog.domain.WatchGrade;
+import nora.movlog.domain.movie.WatchGrade;
 
 import java.util.*;
 
-import static nora.movlog.domain.WatchGrade.*;
+import static nora.movlog.domain.movie.WatchGrade.*;
 
 @Data
 public class MovieTmdbDto {
@@ -18,7 +18,7 @@ public class MovieTmdbDto {
     private String runTime;
     private String prdtYear;
     private Set<String> nation;
-    private Set<String> genres;
+    private Map<Integer, String> genres;
     private Map<String, String> directors;
     private Map<String, String> actors;
     private WatchGrade watchGrade;
@@ -38,6 +38,73 @@ public class MovieTmdbDto {
         dto.setWatchGrade(gradeMapper(gradeNode));
 
         return dto;
+    }
+
+    private static void titleMapper(MovieTmdbDto dto, JsonNode node) {
+        // 한국 영화
+        if (node.get("original_language").asText().equals("ko")) {
+            dto.setTitleKo(node.get("title").asText());
+            dto.setTitleEn("");
+        }
+
+        // 해외 영화
+        else {
+            dto.setTitleKo(node.get("title").asText());
+            dto.setTitleEn(node.get("original_title").asText());
+        }
+    }
+
+    private static String prdtYearMapper(JsonNode node) {
+        String yearStr=node.get("release_date").asText();
+        if(yearStr.length()<4) return "";
+        else return yearStr.substring(0, 4);
+    }
+
+    private static Set<String> nationMapper(JsonNode node) {
+        Set<String> nations = new HashSet<>();
+
+        if (!node.get("production_countries").isEmpty())
+            for (JsonNode country : node.get("production_countries"))
+                nations.add(country.get("iso_3166_1").asText());
+
+        return nations;
+    }
+
+    private static Map<Integer, String> genreMapper(JsonNode node) {
+        Map<Integer, String> genres = new HashMap<>();
+
+        if (!node.get("genres").isEmpty())
+            for (JsonNode genre : node.get("genres"))
+                genres.put(genre.get("id").asInt(), genre.get("name").asText());
+
+        return genres;
+    }
+
+    private static void creditMapper(MovieTmdbDto dto, JsonNode node) {
+        JsonNode actorNode = node.get("cast");
+        JsonNode directorNode = node.get("crew");
+
+        dto.setActors(actorMapper(actorNode));
+        dto.setDirectors(directorMapper(directorNode));
+    }
+
+    private static Map<String, String> actorMapper(JsonNode actorNode) {
+        Map<String, String> actors = new HashMap<>();
+
+        for (int i = 0; i < Math.min(3, actorNode.size()); i++)
+            actors.put(actorNode.get(i).get("id").asText(), actorNode.get(i).get("original_name").asText());
+
+        return actors;
+    }
+
+    private static Map<String, String> directorMapper(JsonNode directorNode) {
+        Map<String, String> directors = new HashMap<>();
+
+        for (int i = 0; i < directorNode.size(); i++)
+            if (directorNode.get(i).get("job").asText().equals("Director"))
+                directors.put(directorNode.get(i).get("id").asText(), directorNode.get(i).get("original_name").asText());
+
+        return directors;
     }
 
     private static WatchGrade gradeMapper(JsonNode node) {
@@ -80,69 +147,4 @@ public class MovieTmdbDto {
                 default             -> NONE;
             };
         }
-
-    private static void titleMapper(MovieTmdbDto dto, JsonNode node) {
-        if (node.get("original_language").asText().equals("ko")) {
-            dto.setTitleKo(node.get("title").asText());
-            dto.setTitleEn("");
-        }
-        else {
-            dto.setTitleKo(node.get("title").asText());
-            dto.setTitleEn(node.get("original_title").asText());
-        }
-    }
-
-    private static String prdtYearMapper(JsonNode node) {
-        return node.get("release_date").asText().substring(0, 4);
-    }
-
-    private static Set<String> nationMapper(JsonNode node) {
-        Set<String> nations = new HashSet<>();
-
-        if (!node.get("production_countries").isEmpty())
-            for (JsonNode country : node.get("production_countries"))
-                nations.add(country.get("iso_3166_1").asText());
-
-        return nations;
-    }
-
-    private static Set<String> genreMapper(JsonNode node) {
-        Set<String> genres = new HashSet<>();
-
-        if (!node.get("genres").isEmpty())
-            for (JsonNode genre : node.get("genres"))
-                genres.add(genre.get("name").asText());
-
-        return genres;
-    }
-
-    private static void creditMapper(MovieTmdbDto dto, JsonNode node) {
-        JsonNode actorNode = node.get("cast");
-        JsonNode directorNode = node.get("crew");
-
-        Map<String, String> actors = actorMapper(actorNode);
-        Map<String, String> directors = directorMapper(directorNode);
-
-        dto.setActors(actors);
-        dto.setDirectors(directors);
-    }
-
-    private static Map<String, String> actorMapper(JsonNode actorNode) {
-        Map<String, String> actors = new HashMap<>();
-
-        for (int i = 0; i < Math.min(3, actorNode.size()); i++)
-            actors.put(actorNode.get(i).get("id").asText(), actorNode.get(i).get("original_name").asText());
-
-        return actors;
-    }
-
-    private static Map<String, String> directorMapper(JsonNode directorNode) {
-        Map<String, String> directors = new HashMap<>();
-
-        for (int i = 0; i < directorNode.size(); i++)
-            if (directorNode.get(i).get("job").asText().equals("Director"))
-                directors.put(directorNode.get(i).get("id").asText(), directorNode.get(i).get("original_name").asText());
-
-        return directors;
-    }
 }

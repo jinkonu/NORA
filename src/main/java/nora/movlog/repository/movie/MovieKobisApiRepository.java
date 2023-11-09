@@ -1,9 +1,9 @@
-package nora.movlog.repository;
+package nora.movlog.repository.movie;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nora.movlog.domain.Movie;
+import nora.movlog.domain.movie.Movie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;

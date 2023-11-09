@@ -1,14 +1,9 @@
 package nora.movlog.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
-import nora.movlog.domain.*;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Data
 public class MovieKobisDto {
@@ -92,7 +87,7 @@ public class MovieKobisDto {
 //    private static Set<Director> directorParser(JsonNode directors) {
 //        HashSet<Director> directorSet = new HashSet<>();
 //
-//        for (JsonNode director : directors) {
+//        for (JsonNode diretor : directors) {
 //            directorSet.add(new Director(director.get("peopleNm").textValue()));
 //        }
 //

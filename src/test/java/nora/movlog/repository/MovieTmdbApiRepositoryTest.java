@@ -1,8 +1,9 @@
 package nora.movlog.repository;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import nora.movlog.domain.WatchGrade;
+import nora.movlog.domain.movie.WatchGrade;
 import nora.movlog.dto.MovieTmdbDto;
+import nora.movlog.repository.movie.MovieTmdbApiRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 
-import static nora.movlog.domain.constant.StringConstant.tmdbSearchByIdUrlPath;
+import static nora.movlog.domain.constant.StringConstant.TMDB_SEARCH_BY_ID_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -35,12 +36,8 @@ class MovieTmdbApiRepositoryTest {
 
     @Test
     @DisplayName("id 기반 tmdb api 검색")
-    void findById_id_기반_tmdb_api_검색() {
-        MovieTmdbDto dto = new MovieTmdbDto();
-
-        try {
-            dto = movieRepository.findById(id);
-        } catch (IOException e) { }
+    void findById_id_기반_tmdb_api_검색() throws IOException {
+        MovieTmdbDto dto = movieRepository.findById(id);
 
         assertThat(dto.getTitleKo()).isEqualTo(title);
         assertThat(dto.getRunTime()).isEqualTo(runTime);
@@ -54,13 +51,10 @@ class MovieTmdbApiRepositoryTest {
 
     @Test
     @DisplayName("http GET 요청을 통해 JsonNode 생성")
-    void mapJsonNode_http_GET_요청을_통해_JsonNode_생성() {
-        JsonNode node = null;
+    void mapJsonNode_http_GET_요청을_통해_JsonNode_생성() throws IOException {
         String titleFromNode;
 
-        try {
-            node = movieRepository.mapJsonNode(tmdbSearchByIdUrlPath + id, "", "");
-        } catch (IOException e) { }
+        JsonNode node = movieRepository.mapJsonNode(TMDB_SEARCH_BY_ID_PATH + id, "", "");
 
         titleFromNode = node.get("title").textValue();
 

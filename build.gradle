@@ -34,6 +34,7 @@ dependencies {
     // for database
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 
     // for json
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.7.1'
