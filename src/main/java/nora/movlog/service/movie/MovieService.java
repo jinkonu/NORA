@@ -2,7 +2,7 @@ package nora.movlog.service.movie;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Movie;
-import nora.movlog.dto.MovieTmdbDto;
+import nora.movlog.dto.movie.MovieTmdbDto;
 import nora.movlog.repository.movie.MovieJpaRepository;
 import nora.movlog.repository.movie.MovieTmdbApiRepository;
 import org.springframework.stereotype.Service;
@@ -63,7 +63,7 @@ public class MovieService {
         // 연관관계 없는 필드만 채움
         Movie movie = Movie.createFromTmdbDto(dto);
 
-        // 연관관계 있는 필드 채워야 함
+        // 연관관계 있는 필드 채움
         movie.setNations(nationService.fillNations(dto.getNation()));
         movie.setGenre(genreService.fillGenres(dto.getGenres()));
         movie.setDirectors(directorService.fillDirectors(dto.getDirectors()));

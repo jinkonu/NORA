@@ -24,7 +24,10 @@ public class GenreService {
             Optional<Genre> genre = genreRepository.findById(id);
             if (genre.isPresent()) genres.add(genre.get());
             else {
-                genreRepository.save(Genre.create(id, ids.get(id)));
+                genreRepository.save(Genre.builder()
+                        .id(id)
+                        .name(ids.get(id))
+                        .build());
                 genres.add(genreRepository.findById(id).get());
             }
         }

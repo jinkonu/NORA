@@ -1,11 +1,17 @@
 package nora.movlog.domain.movie;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import nora.movlog.dto.MovieTmdbDto;
+import lombok.NoArgsConstructor;
+import nora.movlog.dto.movie.MovieTmdbDto;
 
 import java.util.Set;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Data
 @Entity
 public class Movie {
@@ -45,16 +51,14 @@ public class Movie {
 
     // TMDB API의 dto에서 Movie 객체로 변환
     public static Movie createFromTmdbDto(MovieTmdbDto dto) {
-        Movie movie = new Movie();
-
-        movie.setId(dto.getId());
-        movie.setTitleKo(dto.getTitleKo());
-        movie.setTitleEn(dto.getTitleEn());
-        movie.setRunTime(dto.getRunTime());
-        movie.setPrdtYear(dto.getPrdtYear());
-        movie.setWatchGrade(dto.getWatchGrade());
-
-        return movie;
+        return Movie.builder()
+                .id(dto.getId())
+                .titleKo(dto.getTitleKo())
+                .titleEn(dto.getTitleEn())
+                .runTime(dto.getRunTime())
+                .prdtYear(dto.getPrdtYear())
+                .watchGrade(dto.getWatchGrade())
+                .build();
     }
 
     @Override

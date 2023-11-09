@@ -73,6 +73,4 @@ public class MovieKobisApiRepository {
 
         return new Movie();
     }
-
-
 }
