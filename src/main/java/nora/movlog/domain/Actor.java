@@ -17,4 +17,12 @@ public class Actor {
 
     /* 배우 데이터 */
     private String name;    // 한국 이름
+
+    public Actor(String id) {
+        this.id = id;
+    }
+
+    public static Actor create(String id) {
+        return new Actor(id);
+    }
 }

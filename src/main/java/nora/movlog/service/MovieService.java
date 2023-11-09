@@ -88,11 +88,12 @@ public class MovieService {
 
         for (String id : ids) {
             Optional<Nation> nation = nationRepository.findById(id);
+
             if (nation.isPresent()) nations.add(nation.get());
             else {
-                nationRepository.save(new Nation(id));
-                nation = nationRepository.findById(id);
-                if (nation.isPresent()) nations.add(nation.get());
+                Nation newNation = Nation.create(id);
+                nationRepository.save(newNation);
+                nations.add(newNation);
             }
         }
 
@@ -107,7 +108,11 @@ public class MovieService {
         for (String id : ids) {
             Optional<Genre> genre = genreRepository.findById(id);
             if (genre.isPresent()) genres.add(genre.get());
-            else genreRepository.save(new Genre(id));
+            else {
+                Genre newGenre = Genre.create(id);
+                genreRepository.save(newGenre);
+                genres.add(newGenre);
+            }
         }
 
         return genres;
@@ -121,7 +126,11 @@ public class MovieService {
         for (String id : ids.keySet()) {
             Optional<Director> director = directorRepository.findById(id);
             if (director.isPresent()) directors.add(director.get());
-            else directorRepository.save(new Director(id, ids.get(id)));
+            else {
+                Director newDirector = Director.create(id);
+                directorRepository.save(newDirector);
+                directors.add(newDirector);
+            }
         }
 
         return directors;
@@ -135,7 +144,11 @@ public class MovieService {
         for (String id : ids.keySet()) {
             Optional<Actor> actor = actorRepository.findById(id);
             if (actor.isPresent()) actors.add(actor.get());
-            else actorRepository.save(new Actor(id, ids.get(id)));
+            else {
+                Actor newActor = Actor.create(id);
+                actorRepository.save(newActor);
+                actors.add(newActor);
+            }
         }
 
         return actors;

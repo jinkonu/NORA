@@ -14,4 +14,8 @@ public class Genre {
     /* 데이터 관리 및 조회용 */
     @Id
     private String id;        // DB ID
+
+    public static Genre create(String id) {
+        return new Genre(id);
+    }
 }
