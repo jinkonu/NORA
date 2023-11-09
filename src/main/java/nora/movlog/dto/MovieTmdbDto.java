@@ -40,52 +40,14 @@ public class MovieTmdbDto {
         return dto;
     }
 
-    private static WatchGrade gradeMapper(JsonNode node) {
-        JsonNode krGradeNode = null;
-        JsonNode usGradeNode = null;
-        JsonNode results = node.get("results");
-
-        for (JsonNode grade : results) {
-            if (grade.get("iso_3166_1").asText().equals("KR") && !grade.get("release_dates").get(0).get("certification").asText().isEmpty())
-                krGradeNode = grade;
-            else if (grade.get("iso_3166_1").asText().equals("US"))
-                usGradeNode = grade;
-        }
-
-        if (krGradeNode != null) {
-            return krGradeMapper(krGradeNode);
-        }
-        else if (usGradeNode != null) {
-            return usGradeMapper(usGradeNode);
-        }
-
-        return NONE;
-    }
-
-        private static WatchGrade krGradeMapper(JsonNode node) {
-            return switch (node.get("release_dates").get(0).get("certification").asText()) {
-                case "All" -> ALL;
-                case "12"  -> TWELVE;
-                case "15"  -> FIFTEEN;
-                case "18"  -> ADULT;
-                default    -> NONE;
-            };
-        }
-
-        private static WatchGrade usGradeMapper(JsonNode node) {
-            return switch (node.get("release_dates").get(0).get("certification").asText()) {
-                case "G"            -> ALL;
-                case "PG", "PG-13"  -> TWELVE;
-                case "R", "NC-17"   -> ADULT;
-                default             -> NONE;
-            };
-        }
-
     private static void titleMapper(MovieTmdbDto dto, JsonNode node) {
+        // 한국 영화
         if (node.get("original_language").asText().equals("ko")) {
             dto.setTitleKo(node.get("title").asText());
             dto.setTitleEn("");
         }
+
+        // 해외 영화
         else {
             dto.setTitleKo(node.get("title").asText());
             dto.setTitleEn(node.get("original_title").asText());
@@ -147,4 +109,45 @@ public class MovieTmdbDto {
 
         return directors;
     }
+
+    private static WatchGrade gradeMapper(JsonNode node) {
+        JsonNode krGradeNode = null;
+        JsonNode usGradeNode = null;
+        JsonNode results = node.get("results");
+
+        for (JsonNode grade : results) {
+            if (grade.get("iso_3166_1").asText().equals("KR") && !grade.get("release_dates").get(0).get("certification").asText().isEmpty())
+                krGradeNode = grade;
+            else if (grade.get("iso_3166_1").asText().equals("US"))
+                usGradeNode = grade;
+        }
+
+        if (krGradeNode != null) {
+            return krGradeMapper(krGradeNode);
+        }
+        else if (usGradeNode != null) {
+            return usGradeMapper(usGradeNode);
+        }
+
+        return NONE;
+    }
+
+        private static WatchGrade krGradeMapper(JsonNode node) {
+            return switch (node.get("release_dates").get(0).get("certification").asText()) {
+                case "All" -> ALL;
+                case "12"  -> TWELVE;
+                case "15"  -> FIFTEEN;
+                case "18"  -> ADULT;
+                default    -> NONE;
+            };
+        }
+
+        private static WatchGrade usGradeMapper(JsonNode node) {
+            return switch (node.get("release_dates").get(0).get("certification").asText()) {
+                case "G"            -> ALL;
+                case "PG", "PG-13"  -> TWELVE;
+                case "R", "NC-17"   -> ADULT;
+                default             -> NONE;
+            };
+        }
 }
