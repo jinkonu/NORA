@@ -24,9 +24,8 @@ public class NationService {
 
             if (nation.isPresent()) nations.add(nation.get());
             else {
-                Nation newNation = Nation.create(id);
-                nationRepository.save(newNation);
-                nations.add(newNation);
+                nationRepository.save(Nation.create(id));
+                nations.add(nationRepository.findById(id).get());
             }
         }
 

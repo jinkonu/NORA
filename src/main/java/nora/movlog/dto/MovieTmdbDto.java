@@ -18,7 +18,7 @@ public class MovieTmdbDto {
     private String runTime;
     private String prdtYear;
     private Set<String> nation;
-    private Set<String> genres;
+    private Map<Integer, String> genres;
     private Map<String, String> directors;
     private Map<String, String> actors;
     private WatchGrade watchGrade;
@@ -70,12 +70,12 @@ public class MovieTmdbDto {
         return nations;
     }
 
-    private static Set<String> genreMapper(JsonNode node) {
-        Set<String> genres = new HashSet<>();
+    private static Map<Integer, String> genreMapper(JsonNode node) {
+        Map<Integer, String> genres = new HashMap<>();
 
         if (!node.get("genres").isEmpty())
             for (JsonNode genre : node.get("genres"))
-                genres.add(genre.get("name").asText());
+                genres.put(genre.get("id").asInt(), genre.get("name").asText());
 
         return genres;
     }

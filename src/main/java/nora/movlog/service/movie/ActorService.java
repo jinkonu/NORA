@@ -27,8 +27,7 @@ public class ActorService {
                 actors.add(actor.get());
             else {
                 actorRepository.save(Actor.create(id, ids.get(id)));
-                actor = actorRepository.findById(id);
-                actors.add(actor.get());
+                actors.add(actorRepository.findById(id).get());
             }
         }
 

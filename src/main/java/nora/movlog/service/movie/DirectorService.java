@@ -24,9 +24,8 @@ public class DirectorService {
             Optional<Director> director = directorRepository.findById(id);
             if (director.isPresent()) directors.add(director.get());
             else {
-                Director newDirector = Director.create(id);
-                directorRepository.save(newDirector);
-                directors.add(newDirector);
+                directorRepository.save(Director.create(id, ids.get(id)));
+                directors.add(directorRepository.findById(id).get());
             }
         }
 
