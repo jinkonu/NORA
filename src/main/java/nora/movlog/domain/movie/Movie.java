@@ -15,7 +15,7 @@ import java.util.Set;
 @Data
 @Entity
 public class Movie {
-    /* id from TMDB */
+    /* DB id from TMDB */
     @Id
     private String          id;         // TMDB ID == DB ID
 
