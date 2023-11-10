@@ -1,12 +1,12 @@
 package nora.movlog.domain.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,6 +14,18 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 public class Comment {
-    @Id @GeneratedValue
+    /* DB id */
+    @Id
+    @GeneratedValue
     private Long id;
+
+    /* 댓글 데이터 */
+    private String body;
+
+    /* 연관관계 */
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Post post;
 }
