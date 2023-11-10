@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nora.movlog.domain.BaseEntity;
 import nora.movlog.domain.movie.Movie;
+import nora.movlog.dto.user.PostDto;
 
 import java.util.List;
 
@@ -35,4 +36,11 @@ public class Post extends BaseEntity {
 
     @OneToMany(mappedBy = "posts", orphanRemoval = true)
     private List<Like> likes;
+
+
+
+    /* 메서드 */
+    public void update(PostDto postDto) {
+        this.body = postDto.getBody();
+    }
 }
