@@ -3,7 +3,7 @@ package nora.movlog.repository.movie;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Movie;
-import nora.movlog.repository.interfaces.MovieRepository;
+import nora.movlog.repository.movie.interfaces.MovieRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

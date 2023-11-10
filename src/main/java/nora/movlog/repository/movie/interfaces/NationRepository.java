@@ -1,4 +1,4 @@
-package nora.movlog.repository.interfaces;
+package nora.movlog.repository.movie.interfaces;
 
 import nora.movlog.domain.movie.Nation;
 import org.springframework.data.jpa.repository.JpaRepository;
