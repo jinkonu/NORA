@@ -1,0 +1,41 @@
+/* CSS Reset */
+* {
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
+a {text-decoration: none;}
+li {list-style: none;}
+
+/* main frame */
+.frame {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.inner_frame {
+    display: flex;
+    align-items: flex-start;
+}
+
+.left_menubar {
+    width: 300px;
+    height: 984px;
+    background-color: aqua;
+}
+
+.center_body {
+    display: flex;
+    width: 796px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 46px;
+    background-color: blueviolet;
+}
+
+.right_trending {
+    width: 466px;
+    height: 888px;
+    background-color: brown;
+}

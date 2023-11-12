@@ -1,0 +1,23 @@
+.right_trending {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 0px 0px 42px;
+}
+
+.right_search {
+    display:flex;
+    width: 424px;
+    height: 20px;
+    padding: 16px 20px;
+    align-items: center;
+    gap: 12px;
+
+    border-radius: 45px;
+    background: var(--gray-gray-10, #F2F2F2);
+}
+
+.search_input {
+    width: 420px; 
+    height: 25px;
+    background: var(--gray-gray-10, #F2F2F2);
+}
