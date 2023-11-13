@@ -29,14 +29,14 @@ public class User {
     private LocalDateTime createdAt;
 
     /* 연관관계 */
-    @OneToMany(mappedBy = "users", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<Post> posts;
 
-    @OneToMany(mappedBy = "users", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "users", orphanRemoval = true)
-    private List<Like> likes;
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Likes> likes;
 }
 
 

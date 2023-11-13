@@ -6,7 +6,7 @@ import nora.movlog.domain.user.User;
 import nora.movlog.dto.user.PostCreateRequestDto;
 import nora.movlog.dto.user.PostDto;
 import nora.movlog.repository.user.CommentRepository;
-import nora.movlog.repository.user.LikeRepository;
+import nora.movlog.repository.user.LikesRepository;
 import nora.movlog.repository.user.PostRepository;
 import nora.movlog.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
-    private final LikeRepository likeRepository;
+    private final LikesRepository likesRepository;
 
 
 

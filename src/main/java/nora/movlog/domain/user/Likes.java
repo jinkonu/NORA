@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Getter
 @Entity
-public class Like {
+public class Likes {
     /* DB id */
     @Id @GeneratedValue
     private Long id;

@@ -31,11 +31,11 @@ public class Post extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @OneToMany(mappedBy = "posts", orphanRemoval = true)
+    @OneToMany(mappedBy = "post", orphanRemoval = true)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "posts", orphanRemoval = true)
-    private List<Like> likes;
+    @OneToMany(mappedBy = "post", orphanRemoval = true)
+    private List<Likes> likes;
 
 
 
