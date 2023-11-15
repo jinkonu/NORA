@@ -34,7 +34,7 @@ public class MovieTmdbApiRepository {
     // 문자열 기반으로 TMDB API에 질의해서 dto 제공
     public List<MovieTmdbDto> findByQuery(String query) throws JsonProcessingException {
         List<MovieTmdbDto> dtos = new ArrayList<>();
-        List<String> ids = filterPopularity(mapJsonNode(TMDB_SEARCH_BY_QUERY_PATH, NO_ARGS, query).get("results"));
+        List<String> ids = filterPopularity(mapJsonNode(TMDB_SEARCH_BY_QUERY_PATH, NO_ARGS, query).get(JSON_NODE_RESULTS));
 
         for (String id : ids)
             dtos.add(findById(id));
@@ -47,8 +47,8 @@ public class MovieTmdbApiRepository {
         List<String> ids = new ArrayList<>();
 
         for (JsonNode node : results)
-            if (parseDouble(node.get("popularity").asText()) > LEAST_POPULARITY)
-                ids.add(node.get("id").asText());
+            if (parseDouble(node.get(JSON_NODE_POPULARITY).asText()) > LEAST_POPULARITY)
+                ids.add(node.get(JSON_NODE_ID).asText());
 
         return ids;
     }
@@ -63,10 +63,10 @@ public class MovieTmdbApiRepository {
         String result = client.get()
                 .uri(uriBuilder -> uriBuilder
                         .path(path)
-                        .queryParam("append_to_response", append)
-                        .queryParam("query", query)
-                        .queryParam("language", LANGUAGE_KOREAN)
-                        .queryParam("page", DEFAULT_PAGE)
+                        .queryParam(APPEND_TO_RESPONSE, append)
+                        .queryParam(QUERY, query)
+                        .queryParam(LANGUAGE, LANGUAGE_KOREAN)
+                        .queryParam(PAGE, DEFAULT_PAGE)
                         .build())
                 .retrieve()
                 .bodyToMono(String.class)
