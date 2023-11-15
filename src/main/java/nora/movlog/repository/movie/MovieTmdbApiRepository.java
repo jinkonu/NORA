@@ -42,6 +42,7 @@ public class MovieTmdbApiRepository {
         return dtos;
     }
 
+    // API의 'popularity' 항목에 대해 일정 값을 넘지 못하면 검색 결과에서 제외함
     private List<String> filterPopularity(JsonNode results) {
         List<String> ids = new ArrayList<>();
 
@@ -52,7 +53,7 @@ public class MovieTmdbApiRepository {
         return ids;
     }
 
-    // JsonNode Mapper
+    // API 요청 결과를 JsonNode 객체로 매핑
     public JsonNode mapJsonNode(String path, String append, String query) throws JsonProcessingException {
         WebClient client = WebClient.builder()
                 .baseUrl(TMDB_URL)
