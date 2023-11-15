@@ -14,6 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Double.parseDouble;
 import static nora.movlog.domain.constant.StringConstant.*;
@@ -22,7 +23,7 @@ import static nora.movlog.domain.constant.NumberConstant.*;
 @Repository
 public class MovieTmdbApiRepository {
     // id 기반으로 TMDB API에 질의해서 dto 제공
-    public MovieTmdbDto findById(String id) throws JsonProcessingException {
+    public MovieTmdbDto findById(String id) {
         List<JsonNode> nodes = new ArrayList<>();
 
         nodes.add(mapJsonNode(TMDB_SEARCH_BY_ID_PATH + id, TMDB_CREDITS_PATH, NO_ARGS));                // basic info + credits info
@@ -32,14 +33,13 @@ public class MovieTmdbApiRepository {
     }
 
     // 문자열 기반으로 TMDB API에 질의해서 dto 제공
-    public List<MovieTmdbDto> findByQuery(String query) throws JsonProcessingException {
-        List<MovieTmdbDto> dtos = new ArrayList<>();
+    public List<MovieTmdbDto> findByQuery(String query) {
         List<String> ids = filterPopularity(mapJsonNode(TMDB_SEARCH_BY_QUERY_PATH, NO_ARGS, query).get(JSON_NODE_RESULTS));
 
-        for (String id : ids)
-            dtos.add(findById(id));
-
-        return dtos;
+        return ids.stream()
+                .limit(MAX_SEARCH_LIST_SIZE)
+                .map(this::findById)
+                .collect(Collectors.toList());
     }
 
     // API의 'popularity' 항목에 대해 일정 값을 넘지 못하면 검색 결과에서 제외함
@@ -54,7 +54,7 @@ public class MovieTmdbApiRepository {
     }
 
     // API 요청 결과를 JsonNode 객체로 매핑
-    public JsonNode mapJsonNode(String path, String append, String query) throws JsonProcessingException {
+    public JsonNode mapJsonNode(String path, String append, String query) {
         WebClient client = WebClient.builder()
                 .baseUrl(TMDB_URL)
                 .defaultHeader(HttpHeaders.AUTHORIZATION, TMDB_KEY)
@@ -72,6 +72,10 @@ public class MovieTmdbApiRepository {
                 .bodyToMono(String.class)
                 .block();
 
-        return new ObjectMapper().readTree(result);
+        try {
+            return new ObjectMapper().readTree(result);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
     }
 }
