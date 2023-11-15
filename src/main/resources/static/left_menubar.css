@@ -18,7 +18,8 @@
     padding: 16px;
     align-items: center;
     gap: 12px;
-    background-color: aquamarine;
+    background-color: #fff;
+    /* background-color: aquamarine; */
 }
 
 .menu_button:hover {
@@ -45,7 +46,9 @@
     justify-content: flex-start;
     align-items: center;
     gap: 22px;
-    background-color: bisque;
+
+    background-color: #fff;
+    /* background-color: bisque; */
 }
 
 .profile:hover {

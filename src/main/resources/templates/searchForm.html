@@ -103,20 +103,33 @@
                     <div class="title">검색결과</div>
                 </div>
                 <!-- 검색결과 띄우는 창 -->
-                <th:block th:if="${result != null}">
-                    <div id="items">
-                      <div th:each="movie : ${result}">
-                        <button type="button" class="item" th:value="${movie.id}">
-                            <div th:text="${movie.titleKo}"></div>
-                            <div th:text="${movie.prdtYear}"></div>
-                            <div th:each="nation : ${movie.nations}">
-                                <div th:text="${nation.id}"></div>
-                            </div>
-                          </button>
-                      </div>
-                    </div>
+                <div id="search_body">
+                    <th:block th:if="${result != null}">
+                        <div id="items">
+                          <div th:each="movie : ${result}">
+                            <button type="button" class="item" th:value="${movie.id}">
+                                <div class="item_contents">
+                                    <div class="item_main">
+                                        <div th:text="${movie.titleKo}"></div>
+                                        <div class="item_Year">
+                                            (
+                                            <div th:text="${movie.prdtYear}"></div>
+                                            )
+                                        </div>
+                                        
+                                    </div>
+                                    <div class ="item_nation" th:each="nation : ${movie.nations}">
+                                        <div th:text="${nation.id}"></div>
+                                    </div>
 
-                </th:block>
+                                </div>
+                              </button>
+                          </div>
+                        </div>
+    
+                    </th:block>
+
+                </div>
             </div>
         
         
@@ -154,7 +167,7 @@
               const current = e.currentTarget;
               let urlParam = current.value;
               console.log(urlParam);
-              window.open('/movie' + '/' + urlParam);
+              window.open('/movie' + '/' + urlParam, '_self');
             });
         }
         
