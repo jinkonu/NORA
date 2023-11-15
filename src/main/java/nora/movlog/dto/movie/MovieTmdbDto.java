@@ -144,7 +144,7 @@ public class MovieTmdbDto {
     }
 
         private static WatchGrade krGradeMapper(JsonNode node) {
-            return switch (node.get(JSON_NODE_CERTIFICATION).get(ZERO).get(JSON_NODE_CERTIFICATION).asText()) {
+            return switch (node.get(JSON_NODE_RELEASE_DATES).get(ZERO).get(JSON_NODE_CERTIFICATION).asText()) {
                 case KR_ALL -> ALL;
                 case KR_TWELVE  -> TWELVE;
                 case KR_FIFTEEN  -> FIFTEEN;
@@ -154,7 +154,7 @@ public class MovieTmdbDto {
         }
 
         private static WatchGrade usGradeMapper(JsonNode node) {
-            return switch (node.get(JSON_NODE_CERTIFICATION).get(ZERO).get(JSON_NODE_CERTIFICATION).asText()) {
+            return switch (node.get(JSON_NODE_RELEASE_DATES).get(ZERO).get(JSON_NODE_CERTIFICATION).asText()) {
                 case US_ALL            -> ALL;
                 case US_TWELVE_1, US_TWELVE_2  -> TWELVE;
                 case US_FIFTEEN_1, US_FIFTEEN_2   -> ADULT;
