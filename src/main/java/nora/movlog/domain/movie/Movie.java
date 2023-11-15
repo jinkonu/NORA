@@ -39,15 +39,6 @@ public class Movie {
 
 
     /* 메서드 */
-    // MovieJpaRepository 테스트를 위한 mock Movie 객체 생성
-    public static Movie createMockMovie(String id, String titleKo) {
-        Movie movie = new Movie();
-
-        movie.setId(id);
-        movie.setTitleKo(titleKo);
-
-        return movie;
-    }
 
     // TMDB API의 dto에서 Movie 객체로 변환
     public static Movie createFromTmdbDto(MovieTmdbDto dto) {
@@ -59,16 +50,5 @@ public class Movie {
                 .prdtYear(dto.getPrdtYear())
                 .watchGrade(dto.getWatchGrade())
                 .build();
-    }
-
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "id='" + id + '\'' +
-                ", titleKo='" + titleKo + '\'' +
-                ", prdtYear='" + prdtYear + '\'' +
-                ", showTime=" + runTime +
-                ", watchGrade=" + watchGrade +
-                '}';
     }
 }
