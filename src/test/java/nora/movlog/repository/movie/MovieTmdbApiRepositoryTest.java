@@ -1,9 +1,8 @@
-package nora.movlog.repository;
+package nora.movlog.repository.movie;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import nora.movlog.domain.movie.WatchGrade;
 import nora.movlog.dto.movie.MovieTmdbDto;
-import nora.movlog.repository.movie.MovieTmdbApiRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import static nora.movlog.domain.constant.StringConstant.TMDB_SEARCH_BY_ID_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +27,7 @@ class MovieTmdbApiRepositoryTest {
     static String runTime = "98";
     static String prdtYear = "1996";
     static String nation = "US";
-    static String genre = "범죄";
+    static Integer genreId = 80;
     static String director = "Joel Coen";
     static String directorId = "1223";
     static String actor = "William H. Macy";
@@ -43,7 +43,7 @@ class MovieTmdbApiRepositoryTest {
         assertThat(dto.getRunTime()).isEqualTo(runTime);
         assertThat(dto.getPrdtYear()).isEqualTo(prdtYear);
         assertThat(dto.getNation()).contains(nation);
-        assertThat(dto.getGenres().get(0)).contains(genre);
+        assertThat(dto.getGenres().keySet()).contains(genreId);
         assertThat(dto.getDirectors().get(directorId)).isEqualTo(director);
         assertThat(dto.getActors().get(actorId)).isEqualTo(actor);
         assertThat(dto.getWatchGrade()).isEqualTo(watchGrade);
@@ -52,12 +52,12 @@ class MovieTmdbApiRepositoryTest {
     @Test
     @DisplayName("http GET 요청을 통해 JsonNode 생성")
     void mapJsonNode_http_GET_요청을_통해_JsonNode_생성() throws IOException {
-        String titleFromNode;
-
         JsonNode node = movieRepository.mapJsonNode(TMDB_SEARCH_BY_ID_PATH + id, "", "");
 
-        titleFromNode = node.get("title").textValue();
+        String titleFromNode = node.get("title").asText();
+        String runtimeFromNode = node.get("runtime").asText();
 
         assertThat(titleFromNode).isEqualTo(title);
+        assertThat(runtimeFromNode).isEqualTo(runTime);
     }
 }
