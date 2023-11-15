@@ -2,7 +2,7 @@ package nora.movlog.service.movie;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Genre;
-import nora.movlog.repository.interfaces.GenreRepository;
+import nora.movlog.repository.movie.interfaces.GenreRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,10 @@ public class GenreService {
             Optional<Genre> genre = genreRepository.findById(id);
             if (genre.isPresent()) genres.add(genre.get());
             else {
-                genreRepository.save(Genre.create(id, ids.get(id)));
+                genreRepository.save(Genre.builder()
+                        .id(id)
+                        .name(ids.get(id))
+                        .build());
                 genres.add(genreRepository.findById(id).get());
             }
         }

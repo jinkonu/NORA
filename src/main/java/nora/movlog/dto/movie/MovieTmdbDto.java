@@ -1,4 +1,4 @@
-package nora.movlog.dto;
+package nora.movlog.dto.movie;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;

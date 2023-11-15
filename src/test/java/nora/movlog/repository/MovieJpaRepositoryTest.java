@@ -1,7 +1,7 @@
 package nora.movlog.repository;
 
 import nora.movlog.domain.movie.Movie;
-import nora.movlog.repository.movie.MovieJpaRepository;
+import nora.movlog.repository.movie.interfaces.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,14 +21,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MovieJpaRepositoryTest {
 
     @Autowired
-    MovieJpaRepository movieRepository;
+    MovieRepository movieRepository;
     static String id1 = "19940315";
     static String title1 = "펄프 픽션";
     static String id2 = "19960051";
     static String title2 = "돼지가 우물에 빠진 날";
 
     @Transactional
-    @Rollback( value = true )
+    @Rollback
     @BeforeEach
     void setUp() {
         movieRepository.save(Movie.createMockMovie(id1, title1));
@@ -39,8 +39,8 @@ class MovieJpaRepositoryTest {
     @Test
     @DisplayName("DB_ID를_통한_영화_검색")
     void findById_DB_ID를_통한_영화_검색() {
-        Movie movie1 = movieRepository.findById(id1);
-        Movie movie2 = movieRepository.findById(id2);
+        Movie movie1 = movieRepository.findById(id1).get();
+        Movie movie2 = movieRepository.findById(id2).get();
 
         assertThat(movie1.getTitleKo()).isEqualTo(title1);
         assertThat(movie2.getTitleKo()).isEqualTo(title2);
@@ -52,8 +52,8 @@ class MovieJpaRepositoryTest {
     void findByName_영화_제목을_활용한_영화_검색() {
         movieRepository.flush();
 
-        List<Movie> movie1 = movieRepository.findByName("펄프 픽션");
-        List<Movie> movie2 = movieRepository.findByName("돼지가 우물에 빠진 날");
+        List<Movie> movie1 = movieRepository.findAllByTitleKoContains("펄프 픽션");
+        List<Movie> movie2 = movieRepository.findAllByTitleKoContains("돼지가 우물에 빠진 날");
 
         assertThat(movie1.get(0).getTitleKo()).isEqualTo(title1);
         assertThat(movie2.get(0).getTitleKo()).isEqualTo(title2);

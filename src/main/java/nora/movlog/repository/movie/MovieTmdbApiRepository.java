@@ -7,8 +7,7 @@ TMDB API에 쿼리 날리는 리포지토리
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nora.movlog.domain.constant.NumberConstant;
-import nora.movlog.dto.MovieTmdbDto;
+import nora.movlog.dto.movie.MovieTmdbDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;

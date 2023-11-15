@@ -2,7 +2,7 @@ package nora.movlog.service.movie;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Director;
-import nora.movlog.repository.interfaces.DirectorRepository;
+import nora.movlog.repository.movie.interfaces.DirectorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,10 @@ public class DirectorService {
             Optional<Director> director = directorRepository.findById(id);
             if (director.isPresent()) directors.add(director.get());
             else {
-                directorRepository.save(Director.create(id, ids.get(id)));
+                directorRepository.save(Director.builder()
+                        .id(id)
+                        .name(ids.get(id))
+                        .build());
                 directors.add(directorRepository.findById(id).get());
             }
         }

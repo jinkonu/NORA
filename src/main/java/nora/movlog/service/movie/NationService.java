@@ -2,7 +2,7 @@ package nora.movlog.service.movie;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Nation;
-import nora.movlog.repository.interfaces.NationRepository;
+import nora.movlog.repository.movie.interfaces.NationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,9 @@ public class NationService {
 
             if (nation.isPresent()) nations.add(nation.get());
             else {
-                nationRepository.save(Nation.create(id));
+                nationRepository.save(Nation.builder()
+                        .id(id)
+                        .build());
                 nations.add(nationRepository.findById(id).get());
             }
         }
