@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="main_frame.css">
     <link rel="stylesheet" href="left_menubar.css">
     <link rel="stylesheet" href="right_trending.css">
-    <link rel="stylesheet" href="search_center_body.css">
     <title>Demo</title>
 </head>
 <body>
@@ -95,35 +94,15 @@
         
         
             <div class="center_body">
-                <div id="search_header">
-                    <div class="right_search">
-                        <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
-                        <input type="text" class="search_input" placeholder="검색">
-                    </div>
-                    <div class="title">검색결과</div>
-                </div>
-                <!-- 검색결과 띄우는 창 -->
-                <th:block th:if="${result != null}">
-                    <div id="items">
-                      <div th:each="movie : ${result}">
-                        <button type="button" class="item" th:value="${movie.id}">
-                            <div th:text="${movie.titleKo}"></div>
-                            <div th:text="${movie.prdtYear}"></div>
-                            <div th:each="nation : ${movie.nations}">
-                                <div th:text="${nation.id}"></div>
-                            </div>
-                          </button>
-                      </div>
-                    </div>
-
-                </th:block>
+                <<h1>Center_body</h1>>
+        
             </div>
         
         
             <div class="right_trending">
                 <div class="right_search">
                     <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
-                    <input type="text" class="search_input" placeholder="검색">
+                    <input type="text" id="right_search_input" placeholder="검색">
                 </div>
             </div>
     
@@ -132,32 +111,6 @@
     </div>
 
     <script>
-        const searchEvent = document.querySelectorAll(".search_input");
-        for (let s of searchEvent) {
-            s.addEventListener('keyup', e => {
-                if (e.keyCode == 13) {
-                    // querySelectorAll시 다시 객체 불러와야됨
-                    const current = e.currentTarget;
-                    let urlParam = new URLSearchParams(location.search);
-                    urlParam.set("query", current.value);
-                    let new_urlParam = urlParam.toString();
-                    window.open(location.pathname + '?' + new_urlParam, '_self');
-
-                }
-
-            });
-        }
-
-        const movieSelect = document.querySelectorAll(".item");
-        for (let s of movieSelect) {
-            s.addEventListener("click", e => {
-              const current = e.currentTarget;
-              let urlParam = current.value;
-              console.log(urlParam);
-              window.open('/movie' + '/' + urlParam);
-            });
-        }
-        
     </script>
 </body>
 </html>
