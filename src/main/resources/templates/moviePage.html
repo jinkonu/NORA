@@ -1,57 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-
-  <style>
-  </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../main_frame.css">
+    <link rel="stylesheet" href="../left_menubar.css">
+    <link rel="stylesheet" href="../right_trending.css">
+    <link rel="stylesheet" href="../center_body_movie.css">
+    <title>MoviePage</title>
 </head>
-
 <body>
+    <div class="frame">
 
-<th:block th:if="${result != null}"/>
-  <table>
-    <tr>
-      <th>한국어 제목</th>
-      <th>영어 제목</th>
-      <th>상영 시간</th>
-      <th>제작년도</th>
-      <th>국가</th>
-      <th>장르</th>
-      <th>감독</th>
-      <th>배우</th>
-      <th>상영 등급</th>
-    </tr>
-    <tr th:each="movie : ${movie}">
-      <td th:text="${movie.titleKo}">N/A</td>
-      <td th:text="${movie.titleEn}">N/A</td>
-      <td th:text="${movie.runTime}">N/A</td>
-      <td th:text="${movie.prdtYear}">N/A</td>
-      <td th:each="nation : ${movie.nations}">
-        <span th:text="${nation.id}"></span>
-      </td>
-      <td th:each="genre : ${movie.genre}">
-        <span th:text="${genre.name}"></span>
-      </td>
-      <td th:each="director : ${movie.directors}">
-        <span th:text="${director.name}"></span>
-      </td>
-      <td th:each="actor : ${movie.actors}">
-        <span th:text="${actor.name}"></span>
-      </td>
-      <td th:text="${movie.watchGrade}">N/A</td>
-      
-    </tr>
-  </table>
+        <div class="inner_frame">
+    
+            <div class="left_menubar">
+                <div class="logo_main">
+                    <img src="/icons/logo(main).svg" alt="movlog"/>
+                </div>
 
-<ul id="list"></ul>
+                <div class="menu">
+                    <div class="menu_element">
+                        <button type="button" class="menu_button" id="home_btn">
+                            <div class="menu_icon">
+                                <img src="/icons/House.svg" alt="home"/>
+                            </div>
+                            <div class="menu_button_text">홈</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="notification_btn">
+                            <div class="menu_icon">
+                                <img src="/icons/Heart.svg" alt="notifications"/>
+                            </div>
+                            <div class="menu_button_text">알림</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="search_btn">
+                            <div class="menu_icon">
+                                <img src="/icons/MagnifyingGlass.svg" alt="Search"/>
+                            </div>
+                            <div class="menu_button_text">검색</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="watchedlsit_btn">
+                            <div class="menu_icon">
+                                <img src="/icons/EyeOpened.svg" alt="WatchList"/>
+                            </div>
+                            <div class="menu_button_text">내가 본 영화</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="watchlist_btn">
+                            <div class="menu_icon">
+                                <img src="/icons/EyeClosed.svg" alt="towatchlist"/>
+                            </div>
+                            <div class="menu_button_text">보고싶은 영화</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="profile_btn">
+                            <div class="menu_icon">
+                                <img src="/icons/UserCircle.svg" alt="profile"/>
+                            </div>
+                            <div class="menu_button_text">프로필</div>
+                        </button>
+                    </div>
+                </div>
 
-<script>
+                <div class="left_footer">
+                    <button class="profile">
+                        <div class="account">
+                            <div class="profile_img">
+                                <img src="/img/example_profile_img.svg" alt="img"/>
+                            </div>
+                            <div class="user_info">
+                                <div class="user_info_name">
+                                    김익명
+                                </div>
+                                <div class="user_info_account">
+                                    @anonymouskim123
+                                </div>
+                            </div>
+                        </div>
+                        <div class="more">
+                            <img src="/icons/DotsThree.svg" alt="more"/>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        
+        
+            <div class="center_body">
+                <div id="movie_header">
+                    <div class="movie_banner">
+                        <div class="movie_content">
+                            <div th:each="movie : ${movie}">
+                                <div id="movie_title">
+                                    <div th:text="${movie.titleKo}"></div>
+                                    <div id="movie_year">
+                                        (
+                                        <div th:text="${movie.prdtYear}"></div>
+                                        )
+                                    </div>
+                                </div>
 
-</script>
+                                <!-- <div th:text="${movie.titleEn}"></div>
+                                <div th:text="${movie.prdtYear}"></div> -->
+                                <div id="movie_specifics">
+                                    <div id="movie_directors">
+                                        감독 :
+                                        <div th:each="director : ${movie.directors}">
+                                            <div th:text="${director.name}"></div>
+                                        </div>
+    
+                                    </div>
+    
+                                    <div id="movie_actors">
+                                        출연 :
+                                        <div class="movie_actor" th:each="actor : ${movie.actors}">
+                                            <div th:text="${actor.name}"></div>
+                                        </div>
+    
+                                    </div>
+    
+                                    <!-- <div th:each="genre : ${movie.genre}">
+                                        <div th:text="${genre.name}"></div>
+                                    </div>
+
+                                    <div th:text="${movie.runTime}"></div>
+
+                                    <div th:text="${movie.watchGrade}"></div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="movie_btn">
+                            <div class="list_btn" id="watchedlist_btn">
+                                <div class="btn_content">
+                                    <img class="btn_icon" src="/icons/EyeOpened.svg" alt="WatchList"/>
+                                    <div class="btn_txt">봤습니다:)</div>
+
+                                </div>
+                            </div>
+                            <div class="list_btn" id="wishlist_btn">
+                                <div class="btn_content">
+                                    <!-- <img class="btn_icon" src="/icons/EyeClosed.svg" alt="WatchList"/> -->
+                                    <div class="btn_txt">보고싶은 영화에 담기</div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="select">
+                        <div class="select_btn">
+                            인기 리뷰
+                        </div>
+                        <div class="select_btn">
+                            최근 리뷰
+                        </div>
+                    </div>
+                </div>
+                <!-- 검색결과 띄우는 창 -->
+                <div id="movie_body">
+                    
+                </div>
+            </div>
+        
+        
+            <div class="right_trending">
+                <div class="right_trending_content">
+                    <div class="right_search">
+                        <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
+                        <input type="text" class="search_input" placeholder="검색">
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+
+    </div>
+
+    <script>
+        const searchEvent = document.querySelectorAll(".search_input");
+        for (let s of searchEvent) {
+            s.addEventListener('keyup', e => {
+                if (e.keyCode == 13) {
+                    // querySelectorAll시 다시 객체 불러와야됨
+                    const current = e.currentTarget;
+                    let urlParam = new URLSearchParams(location.search);
+                    urlParam.set("query", current.value);
+                    let new_urlParam = urlParam.toString();
+                    window.open(location.pathname + '?' + new_urlParam, '_self');
+
+                }
+
+            });
+        }
+
+        const movieSelect = document.querySelectorAll(".item");
+        for (let s of movieSelect) {
+            s.addEventListener("click", e => {
+              const current = e.currentTarget;
+              let urlParam = current.value;
+              console.log(urlParam);
+              window.open('/movie' + '/' + urlParam, '_self');
+            });
+        }
+        
+
+    </script>
 </body>
-
 </html>

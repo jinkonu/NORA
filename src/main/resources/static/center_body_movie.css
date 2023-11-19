@@ -1,0 +1,146 @@
+.center_body {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    overflow: hidden;
+}
+
+#movie_header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #000;
+}
+
+.movie_banner {
+    height: 232px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFD569;
+    gap: 16px;
+}
+
+.movie_content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    padding: 44px 0px 0px 20px;
+}
+
+#movie_title {
+    color: #303337;
+    font-family: Inter;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px; /* 138.462% */
+    letter-spacing: 0.1px;
+
+    display: flex;
+    gap: 4px;
+}
+
+#movie_year {
+    display: flex;
+}
+
+#movie_specifics {
+    color: #303337;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 25px; /* 138.889% */
+    letter-spacing: 0.1px;
+
+}
+
+#movie_directors {
+    display: flex;
+    gap: 10px;
+}
+
+#movie_actors {
+    display: flex;
+    gap: 10px;
+}
+
+.movie_btn {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.list_btn {
+    width: 370px;
+    height: 50px;
+    border-radius: 10px;
+    background: var(--primary, #2194F3);
+    color: #FFFDFD;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#watchedlist_btn {
+    background: #EDEFF0;
+    color: #303337;
+}
+
+.btn_content {
+    display: flex;
+    gap: 12px;
+}
+
+.btn_icon {
+    height: 32px;
+    width: 32px;
+}
+
+.btn_txt {
+    text-align: center;
+    font-family: Inter;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px; /* 189.474% */
+    letter-spacing: 0.1px;
+}
+
+.select {
+    display: flex;
+}
+
+.select_btn {
+    height: 55px;
+    width: 50%;
+    padding: 15px 0px 0px 0px;
+    
+    color: #303337;
+    text-align: center;
+    vertical-align: auto;
+    font-family: Inter;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px; /* 189.474% */
+    letter-spacing: 0.1px;
+}
+
+#movie_body{
+    display: flex;
+    flex-direction: column;
+    width: 796px;
+    overflow-y: auto;
+
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+}
+
+#search_body::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+
