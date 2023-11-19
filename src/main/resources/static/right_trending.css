@@ -1,7 +1,12 @@
 .right_trending {
     display: flex;
     flex-direction: column;
-    padding: 32px 0px 0px 42px;
+}
+
+.right_trending_content {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 0px 0px 15px;
 }
 
 .right_search {
