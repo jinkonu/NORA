@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.ArrayList;
 import java.util.List;
 
-import static nora.movlog.constant.NumberConstant.*;
+import static nora.movlog.domain.constant.NumberConstant.*;
 import static nora.movlog.domain.constant.StringConstant.*;
 
 /*

@@ -1,4 +1,4 @@
-package nora.movlog.domain;
+package nora.movlog.domain.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

@@ -8,10 +8,9 @@ import nora.movlog.repository.movie.interfaces.MovieRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.*;
 
-import static nora.movlog.constant.NumberConstant.*;
+import static nora.movlog.domain.constant.NumberConstant.*;
 
 /*
 영화 서비스
@@ -34,19 +33,19 @@ public class MovieService {
 
     // 현재까지 영화 제목 기반으로만 검색 -> 1차적으로 DB 검색 -> 없거나 부족하면 KOBIS API에 질의
     @Transactional
-    public List<Movie> search(String searchDt) throws IOException {
-        List<Movie> dbMovieList = new ArrayList<>(movieRepository.findAllByTitleKoContains(searchDt).stream().toList());
-        List<MovieTmdbDto> tmdbDtos = new ArrayList<>();
+    public List<Movie> search(String searchDt) {
+        List<Movie> dbMovieList = new ArrayList<>(movieRepository.findAllByTitleKoContains(searchDt));
 
-        if (dbMovieList.size() < MIN_SEARCH_LIST_SIZE)
-            tmdbDtos = movieTmdbApiRepository.findByQuery(searchDt);
+        if (dbMovieList.size() < MIN_SEARCH_LIST_SIZE) {
+            List<MovieTmdbDto> tmdbDtos = movieTmdbApiRepository.findByQuery(searchDt);
 
-        for (MovieTmdbDto dto : tmdbDtos)
-            if (findOne(dto.getId()) == null) {
-                Movie movie = createFromTmdbDto(dto);
-                dbMovieList.add(movie);
-                join(movie);
-            }
+            for (MovieTmdbDto dto : tmdbDtos)
+                if (findOne(dto.getId()) == null) {
+                    Movie movie = createFromTmdbDto(dto);
+                    dbMovieList.add(movie);
+                    join(movie);
+                }
+        }
 
         return dbMovieList;
     }

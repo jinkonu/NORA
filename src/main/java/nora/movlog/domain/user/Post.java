@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import nora.movlog.domain.BaseEntity;
 import nora.movlog.domain.movie.Movie;
 import nora.movlog.dto.user.PostDto;
 

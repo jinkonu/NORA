@@ -7,6 +7,8 @@ import nora.movlog.domain.movie.WatchGrade;
 import java.util.*;
 
 import static nora.movlog.domain.movie.WatchGrade.*;
+import static nora.movlog.domain.constant.NumberConstant.*;
+import static nora.movlog.domain.constant.StringConstant.*;
 
 @Data
 public class MovieTmdbDto {
@@ -28,44 +30,47 @@ public class MovieTmdbDto {
         JsonNode node = nodes.get(0);
         JsonNode gradeNode = nodes.get(1);
 
-        dto.setId(node.get("id").asText());
+        dto.setId(node.get(JSON_NODE_ID).asText());
         titleMapper(dto, node);
-        dto.setRunTime(node.get("runtime").asText());
+        dto.setRunTime(node.get(JSON_NODE_RUNTIME).asText());
         dto.setPrdtYear(prdtYearMapper(node));
         dto.setNation(nationMapper(node));
         dto.setGenres(genreMapper(node));
-        creditMapper(dto, node.get("credits"));
+        creditMapper(dto, node.get(JSON_NODE_CREDITS));
         dto.setWatchGrade(gradeMapper(gradeNode));
 
         return dto;
     }
 
+
     private static void titleMapper(MovieTmdbDto dto, JsonNode node) {
         // 한국 영화
-        if (node.get("original_language").asText().equals("ko")) {
-            dto.setTitleKo(node.get("title").asText());
-            dto.setTitleEn("");
+        if (node.get(JSON_NODE_ORIGINAL_LANGUAGE).asText().equals(JSON_NODE_ORIGINAL_LANGUAGE_KO)) {
+            dto.setTitleKo(node.get(JSON_NODE_TITLE).asText());
+            dto.setTitleEn(EMPTY);
         }
 
         // 해외 영화
         else {
-            dto.setTitleKo(node.get("title").asText());
-            dto.setTitleEn(node.get("original_title").asText());
+            dto.setTitleKo(node.get(JSON_NODE_TITLE).asText());
+            dto.setTitleEn(node.get(JSON_NODE_TITLE_ORIGINAL).asText());
         }
     }
 
     private static String prdtYearMapper(JsonNode node) {
-        String yearStr=node.get("release_date").asText();
-        if(yearStr.length()<4) return "";
-        else return yearStr.substring(0, 4);
+        String yearStr = node.get(JSON_NODE_RELEASE_DATE).asText();
+
+        if (yearStr.length() < YEAR_SIZE) return EMPTY;
+
+        else return yearStr.substring(ZERO, YEAR_SIZE);
     }
 
     private static Set<String> nationMapper(JsonNode node) {
         Set<String> nations = new HashSet<>();
 
-        if (!node.get("production_countries").isEmpty())
-            for (JsonNode country : node.get("production_countries"))
-                nations.add(country.get("iso_3166_1").asText());
+        if (!node.get(JSON_NODE_PRODUCTION_COUNTRIES).isEmpty())
+            for (JsonNode country : node.get(JSON_NODE_PRODUCTION_COUNTRIES))
+                nations.add(country.get(JSON_NODE_ISO).asText());
 
         return nations;
     }
@@ -73,16 +78,16 @@ public class MovieTmdbDto {
     private static Map<Integer, String> genreMapper(JsonNode node) {
         Map<Integer, String> genres = new HashMap<>();
 
-        if (!node.get("genres").isEmpty())
-            for (JsonNode genre : node.get("genres"))
-                genres.put(genre.get("id").asInt(), genre.get("name").asText());
+        if (!node.get(JSON_NODE_GENRES).isEmpty())
+            for (JsonNode genre : node.get(JSON_NODE_GENRES))
+                genres.put(genre.get(JSON_NODE_ID).asInt(), genre.get(JSON_NODE_NAME).asText());
 
         return genres;
     }
 
     private static void creditMapper(MovieTmdbDto dto, JsonNode node) {
-        JsonNode actorNode = node.get("cast");
-        JsonNode directorNode = node.get("crew");
+        JsonNode actorNode = node.get(JSON_NODE_CAST);
+        JsonNode directorNode = node.get(JSON_NODE_CREW);
 
         dto.setActors(actorMapper(actorNode));
         dto.setDirectors(directorMapper(directorNode));
@@ -92,7 +97,10 @@ public class MovieTmdbDto {
         Map<String, String> actors = new HashMap<>();
 
         for (int i = 0; i < Math.min(3, actorNode.size()); i++)
-            actors.put(actorNode.get(i).get("id").asText(), actorNode.get(i).get("original_name").asText());
+            actors.put(
+                    actorNode.get(i).get(JSON_NODE_ID).asText(),
+                    actorNode.get(i).get(JSON_NODE_NAME_ORIGINAL).asText()
+            );
 
         return actors;
     }
@@ -101,8 +109,11 @@ public class MovieTmdbDto {
         Map<String, String> directors = new HashMap<>();
 
         for (int i = 0; i < directorNode.size(); i++)
-            if (directorNode.get(i).get("job").asText().equals("Director"))
-                directors.put(directorNode.get(i).get("id").asText(), directorNode.get(i).get("original_name").asText());
+            if (directorNode.get(i).get(JSON_NODE_JOB).asText().equalsIgnoreCase(JSON_NODE_DIRECTOR))
+                directors.put(
+                        directorNode.get(i).get(JSON_NODE_ID).asText(),
+                        directorNode.get(i).get(JSON_NODE_NAME_ORIGINAL).asText()
+                );
 
         return directors;
     }
@@ -110,12 +121,15 @@ public class MovieTmdbDto {
     private static WatchGrade gradeMapper(JsonNode node) {
         JsonNode krGradeNode = null;
         JsonNode usGradeNode = null;
-        JsonNode results = node.get("results");
+        JsonNode results = node.get(JSON_NODE_RESULTS);
 
         for (JsonNode grade : results) {
-            if (grade.get("iso_3166_1").asText().equals("KR") && !grade.get("release_dates").get(0).get("certification").asText().isEmpty())
+            if (
+                    grade.get(JSON_NODE_ISO).asText().equals(JSON_NODE_ISO_KR) &&
+                    !grade.get(JSON_NODE_RELEASE_DATES).get(ZERO).get(JSON_NODE_CERTIFICATION).asText().isEmpty()
+            )
                 krGradeNode = grade;
-            else if (grade.get("iso_3166_1").asText().equals("US"))
+            else if (grade.get(JSON_NODE_ISO).asText().equals(JSON_NODE_ISO_US))
                 usGradeNode = grade;
         }
 
@@ -130,20 +144,20 @@ public class MovieTmdbDto {
     }
 
         private static WatchGrade krGradeMapper(JsonNode node) {
-            return switch (node.get("release_dates").get(0).get("certification").asText()) {
-                case "All" -> ALL;
-                case "12"  -> TWELVE;
-                case "15"  -> FIFTEEN;
-                case "18"  -> ADULT;
+            return switch (node.get(JSON_NODE_RELEASE_DATES).get(ZERO).get(JSON_NODE_CERTIFICATION).asText()) {
+                case KR_ALL -> ALL;
+                case KR_TWELVE  -> TWELVE;
+                case KR_FIFTEEN  -> FIFTEEN;
+                case KR_ADULT  -> ADULT;
                 default    -> NONE;
             };
         }
 
         private static WatchGrade usGradeMapper(JsonNode node) {
-            return switch (node.get("release_dates").get(0).get("certification").asText()) {
-                case "G"            -> ALL;
-                case "PG", "PG-13"  -> TWELVE;
-                case "R", "NC-17"   -> ADULT;
+            return switch (node.get(JSON_NODE_RELEASE_DATES).get(ZERO).get(JSON_NODE_CERTIFICATION).asText()) {
+                case US_ALL            -> ALL;
+                case US_TWELVE_1, US_TWELVE_2  -> TWELVE;
+                case US_FIFTEEN_1, US_FIFTEEN_2   -> ADULT;
                 default             -> NONE;
             };
         }

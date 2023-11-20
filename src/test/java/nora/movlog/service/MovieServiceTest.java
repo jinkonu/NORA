@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static nora.movlog.constant.NumberConstant.*;
+import static nora.movlog.domain.constant.NumberConstant.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
