@@ -1,9 +1,7 @@
-package nora.movlog.service;
+package nora.movlog.service.movie;
 
 import nora.movlog.domain.movie.Movie;
-import nora.movlog.service.movie.MovieService;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
