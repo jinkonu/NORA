@@ -15,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import java.util.List;
-
 import static nora.movlog.domain.constant.StringConstant.*;
 import static nora.movlog.domain.constant.NumberConstant.*;
 
@@ -86,7 +84,7 @@ public class UserService {
     public BindingResult validateJoin(UserJoinRequestDto dto, BindingResult bindingResult) {
         // loginId
         if (dto.getLoginId().isEmpty())
-            bindingResult.addError(new FieldError("reqeustDto", "loginId", NO_LOGIN_ID_ERROR));
+            bindingResult.addError(new FieldError("requestDto", "loginId", NO_LOGIN_ID_ERROR));
         else if (dto.getLoginId().length() < MAX_LOGIN_ID_LENGTH)
             bindingResult.addError(new FieldError("requestDto", "loginId", TOO_LONG_LOGIN_ID_ERROR));
         else if (userRepository.existsByLoginId(dto.getLoginId()))
