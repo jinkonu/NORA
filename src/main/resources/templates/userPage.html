@@ -1,21 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Page</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../main_frame.css">
+    <link rel="stylesheet" href="../left_menubar.css">
+    <link rel="stylesheet" href="../right_trending.css">
+    <title>User Page</title>
 
-  <style>
-  </style>
 </head>
 
 <body>
+    <div class="frame">
 
-<h1>UserPage</h1>
+        <div class="inner_frame">
 
-<script>
-</script>
+            <!-- left menu bar -->
+            <div class="left_menubar">
+                <div class="logo_main">
+                    <img src="/icons/logo(main).svg" alt="movlog"/>
+                </div>
+
+                <div class="menu">
+                    <div class="menu_element">
+                        <button type="button" class="menu_button" id="home_btn">
+                            <div class="menu_icon">
+                                <img src="/icons/House.svg" alt="home"/>
+                            </div>
+                            <div class="menu_button_text">홈</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="notification_btn">
+                            <div class="menu_icon">
+                                <img src="/icons/Heart.svg" alt="notifications"/>
+                            </div>
+                            <div class="menu_button_text">알림</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="search_btn" value="search">
+                            <div class="menu_icon">
+                                <img src="/icons/MagnifyingGlass.svg" alt="Search"/>
+                            </div>
+                            <div class="menu_button_text">검색</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="watchedlsit_btn">
+                            <div class="menu_icon">
+                                <img src="/icons/EyeOpened.svg" alt="WatchList"/>
+                            </div>
+                            <div class="menu_button_text">내가 본 영화</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="watchlist_btn">
+                            <div class="menu_icon">
+                                <img src="/icons/EyeClosed.svg" alt="towatchlist"/>
+                            </div>
+                            <div class="menu_button_text">보고싶은 영화</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="profile_btn">
+                            <div class="menu_icon">
+                                <img src="/icons/UserCircle.svg" alt="profile"/>
+                            </div>
+                            <div class="menu_button_text">프로필</div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="left_footer">
+                    <button class="profile">
+                        <div class="account">
+                            <div class="profile_img">
+                                <img src="/img/example_profile_img.svg" alt="img"/>
+                            </div>
+                            <div class="user_info">
+                                <div class="user_info_name">
+                                    김익명
+                                </div>
+                                <div class="user_info_account">
+                                    @anonymouskim123
+                                </div>
+                            </div>
+                        </div>
+                        <div class="more">
+                            <img src="/icons/DotsThree.svg" alt="more"/>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- center body -->
+            <div class="center_body">
+                <div id="user_banner">
+                    <div class="user_profile">
+                        <button class="profile">
+                            <div class="account">
+                                <div class="profile_img">
+                                    <img src="/img/example_profile_img.svg" alt="img"/>
+                                </div>
+                                <div class="user_info">
+                                    <div class="user_info_name">
+                                        김익명
+                                    </div>
+                                    <div class="user_info_account">
+                                        @anonymouskim123
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Refer the number of posts, followers and following from backend? -->
+                            <div id="post_count">
+                                <div class="user_post_count">
+                                    8
+                                </div>
+                            </div>
+                            <div id="follower_count">
+                                <div class="user_follower_count">
+                                    156
+                                </div>
+                            </div>
+                            <div id="following_count">
+                                <div class="user_following_count">
+                                    201
+                                </div>
+                            </div>
+
+                            <!-- The two icons on the top center profile banner. Each button leads to each profile section -->
+                            <div class="">
+                                <img src="" alt=""/>
+                                <!-- User posts -->
+                                <div class="user_posts">
+                                    <div id="user_post">
+                                        <div th:each="post : ${post}">
+                                            <div id="post_title">
+                                                Title
+                                                <div id="post_movie">
+                                                    <div th:text="${post.movie}"></div>
+                                                </div>
+                                            </div>
+
+                                            <div id="post_body">
+                                                <div th:text="${post.body}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="">
+                                <img src="" alt=""/>
+                            </div>
+                        </button>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- right trending -->
+            <div class="right_trending" id="right">
+                <div class="right_trending_content">
+                    <div class="right_search">
+                        <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
+                        <input type="text" class="search_input" placeholder="검색">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+    </script>
 </body>
 
 </html>
