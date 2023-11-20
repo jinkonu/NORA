@@ -50,7 +50,7 @@ public class PostService {
 
     /* UPDATE */
     @Transactional
-    public Long editPost(Long postId, PostDto postDto) throws IOException {
+    public Long editPost(Long postId, PostDto postDto) {
         Optional<Post> optPost = postRepository.findById(postId);
 
         if (optPost.isEmpty()) return null;
@@ -64,7 +64,7 @@ public class PostService {
 
 
     /* DELETE */
-    public Long deletePost(Long postId) throws IOException {
+    public Long deletePost(Long postId) {
         Optional<Post> optPost = postRepository.findById(postId);
 
         if (optPost.isEmpty()) return null;
