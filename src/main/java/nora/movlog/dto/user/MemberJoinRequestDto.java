@@ -1,19 +1,19 @@
 package nora.movlog.dto.user;
 
 import lombok.Getter;
-import nora.movlog.domain.user.User;
+import nora.movlog.domain.user.Member;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class UserJoinRequestDto {
+public class MemberJoinRequestDto {
     private String loginId;
     private String password;
     private String passwordCheck;
     private String nickname;
 
-    public User toEntity(String encodedPassword) {
-        return User.builder()
+    public Member toEntity(String encodedPassword) {
+        return Member.builder()
                 .loginId(loginId)
                 .password(encodedPassword)
                 .nickname(nickname)

@@ -1,12 +1,12 @@
 package nora.movlog.service.user;
 
 import lombok.RequiredArgsConstructor;
-import nora.movlog.domain.user.User;
-import nora.movlog.dto.user.UserDto;
-import nora.movlog.dto.user.UserJoinRequestDto;
+import nora.movlog.domain.user.Member;
+import nora.movlog.dto.user.MemberDto;
+import nora.movlog.dto.user.MemberJoinRequestDto;
 import nora.movlog.repository.user.CommentRepository;
 import nora.movlog.repository.user.LikesRepository;
-import nora.movlog.repository.user.UserRepository;
+import nora.movlog.repository.user.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,8 +20,8 @@ import static nora.movlog.domain.constant.NumberConstant.*;
 
 @RequiredArgsConstructor
 @Service
-public class UserService {
-    private final UserRepository userRepository;
+public class MemberService {
+    private final MemberRepository memberRepository;
     private final LikesRepository likesRepository;
     private final CommentRepository commentRepository;
     private final BCryptPasswordEncoder encoder;
@@ -31,20 +31,20 @@ public class UserService {
     /* CREATE */
 
     @Transactional
-    public void join(UserJoinRequestDto requestDto) {
-        userRepository.save(requestDto.toEntity(encoder.encode(requestDto.getPassword())));
+    public void join(MemberJoinRequestDto requestDto) {
+        memberRepository.save(requestDto.toEntity(encoder.encode(requestDto.getPassword())));
     }
 
 
 
     /* READ */
 
-    public User profile(long id) {
-        return userRepository.findById(id).get();
+    public Member profile(long id) {
+        return memberRepository.findById(id).get();
     }
 
-    public Page<User> findAllByNickname(String query, PageRequest pageRequest) {
-        return userRepository.findAllByNicknameContains(query, pageRequest);
+    public Page<Member> findAllByNickname(String query, PageRequest pageRequest) {
+        return memberRepository.findAllByNicknameContains(query, pageRequest);
     }
 
 
@@ -52,13 +52,13 @@ public class UserService {
     /* UPDATE */
 
     @Transactional
-    public void edit(UserDto dto, long id) {
-        User user = userRepository.findById(id).get();
+    public void edit(MemberDto dto, long id) {
+        Member member = memberRepository.findById(id).get();
 
         if (dto.getNewPassword().isBlank())
-            user.edit(user.getPassword(), dto.getNickname());
+            member.edit(member.getPassword(), dto.getNickname());
         else
-            user.edit(encoder.encode(dto.getNewPassword()), dto.getNickname());
+            member.edit(encoder.encode(dto.getNewPassword()), dto.getNickname());
     }
 
 
@@ -67,10 +67,10 @@ public class UserService {
 
     @Transactional
     public boolean delete(long id, String nowPassword) {
-        User user = userRepository.findById(id).get();
+        Member member = memberRepository.findById(id).get();
 
-        if (encoder.matches(nowPassword, user.getPassword())) {
-            userRepository.delete(user);
+        if (encoder.matches(nowPassword, member.getPassword())) {
+            memberRepository.delete(member);
             return true;
         }
 
@@ -81,13 +81,13 @@ public class UserService {
     /* VALIDATION */
 
     // 회원가입 요청 DTO 검사
-    public BindingResult validateJoin(UserJoinRequestDto dto, BindingResult bindingResult) {
+    public BindingResult validateJoin(MemberJoinRequestDto dto, BindingResult bindingResult) {
         // loginId
         if (dto.getLoginId().isEmpty())
             bindingResult.addError(new FieldError("requestDto", "loginId", NO_LOGIN_ID_ERROR));
         else if (dto.getLoginId().length() < MAX_LOGIN_ID_LENGTH)
             bindingResult.addError(new FieldError("requestDto", "loginId", TOO_LONG_LOGIN_ID_ERROR));
-        else if (userRepository.existsByLoginId(dto.getLoginId()))
+        else if (memberRepository.existsByLoginId(dto.getLoginId()))
             bindingResult.addError(new FieldError("requestDto", "loginId", DUPLICATE_LOGIN_ID_ERROR));
 
         // password
@@ -108,13 +108,13 @@ public class UserService {
     }
 
     // 회원 정보 수정 요청 DTO 검사
-    public BindingResult validateEdit(UserDto dto, BindingResult bindingResult, long id) {
-        User user = userRepository.findById(id).get();
+    public BindingResult validateEdit(MemberDto dto, BindingResult bindingResult, long id) {
+        Member member = memberRepository.findById(id).get();
 
         // nowPassword
         if (dto.getNowPassword().isEmpty())
             bindingResult.addError(new FieldError("dto", "nowPassword", NO_NOW_PASSWORD));
-        else if (!encoder.matches(dto.getNowPassword(), user.getPassword()))
+        else if (!encoder.matches(dto.getNowPassword(), member.getPassword()))
             bindingResult.addError(new FieldError("dto", "nowPassword", NOT_EQUAL_PASSWORD_ERROR));
 
         // newPassword

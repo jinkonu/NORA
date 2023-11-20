@@ -1,14 +1,14 @@
 package nora.movlog.service.user;
 
 import lombok.RequiredArgsConstructor;
+import nora.movlog.domain.user.Member;
 import nora.movlog.domain.user.Post;
-import nora.movlog.domain.user.User;
 import nora.movlog.dto.user.PostCreateRequestDto;
 import nora.movlog.dto.user.PostDto;
 import nora.movlog.repository.user.CommentRepository;
 import nora.movlog.repository.user.LikesRepository;
 import nora.movlog.repository.user.PostRepository;
-import nora.movlog.repository.user.UserRepository;
+import nora.movlog.repository.user.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 public class PostService {
     private final PostRepository postRepository;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
     private final LikesRepository likesRepository;
 
@@ -28,10 +28,10 @@ public class PostService {
 
     @Transactional
     public Long write(String body, long userId) {
-        User user = userRepository.findById(userId).get();
+        Member member = memberRepository.findById(userId).get();
         Post savedPost = postRepository.save(PostCreateRequestDto
                 .builder().body(body).build()
-                .toEntity(user));
+                .toEntity(member));
 
         return savedPost.getId();
     }

@@ -71,6 +71,11 @@ public class StringConstant {
     public static final String US_FIFTEEN_2 = "NC-17";
 
 
+    // MOVIE CONTROLLER
+    public static final String DEFAULT_SEARCH_PAGE = "0";
+    public static final String DEFAULT_SEARCH_SIZE = "5";
+
+
     // USER
     public static final String NO_LOGIN_ID_ERROR = "아이디가 비어있습니다.";
     public static final String TOO_LONG_LOGIN_ID_ERROR = "아이디 길이가 " + MAX_LOGIN_ID_LENGTH + "자를 넘습니다.";

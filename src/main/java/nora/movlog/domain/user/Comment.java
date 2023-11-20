@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -24,7 +22,7 @@ public class Comment {
 
     /* 연관관계 */
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;

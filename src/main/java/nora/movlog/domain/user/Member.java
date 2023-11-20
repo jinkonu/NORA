@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @Getter
 @Entity
-public class User {
+public class Member {
     /* DB id */
     @Id @GeneratedValue
     private long id;
@@ -29,13 +29,13 @@ public class User {
     private LocalDateTime createdAt;
 
     /* 연관관계 */
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<Post> posts;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<Likes> likes;
 
     /* 도메인 로직 */

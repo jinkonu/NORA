@@ -18,7 +18,7 @@ public class PostDto {
     /* Movie */
     private String movieId;
 
-    /* User */
+    /* Member */
     private String userLoginId;
     private String userNickName;
 
@@ -32,8 +32,8 @@ public class PostDto {
                 .createdAt(post.getCreatedAt())
                 .lastModifiedAt(post.getLastModifiedAt())
                 .movieId(post.getMovie().getId())
-                .userLoginId(post.getUser().getLoginId())
-                .userNickName(post.getUser().getNickname())
+                .userLoginId(post.getMember().getLoginId())
+                .userNickName(post.getMember().getNickname())
                 .likeCnt(post.getLikes().size())
                 .build();
     }
