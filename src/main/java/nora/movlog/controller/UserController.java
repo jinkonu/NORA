@@ -47,6 +47,8 @@ public class UserController {
     // 로그인 페이지
     @GetMapping("/login")
     public String loginPage() {
+        log.info("LOGIN PAGE ENTERED");
+
         return "loginPage";
     }
 
@@ -57,12 +59,22 @@ public class UserController {
     // 게시물 생성
     @GetMapping("/{id}/post")
     public String postPage() {
+        MemberJoinRequestDto dto = new MemberJoinRequestDto();
+        dto.setLoginId("hello");
+        dto.setPassword("bye");
+        dto.setPasswordCheck("bye");
+        dto.setNickname("beatles");
+
+        memberService.join(dto);
+
         return "writePost";
     }
 
     @PostMapping("/{id}/post")
-    public String writePost(@PathVariable long id, @RequestParam("post") String post) {
-        postService.write(post, id);
+    public String writePost(@PathVariable long id,
+                            @RequestParam("post") String body,
+                            @RequestParam("movieId") String movieId) {
+        postService.write(body, movieId, id);
 
         return "redirect:/member" + id;
     }

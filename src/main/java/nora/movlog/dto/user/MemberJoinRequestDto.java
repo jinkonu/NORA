@@ -1,11 +1,11 @@
 package nora.movlog.dto.user;
 
-import lombok.Getter;
+import lombok.Data;
 import nora.movlog.domain.user.Member;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Data
 public class MemberJoinRequestDto {
     private String loginId;
     private String password;

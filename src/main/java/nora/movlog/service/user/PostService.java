@@ -5,6 +5,7 @@ import nora.movlog.domain.user.Member;
 import nora.movlog.domain.user.Post;
 import nora.movlog.dto.user.PostCreateRequestDto;
 import nora.movlog.dto.user.PostDto;
+import nora.movlog.repository.movie.interfaces.MovieRepository;
 import nora.movlog.repository.user.CommentRepository;
 import nora.movlog.repository.user.LikesRepository;
 import nora.movlog.repository.user.PostRepository;
@@ -21,26 +22,29 @@ public class PostService {
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
     private final LikesRepository likesRepository;
+    private final MovieRepository movieRepository;
 
 
 
     /* CREATE */
 
     @Transactional
-    public Long write(String body, long userId) {
+    public long write(String body, String movieId, long userId) {
         Member member = memberRepository.findById(userId).get();
-        Post savedPost = postRepository.save(PostCreateRequestDto
-                .builder().body(body).build()
+        Post post = postRepository.save(PostCreateRequestDto.builder()
+                .body(body)
+                .movie(movieRepository.findById(movieId).get())
+                .build()
                 .toEntity(member));
 
-        return savedPost.getId();
+        return post.getId();
     }
 
 
 
     /* READ */
-    public PostDto findOne(Long boardId) {
-        return postRepository.findById(boardId)
+    public PostDto findOne(Long postId) {
+        return postRepository.findById(postId)
                 .map(PostDto::of)
                 .orElseGet(() -> null);
     }

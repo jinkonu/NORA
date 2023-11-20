@@ -43,6 +43,10 @@ public class MemberService {
         return memberRepository.findById(id).get();
     }
 
+    public Member findByLoginId(String loginId) {
+        return memberRepository.findByLoginId(loginId).get();
+    }
+
     public Page<Member> findAllByNickname(String query, PageRequest pageRequest) {
         return memberRepository.findAllByNicknameContains(query, pageRequest);
     }
