@@ -26,10 +26,13 @@ public class PostService {
 
 
     /* CREATE */
+
     @Transactional
-    public Long writePost(PostCreateRequestDto requestDto, long userId) throws IOException {
+    public Long writePost(String body, long userId) {
         User user = userRepository.findById(userId).get();
-        Post savedPost = postRepository.save(requestDto.toEntity(user));
+        Post savedPost = postRepository.save(PostCreateRequestDto
+                .builder().body(body).build()
+                .toEntity(user));
 
         return savedPost.getId();
     }

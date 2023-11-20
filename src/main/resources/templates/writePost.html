@@ -17,6 +17,7 @@
         var form = document.createElement("form");
         form.setAttribute("method", "post");
         form.setAttribute("action", "/{id}/post");
+      form.setAttribute("enctype", "multipart/form-data"); // 백엔드에서 게시물 데이터를 받기 위해 추가. 건우
 
         var textarea = document.createElement("textarea");
         textarea.setAttribute("id", "post");
