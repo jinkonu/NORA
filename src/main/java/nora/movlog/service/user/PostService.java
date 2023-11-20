@@ -12,7 +12,6 @@ import nora.movlog.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -28,7 +27,7 @@ public class PostService {
     /* CREATE */
 
     @Transactional
-    public Long writePost(String body, long userId) {
+    public Long write(String body, long userId) {
         User user = userRepository.findById(userId).get();
         Post savedPost = postRepository.save(PostCreateRequestDto
                 .builder().body(body).build()
