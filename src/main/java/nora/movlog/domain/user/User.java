@@ -20,7 +20,7 @@ import java.util.List;
 public class User {
     /* DB id */
     @Id @GeneratedValue
-    private Long id;
+    private long id;
 
     /* 회원 데이터 */
     private String loginId;
