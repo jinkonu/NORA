@@ -30,8 +30,9 @@ public class MovieService {
 
 
     /* CREATE */
+    /* READ */
 
-    // 현재까지 영화 제목 기반으로만 검색 -> 1차적으로 DB 검색 -> 없거나 부족하면 KOBIS API에 질의
+    // 현재까지 영화 제목 기반으로만 검색 -> 1차적으로 DB 검색 -> 없거나 부족하면 TMDB API에 질의해서 채움
     @Transactional
     public List<Movie> search(String searchDt) {
         List<Movie> dbMovieList = new ArrayList<>(movieRepository.findAllByTitleKoContains(searchDt));
