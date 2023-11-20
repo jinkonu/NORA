@@ -28,7 +28,7 @@ public class Post extends BaseEntity {
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Member member;
 
     @OneToMany(mappedBy = "post", orphanRemoval = true)
     private List<Comment> comments;

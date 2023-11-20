@@ -26,11 +26,11 @@ public class ActorService {
             if (actor.isPresent())
                 actors.add(actor.get());
             else {
-                actorRepository.save(Actor.builder()
+                Actor savedActor = actorRepository.save(Actor.builder()
                         .id(id)
                         .name(ids.get(id))
                         .build());
-                actors.add(actorRepository.findById(id).get());
+                actors.add(savedActor);
             }
         }
 

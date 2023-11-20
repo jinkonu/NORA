@@ -10,6 +10,7 @@ public class NumberConstant {
 
 
     // TMDB API
+    public static final double DEFAULT_POPULARITY = 0.0;
     public static final double LEAST_POPULARITY = 6.416;
     public static final int DEFAULT_PAGE = 1;
 
@@ -20,4 +21,13 @@ public class NumberConstant {
 
     // JSON_NODE MAPPING PARAMETERS
     public static final int YEAR_SIZE = 4;
+
+
+    // USER
+    public static final int MAX_LOGIN_ID_LENGTH = 10;
+    public static final int MAX_NICKNAME_LENGTH = 10;
+
+
+    // POST
+    public static final int DEFAULT_LIKE_CNT = 0;
 }

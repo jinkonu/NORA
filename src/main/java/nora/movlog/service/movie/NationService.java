@@ -24,10 +24,10 @@ public class NationService {
 
             if (nation.isPresent()) nations.add(nation.get());
             else {
-                nationRepository.save(Nation.builder()
+                Nation savedNation = nationRepository.save(Nation.builder()
                         .id(id)
                         .build());
-                nations.add(nationRepository.findById(id).get());
+                nations.add(savedNation);
             }
         }
 

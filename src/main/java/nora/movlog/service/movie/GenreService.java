@@ -22,13 +22,14 @@ public class GenreService {
 
         for (Integer id : ids.keySet()) {
             Optional<Genre> genre = genreRepository.findById(id);
+
             if (genre.isPresent()) genres.add(genre.get());
             else {
-                genreRepository.save(Genre.builder()
+                Genre savedGenre = genreRepository.save(Genre.builder()
                         .id(id)
                         .name(ids.get(id))
                         .build());
-                genres.add(genreRepository.findById(id).get());
+                genres.add(savedGenre);
             }
         }
 

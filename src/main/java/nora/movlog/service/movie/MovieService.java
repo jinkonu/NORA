@@ -5,6 +5,7 @@ import nora.movlog.domain.movie.Movie;
 import nora.movlog.dto.movie.MovieTmdbDto;
 import nora.movlog.repository.movie.MovieTmdbApiRepository;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,29 +32,29 @@ public class MovieService {
 
     /* CREATE */
 
-    // 현재까지 영화 제목 기반으로만 검색 -> 1차적으로 DB 검색 -> 없거나 부족하면 KOBIS API에 질의
-    @Transactional
-    public List<Movie> search(String searchDt) {
-        List<Movie> dbMovieList = new ArrayList<>(movieRepository.findAllByTitleKoContains(searchDt));
 
-        if (dbMovieList.size() < MIN_SEARCH_LIST_SIZE) {
-            List<MovieTmdbDto> tmdbDtos = movieTmdbApiRepository.findByQuery(searchDt);
-
-            for (MovieTmdbDto dto : tmdbDtos)
-                if (findOne(dto.getId()) == null) {
-                    Movie movie = createFromTmdbDto(dto);
-                    dbMovieList.add(movie);
-                    join(movie);
-                }
-        }
-
-        return dbMovieList;
-    }
 
     // DB에 신규 영화 저장
     @Transactional
     public void join(Movie movie) {
         movieRepository.save(movie);
+    }
+
+    @Transactional
+    public void joinAll(List<Movie> movies) {
+        movieRepository.saveAll(movies);
+    }
+
+    @Transactional
+    public List<Movie> findAndJoinFromTmdb(String query, int dbMoviesSize) {
+        List<Movie> movies = new ArrayList<>();
+
+        for (MovieTmdbDto dto : movieTmdbApiRepository.findByQuery(query, dbMoviesSize))
+            if (findOne(dto.getId()) == null)
+                movies.add(createFromTmdbDto(dto));
+
+        joinAll(movies);
+        return movies;
     }
 
     // MovieTmdbDto로부터 Movie 객체 생성
@@ -74,6 +75,21 @@ public class MovieService {
 
 
     /* READ */
+
+    // 문자열 기반 검색
+    //  -> 1차적으로 DB 검색
+    //  -> 없거나 부족하면 findFromTmdb()
+    @Transactional
+    public List<Movie> search(String query, int pageNumber, int pageSize) {
+        List<Movie> movies = new ArrayList<>(movieRepository.findAllByTitleKoContains(query, PageRequest.of(pageNumber, pageSize))
+                .stream().toList());
+
+        if (movies.size() < MIN_SEARCH_LIST_SIZE)
+            movies.addAll(findAndJoinFromTmdb(query, movies.size()));
+
+        movies.sort(Comparator.comparingDouble(Movie::getPopularity).reversed());
+        return movies;
+    }
 
     // DB ID 기반 조회
     @Transactional( readOnly = true )

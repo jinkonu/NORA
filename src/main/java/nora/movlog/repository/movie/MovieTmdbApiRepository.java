@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,11 +34,11 @@ public class MovieTmdbApiRepository {
     }
 
     // 문자열 기반으로 TMDB API에 질의해서 dto 제공
-    public List<MovieTmdbDto> findByQuery(String query) {
+    public List<MovieTmdbDto> findByQuery(String query, int dbMoviesSize) {
         List<String> ids = filterPopularity(mapJsonNode(TMDB_SEARCH_BY_QUERY_PATH, NO_ARGS, query).get(JSON_NODE_RESULTS));
 
         return ids.stream()
-                .limit(MAX_SEARCH_LIST_SIZE)
+                .limit(MAX_SEARCH_LIST_SIZE - dbMoviesSize)
                 .map(this::findById)
                 .collect(Collectors.toList());
     }
@@ -47,7 +48,7 @@ public class MovieTmdbApiRepository {
         List<String> ids = new ArrayList<>();
 
         for (JsonNode node : results)
-            if (parseDouble(node.get(JSON_NODE_POPULARITY).asText()) > LEAST_POPULARITY)
+            if (node.get(JSON_NODE_POPULARITY).asDouble(DEFAULT_POPULARITY) > LEAST_POPULARITY)
                 ids.add(node.get(JSON_NODE_ID).asText());
 
         return ids;
