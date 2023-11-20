@@ -20,4 +20,9 @@ public class NumberConstant {
 
     // JSON_NODE MAPPING PARAMETERS
     public static final int YEAR_SIZE = 4;
+
+
+    // USER
+    public static final int MAX_LOGIN_ID_LENGTH = 10;
+    public static final int MAX_NICKNAME_LENGTH = 10;
 }
