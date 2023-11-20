@@ -46,10 +46,10 @@ public class MovieService {
     }
 
     @Transactional
-    public List<Movie> findAndJoinFromTmdb(String query) {
+    public List<Movie> findAndJoinFromTmdb(String query, int dbMoviesSize) {
         List<Movie> movies = new ArrayList<>();
 
-        for (MovieTmdbDto dto : movieTmdbApiRepository.findByQuery(query))
+        for (MovieTmdbDto dto : movieTmdbApiRepository.findByQuery(query, dbMoviesSize))
             if (findOne(dto.getId()) == null)
                 movies.add(createFromTmdbDto(dto));
 
@@ -85,8 +85,9 @@ public class MovieService {
                 .stream().toList());
 
         if (movies.size() < MIN_SEARCH_LIST_SIZE)
-            movies.addAll(findAndJoinFromTmdb(query));
+            movies.addAll(findAndJoinFromTmdb(query, movies.size()));
 
+        movies.sort(Comparator.comparingDouble(Movie::getPopularity).reversed());
         return movies;
     }
 

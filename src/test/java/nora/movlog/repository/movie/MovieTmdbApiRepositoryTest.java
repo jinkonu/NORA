@@ -11,11 +11,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.List;
 
+import static nora.movlog.domain.constant.NumberConstant.*;
 import static nora.movlog.domain.constant.StringConstant.TMDB_SEARCH_BY_ID_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SuppressWarnings("ALL")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class MovieTmdbApiRepositoryTest {
@@ -47,6 +49,14 @@ class MovieTmdbApiRepositoryTest {
         assertThat(dto.getDirectors().get(directorId)).isEqualTo(director);
         assertThat(dto.getActors().get(actorId)).isEqualTo(actor);
         assertThat(dto.getWatchGrade()).isEqualTo(watchGrade);
+    }
+
+    @Test
+    @DisplayName("문자열 기반 tmdb api 검색")
+    void findByQuery_query_기반_tmdb_api_검색() throws IOException {
+        List<MovieTmdbDto> dtos = movieRepository.findByQuery("러브", 0);
+
+        assertThat(dtos.size()).isEqualTo(MAX_SEARCH_LIST_SIZE);
     }
 
     @Test

@@ -48,12 +48,12 @@ public class StringConstant {
     public static final String JSON_NODE_NAME_ORIGINAL = "original_name";
     public static final String JSON_NODE_ORIGINAL_LANGUAGE = "original_language";
     public static final String JSON_NODE_ORIGINAL_LANGUAGE_KO = "ko";
-    public static final String JSON_NODE_RUNTIME = "runtime";
     public static final String JSON_NODE_POPULARITY = "popularity";
     public static final String JSON_NODE_PRODUCTION_COUNTRIES = "production_countries";
     public static final String JSON_NODE_RELEASE_DATE = "release_date";
     public static final String JSON_NODE_RELEASE_DATES = "release_dates";
     public static final String JSON_NODE_RESULTS = "results";
+    public static final String JSON_NODE_RUNTIME = "runtime";
     public static final String JSON_NODE_TITLE = "title";
     public static final String JSON_NODE_TITLE_ORIGINAL = "original_title";
 

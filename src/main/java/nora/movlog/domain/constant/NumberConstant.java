@@ -10,6 +10,7 @@ public class NumberConstant {
 
 
     // TMDB API
+    public static final double DEFAULT_POPULARITY = 0.0;
     public static final double LEAST_POPULARITY = 6.416;
     public static final int DEFAULT_PAGE = 1;
 
