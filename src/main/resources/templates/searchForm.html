@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="right_trending.css">
     <link rel="stylesheet" href="center_body_search.css">
     <title>Search</title>
+
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
     <div class="frame">
@@ -38,7 +40,7 @@
                         </button>
                     </div>
                     <div class="menu_element">
-                        <button class="menu_button" id="search_btn">
+                        <button class="menu_button" id="search_btn" value="search">
                             <div class="menu_icon">
                                 <img src="/icons/MagnifyingGlass.svg" alt="Search"/>
                             </div>
@@ -146,6 +148,7 @@
 
     </div>
 
+    <script src="menu_control.js"></script>
     <script>
         const searchEvent = document.querySelectorAll(".search_input");
         for (let s of searchEvent) {

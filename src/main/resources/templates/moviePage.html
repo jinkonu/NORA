@@ -9,12 +9,15 @@
     <link rel="stylesheet" href="../right_trending.css">
     <link rel="stylesheet" href="../center_body_movie.css">
     <title>MoviePage</title>
+
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
     <div class="frame">
 
         <div class="inner_frame">
     
+            <!-- left menu bar -->
             <div class="left_menubar">
                 <div class="logo_main">
                     <img src="/icons/logo(main).svg" alt="movlog"/>
@@ -38,7 +41,7 @@
                         </button>
                     </div>
                     <div class="menu_element">
-                        <button class="menu_button" id="search_btn">
+                        <button class="menu_button" id="search_btn" value="search">
                             <div class="menu_icon">
                                 <img src="/icons/MagnifyingGlass.svg" alt="Search"/>
                             </div>
@@ -92,8 +95,8 @@
                     </button>
                 </div>
             </div>
-        
-        
+
+            <!-- center body -->
             <div class="center_body">
                 <div id="movie_header">
                     <div class="movie_banner">
@@ -170,8 +173,8 @@
                 </div>
             </div>
         
-        
-            <div class="right_trending">
+            <!-- right trending -->
+            <div class="right_trending" id="right">
                 <div class="right_trending_content">
                     <div class="right_search">
                         <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
@@ -179,11 +182,12 @@
                     </div>
                 </div>
             </div>
-    
+        
         </div>
 
     </div>
 
+    <script src="../menu_control.js"></script>
     <script>
         const searchEvent = document.querySelectorAll(".search_input");
         for (let s of searchEvent) {
@@ -211,7 +215,6 @@
             });
         }
         
-
     </script>
 </body>
 </html>
