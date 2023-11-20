@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+  </style>
+</head>
+
+<body>
+
+<th:block th:if="${result != null}"/>
+  <table>
+    <tr>
+      <th>한국어 제목</th>
+      <th>영어 제목</th>
+      <th>상영 시간</th>
+      <th>제작년도</th>
+      <th>국가</th>
+      <th>장르</th>
+      <th>감독</th>
+      <th>배우</th>
+      <th>상영 등급</th>
+    </tr>
+    <tr th:each="movie : ${movie}">
+      <td th:text="${movie.titleKo}">N/A</td>
+      <td th:text="${movie.titleEn}">N/A</td>
+      <td th:text="${movie.runTime}">N/A</td>
+      <td th:text="${movie.prdtYear}">N/A</td>
+      <td th:each="nation : ${movie.nations}">
+        <span th:text="${nation.id}"></span>
+      </td>
+      <td th:each="genre : ${movie.genre}">
+        <span th:text="${genre.name}"></span>
+      </td>
+      <td th:each="director : ${movie.directors}">
+        <span th:text="${director.name}"></span>
+      </td>
+      <td th:each="actor : ${movie.actors}">
+        <span th:text="${actor.name}"></span>
+      </td>
+      <td th:text="${movie.watchGrade}">N/A</td>
+      
+    </tr>
+  </table>
+
+<ul id="list"></ul>
+
+<script>
+
+</script>
+</body>
+
+</html>
