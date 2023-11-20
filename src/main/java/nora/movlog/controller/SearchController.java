@@ -19,13 +19,13 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @RequestMapping("/search")
-@Controller
 @Slf4j
+@Controller
 public class SearchController {
     private final MovieService movieService;
 
     @GetMapping()
-    public String search(@RequestParam(value = "query", required = false) String query, Model model) throws IOException {
+    public String search(@RequestParam(value = "query", required = false) String query, Model model) {
         // 사용자가 form에 검색어를 submit하면 if 문을 통과하여,
         // 쿼리를 가지고 검색한 후, 그 결과를 List<Movie> 형태로 searchForm.html에 넣어준다.
         if (query != null)
