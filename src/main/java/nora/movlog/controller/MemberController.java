@@ -12,10 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/member")
 @Slf4j
 @Controller
-public class UserController {
+public class MemberController {
     private final MemberService memberService;
     private final PostService postService;
 
@@ -26,7 +26,7 @@ public class UserController {
     // 회원가입 페이지
     @GetMapping("/join")
     public String joinPage(Model model) {
-        model.addAttribute("userJoinRequest", new MemberJoinRequestDto());
+        model.addAttribute("memberJoinRequest", new MemberJoinRequestDto());
 
         return "joinPage";
     }
@@ -39,7 +39,7 @@ public class UserController {
         memberService.join(dto);
 
 //        model.addAttribute("message", "회원가입에 성공했습니다!\n로그인 후 사용 가능합니다!");
-//        model.addAttribute("nextUrl", "/users/login");
+//        model.addAttribute("nextUrl", "/member/login");
         return "redirect:/";
     }
 
@@ -58,14 +58,9 @@ public class UserController {
 
     // 게시물 생성
     @GetMapping("/{id}/post")
-    public String postPage() {
-        MemberJoinRequestDto dto = new MemberJoinRequestDto();
-        dto.setLoginId("hello");
-        dto.setPassword("bye");
-        dto.setPasswordCheck("bye");
-        dto.setNickname("beatles");
-
-        memberService.join(dto);
+    public String postPage(@PathVariable long id,
+                           Model model) {
+        model.addAttribute("id", id);
 
         return "writePost";
     }
@@ -74,8 +69,10 @@ public class UserController {
     public String writePost(@PathVariable long id,
                             @RequestParam("post") String body,
                             @RequestParam("movieId") String movieId) {
-        postService.write(body, movieId, id);
+        log.info("POST WRITTEN");
+        long postId = postService.write(body, movieId, id);
+        log.info("POST WRITTEN - ID : {}", postId);
 
-        return "redirect:/member" + id;
+        return "redirect:/member/" + id;
     }
 }
