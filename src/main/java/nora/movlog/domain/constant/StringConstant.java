@@ -81,4 +81,6 @@ public class StringConstant {
 
     public static final String NO_NICKNAME_ERROR = "닉네임이 비어있습니다.";
     public static final String TOOL_LONG_NICKNAME_ERROR = "닉네임 길이가 " + MAX_NICKNAME_LENGTH + "자를 넘습니다.";
+
+    public static final String NO_NOW_PASSWORD = "현재 비밀번호가 비어있습니다.";
 }

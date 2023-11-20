@@ -37,6 +37,12 @@ public class User {
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<Likes> likes;
+
+    /* 도메인 로직 */
+    public void edit(String password, String nickname) {
+        this.password = password;
+        this.nickname = nickname;
+    }
 }
 
 
