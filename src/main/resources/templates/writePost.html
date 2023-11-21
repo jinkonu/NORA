@@ -18,7 +18,7 @@
         var form = document.createElement("form");
         var id = /*[[${id}]]*/ 'id'; // 서버에서 제공하는 id 값
         form.setAttribute("method", "post");
-        form.setAttribute("action", "/" + id + "/post");
+        form.setAttribute("action", "/member/" + id + "/post");     // 정확한 url 매핑을 위해 수정. 건우
         form.setAttribute("enctype", "multipart/form-data"); // 백엔드에서 게시물 데이터를 받기 위해 추가. 건우
 
         /* 영화 데이터를 게시물과 결합하기 위해 추가. 건우 */
