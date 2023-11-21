@@ -32,14 +32,15 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String joinPage(@Valid @ModelAttribute MemberJoinRequestDto dto, BindingResult bindingResult, Model model) {
+    public String joinPage(@Valid @ModelAttribute MemberJoinRequestDto dto,
+                           BindingResult bindingResult,
+                           Model model) {
+        // 회원가입에 필요한 폼을 양식에 맞게 채우지 못했을 때
         if (memberService.validateJoin(dto, bindingResult).hasErrors())
             return "/member/join";
 
         memberService.join(dto);
 
-//        model.addAttribute("message", "회원가입에 성공했습니다!\n로그인 후 사용 가능합니다!");
-//        model.addAttribute("nextUrl", "/member/login");
         return "redirect:/";
     }
 
@@ -47,11 +48,18 @@ public class MemberController {
     // 로그인 페이지
     @GetMapping("/login")
     public String loginPage() {
-        log.info("LOGIN PAGE ENTERED");
-
         return "loginPage";
     }
 
+
+    // 프로필 페이지
+    @GetMapping("/{id}")
+    public String profilePage(@PathVariable long id,
+                              Model model) {
+        model.addAttribute("member", memberService.profile(id));
+
+        return "userPage";
+    }
 
 
     /* 게시물 */
@@ -69,9 +77,7 @@ public class MemberController {
     public String writePost(@PathVariable long id,
                             @RequestParam("post") String body,
                             @RequestParam("movieId") String movieId) {
-        log.info("POST WRITTEN");
-        long postId = postService.write(body, movieId, id);
-        log.info("POST WRITTEN - ID : {}", postId);
+        postService.write(body, movieId, id);
 
         return "redirect:/member/" + id;
     }
