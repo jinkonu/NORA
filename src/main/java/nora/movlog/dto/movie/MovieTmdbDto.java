@@ -17,6 +17,7 @@ public class MovieTmdbDto {
     private String titleKo;
     private String titleEn;
 
+    private double popularity;
     private String runTime;
     private String prdtYear;
     private Set<String> nation;
@@ -32,6 +33,7 @@ public class MovieTmdbDto {
 
         dto.setId(node.get(JSON_NODE_ID).asText());
         titleMapper(dto, node);
+        dto.setPopularity(node.get(JSON_NODE_POPULARITY).asDouble(DEFAULT_POPULARITY));
         dto.setRunTime(node.get(JSON_NODE_RUNTIME).asText());
         dto.setPrdtYear(prdtYearMapper(node));
         dto.setNation(nationMapper(node));

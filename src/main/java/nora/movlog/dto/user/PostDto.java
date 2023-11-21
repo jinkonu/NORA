@@ -6,6 +6,8 @@ import nora.movlog.domain.user.Post;
 
 import java.time.LocalDateTime;
 
+import static nora.movlog.domain.constant.NumberConstant.*;
+
 @Builder
 @Data
 public class PostDto {
@@ -18,7 +20,7 @@ public class PostDto {
     /* Movie */
     private String movieId;
 
-    /* User */
+    /* Member */
     private String userLoginId;
     private String userNickName;
 
@@ -32,9 +34,9 @@ public class PostDto {
                 .createdAt(post.getCreatedAt())
                 .lastModifiedAt(post.getLastModifiedAt())
                 .movieId(post.getMovie().getId())
-                .userLoginId(post.getUser().getLoginId())
-                .userNickName(post.getUser().getNickname())
-                .likeCnt(post.getLikes().size())
+                .userLoginId(post.getMember().getLoginId())
+                .userNickName(post.getMember().getNickname())
+                .likeCnt(DEFAULT_LIKE_CNT)
                 .build();
     }
 }

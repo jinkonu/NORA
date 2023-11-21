@@ -1,5 +1,7 @@
 package nora.movlog.domain.constant;
 
+import static nora.movlog.domain.constant.NumberConstant.*;
+
 public class StringConstant {
     // COMMON
     public static final String EMPTY = "";
@@ -46,12 +48,12 @@ public class StringConstant {
     public static final String JSON_NODE_NAME_ORIGINAL = "original_name";
     public static final String JSON_NODE_ORIGINAL_LANGUAGE = "original_language";
     public static final String JSON_NODE_ORIGINAL_LANGUAGE_KO = "ko";
-    public static final String JSON_NODE_RUNTIME = "runtime";
     public static final String JSON_NODE_POPULARITY = "popularity";
     public static final String JSON_NODE_PRODUCTION_COUNTRIES = "production_countries";
     public static final String JSON_NODE_RELEASE_DATE = "release_date";
     public static final String JSON_NODE_RELEASE_DATES = "release_dates";
     public static final String JSON_NODE_RESULTS = "results";
+    public static final String JSON_NODE_RUNTIME = "runtime";
     public static final String JSON_NODE_TITLE = "title";
     public static final String JSON_NODE_TITLE_ORIGINAL = "original_title";
 
@@ -67,4 +69,23 @@ public class StringConstant {
     public static final String US_TWELVE_2 = "PG-13";
     public static final String US_FIFTEEN_1 = "R";
     public static final String US_FIFTEEN_2 = "NC-17";
+
+
+    // MOVIE CONTROLLER
+    public static final String DEFAULT_SEARCH_PAGE = "0";
+    public static final String DEFAULT_SEARCH_SIZE = "5";
+
+
+    // USER
+    public static final String NO_LOGIN_ID_ERROR = "아이디가 비어있습니다.";
+    public static final String TOO_LONG_LOGIN_ID_ERROR = "아이디 길이가 " + MAX_LOGIN_ID_LENGTH + "자를 넘습니다.";
+    public static final String DUPLICATE_LOGIN_ID_ERROR = "아이디가 중복됩니다.";
+
+    public static final String NO_PASSWORD_ERROR = "비밀번호가 비어있습니다.";
+    public static final String NOT_EQUAL_PASSWORD_ERROR = "비밀번호가 일치하지 않습니다.";
+
+    public static final String NO_NICKNAME_ERROR = "닉네임이 비어있습니다.";
+    public static final String TOOL_LONG_NICKNAME_ERROR = "닉네임 길이가 " + MAX_NICKNAME_LENGTH + "자를 넘습니다.";
+
+    public static final String NO_NOW_PASSWORD = "현재 비밀번호가 비어있습니다.";
 }
