@@ -5,6 +5,7 @@ import nora.movlog.domain.user.Member;
 import nora.movlog.domain.user.Post;
 import nora.movlog.dto.user.PostCreateRequestDto;
 import nora.movlog.dto.user.PostDto;
+import nora.movlog.dto.user.PostEditDto;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
 import nora.movlog.repository.user.CommentRepository;
 import nora.movlog.repository.user.LikesRepository;
@@ -53,13 +54,13 @@ public class PostService {
 
     /* UPDATE */
     @Transactional
-    public Long editPost(Long postId, PostDto postDto) {
+    public Long edit(Long postId, PostEditDto dto) {
         Optional<Post> optPost = postRepository.findById(postId);
 
         if (optPost.isEmpty()) return null;
 
         Post post = optPost.get();
-        post.update(postDto);
+        post.update(dto);
 
         return postId;
     }
@@ -67,7 +68,7 @@ public class PostService {
 
 
     /* DELETE */
-    public Long deletePost(Long postId) {
+    public Long delete(Long postId) {
         Optional<Post> optPost = postRepository.findById(postId);
 
         if (optPost.isEmpty()) return null;
