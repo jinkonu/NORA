@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nora.movlog.domain.movie.Movie;
-import nora.movlog.dto.user.PostDto;
+import nora.movlog.dto.user.PostEditDto;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class Post extends BaseEntity {
 
 
     /* 메서드 */
-    public void update(PostDto postDto) {
-        this.body = postDto.getBody();
+    public void update(PostEditDto dto) {
+        this.body = dto.getBody();
     }
 }
