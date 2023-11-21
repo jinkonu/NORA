@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
+import static nora.movlog.domain.constant.StringConstant.*;
 
 /*
 "Search" 페이지
@@ -19,17 +19,18 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @RequestMapping("/search")
-@Controller
 @Slf4j
+@Controller
 public class SearchController {
     private final MovieService movieService;
 
     @GetMapping()
-    public String search(@RequestParam(value = "query", required = false) String query, Model model) throws IOException {
-        // 사용자가 form에 검색어를 submit하면 if 문을 통과하여,
-        // 쿼리를 가지고 검색한 후, 그 결과를 List<Movie> 형태로 searchForm.html에 넣어준다.
+    public String search(@RequestParam(value = "query", required = false) String query,
+                         Model model,
+                         @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
+                         @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size) {
         if (query != null)
-            model.addAttribute("result", movieService.search(query));
+            model.addAttribute("result", movieService.search(query, page, size));
 
         return "searchForm";
     }
