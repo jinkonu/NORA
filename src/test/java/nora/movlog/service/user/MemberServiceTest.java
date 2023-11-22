@@ -1,8 +1,8 @@
 package nora.movlog.service.user;
 
 import nora.movlog.domain.user.Member;
-import nora.movlog.dto.user.MemberDto;
-import nora.movlog.dto.user.MemberJoinRequestDto;
+import nora.movlog.utils.dto.user.MemberDto;
+import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

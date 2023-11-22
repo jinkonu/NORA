@@ -1,4 +1,4 @@
-package nora.movlog.dto.user;
+package nora.movlog.utils.dto.user;
 
 import lombok.Builder;
 import lombok.Getter;

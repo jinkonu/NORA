@@ -2,7 +2,7 @@ package nora.movlog.service.movie;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Movie;
-import nora.movlog.dto.movie.MovieTmdbDto;
+import nora.movlog.utils.dto.movie.MovieTmdbDto;
 import nora.movlog.repository.movie.MovieTmdbApiRepository;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
 import org.springframework.data.domain.PageRequest;

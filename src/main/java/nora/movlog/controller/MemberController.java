@@ -3,7 +3,7 @@ package nora.movlog.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nora.movlog.dto.user.MemberJoinRequestDto;
+import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.service.user.PostService;
 import nora.movlog.service.user.MemberService;
 import org.springframework.stereotype.Controller;

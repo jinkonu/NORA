@@ -2,7 +2,7 @@ package nora.movlog.repository.movie;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import nora.movlog.domain.movie.WatchGrade;
-import nora.movlog.dto.movie.MovieTmdbDto;
+import nora.movlog.utils.dto.movie.MovieTmdbDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

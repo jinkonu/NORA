@@ -7,17 +7,15 @@ TMDB API에 쿼리 날리는 리포지토리
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nora.movlog.dto.movie.MovieTmdbDto;
+import nora.movlog.utils.dto.movie.MovieTmdbDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.lang.Double.parseDouble;
 import static nora.movlog.domain.constant.StringConstant.*;
 import static nora.movlog.domain.constant.NumberConstant.*;
 

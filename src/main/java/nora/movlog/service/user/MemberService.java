@@ -2,8 +2,8 @@ package nora.movlog.service.user;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.user.Member;
-import nora.movlog.dto.user.MemberDto;
-import nora.movlog.dto.user.MemberJoinRequestDto;
+import nora.movlog.utils.dto.user.MemberDto;
+import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.repository.user.CommentRepository;
 import nora.movlog.repository.user.LikesRepository;
 import nora.movlog.repository.user.MemberRepository;

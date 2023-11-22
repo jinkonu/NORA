@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nora.movlog.domain.movie.Movie;
-import nora.movlog.dto.user.PostEditDto;
+import nora.movlog.utils.dto.user.PostEditDto;
 
 import java.util.List;
 
