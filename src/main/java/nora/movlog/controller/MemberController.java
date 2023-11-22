@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.service.user.PostService;
 import nora.movlog.service.user.MemberService;
+import nora.movlog.utils.validators.MemberValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
     private final PostService postService;
+
+    private final MemberValidator memberValidator;
 
 
 
@@ -36,7 +39,7 @@ public class MemberController {
                            BindingResult bindingResult,
                            Model model) {
         // 회원가입에 필요한 폼을 양식에 맞게 채우지 못했을 때
-        if (memberService.validateJoin(dto, bindingResult).hasErrors())
+        if (memberValidator.validateJoin(dto, bindingResult).hasErrors())
             return "/member/join";
 
         memberService.join(dto);
