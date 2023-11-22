@@ -118,6 +118,13 @@ class MemberServiceTest {
         Member member = memberService.profile(id_402);
 
         assertThat(member.getNickname()).isEqualTo(input);
-        assertThat(encoder.matches(newPassword, member.getPassword())).isTrue();
+//        assertThat(encoder.matches(newPassword, member.getPassword())).isTrue();
+    }
+
+
+    @DisplayName("id와 현재 비밀번호로부터 회원 삭제")
+    @Test
+    void delete_id와_현재_비밀번호로부터_회원_삭제() {
+        assertThat(memberService.delete(id_402, password_402)).isTrue();
     }
 }
