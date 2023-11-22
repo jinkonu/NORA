@@ -1,6 +1,7 @@
 package nora.movlog.service.user;
 
 import lombok.RequiredArgsConstructor;
+import nora.movlog.domain.movie.Movie;
 import nora.movlog.domain.user.Member;
 import nora.movlog.domain.user.Post;
 import nora.movlog.utils.dto.user.PostCreateRequestDto;
@@ -21,6 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class PostService {
+
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
@@ -30,15 +32,15 @@ public class PostService {
 
 
     /* CREATE */
-
     @Transactional
     public long write(String body, String movieId, long userId) {
         Member member = memberRepository.findById(userId).get();
+        Movie movie = movieRepository.findById(movieId).get();
+
         Post post = postRepository.save(PostCreateRequestDto.builder()
                 .body(body)
-                .movie(movieRepository.findById(movieId).get())
                 .build()
-                .toEntity(member));
+                .toEntity(member, movie));
 
         return post.getId();
     }
@@ -53,7 +55,7 @@ public class PostService {
     }
 
 
-    public List<PostDto> findAllFromOneUser(long memberId, int page, int size) {
+    public List<PostDto> findAllFromMember(long memberId, int page, int size) {
         return postRepository.findAllByMemberId(memberId, PageRequest.of(page, size)).stream()
                 .map(PostDto::of)
                 .toList();
@@ -68,9 +70,7 @@ public class PostService {
 
         if (optPost.isEmpty()) return null;
 
-        Post post = optPost.get();
-        post.update(dto);
-
+        optPost.get().update(dto);
         return postId;
     }
 

@@ -7,6 +7,4 @@ import lombok.Getter;
 @Builder
 public class PostEditDto {
     private String body;
-
-
 }

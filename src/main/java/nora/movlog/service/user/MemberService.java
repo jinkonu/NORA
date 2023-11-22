@@ -7,7 +7,6 @@ import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.repository.user.CommentRepository;
 import nora.movlog.repository.user.LikesRepository;
 import nora.movlog.repository.user.MemberRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

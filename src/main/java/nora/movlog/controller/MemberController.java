@@ -3,13 +3,10 @@ package nora.movlog.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nora.movlog.domain.constant.NumberConstant;
-import nora.movlog.domain.constant.StringConstant;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.service.user.PostService;
 import nora.movlog.service.user.MemberService;
 import nora.movlog.utils.validators.MemberValidator;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -66,7 +63,7 @@ public class MemberController {
                               @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
                               Model model) {
         model.addAttribute("member", memberService.profile(id));
-        model.addAttribute("posts", postService.findAllFromOneUser(id, page, size));
+        model.addAttribute("posts", postService.findAllFromMember(id, page, size));
 
         return "userPage";
     }

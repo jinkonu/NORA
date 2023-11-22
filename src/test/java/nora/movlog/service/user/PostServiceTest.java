@@ -12,7 +12,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,7 +72,7 @@ class PostServiceTest {
         IntStream.range(0, 10)
                 .forEach(i -> postService.write(body, "275", member.getId()));
 
-        List<PostDto> posts = postService.findAllFromOneUser(member.getId(), 0, 10);
+        List<PostDto> posts = postService.findAllFromMember(member.getId(), 0, 10);
 
         assertThat(posts.size()).isEqualTo(10);
         IntStream.range(0, 10)
