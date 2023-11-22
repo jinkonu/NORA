@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import nora.movlog.utils.dto.user.CommentEditDto;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,4 +27,10 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
+
+
+    /* 메서드 */
+    public void update(CommentEditDto dto) {
+        this.body = dto.getBody();
+    }
 }
