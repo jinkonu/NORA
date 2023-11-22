@@ -43,10 +43,10 @@ public class Member {
             joinColumns = @JoinColumn(name = "follower_id"),
             inverseJoinColumns = @JoinColumn(name = "following_id")
     )
-    private Set<Member> followings = new HashSet<>();
+    private Set<Member> followings;
 
     @ManyToMany(mappedBy = "followings")
-    private Set<Member> followers = new HashSet<>();
+    private Set<Member> followers;
 
     /* 도메인 로직 */
     public void edit(String password, String nickname) {
