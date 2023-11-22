@@ -53,8 +53,8 @@ public class PostService {
     }
 
 
-    public List<PostDto> findAllFromOneUser(long memberId, PageRequest pageRequest) {
-        return postRepository.findAllByMemberId(memberId, pageRequest).stream()
+    public List<PostDto> findAllFromOneUser(long memberId, int page, int size) {
+        return postRepository.findAllByMemberId(memberId, PageRequest.of(page, size)).stream()
                 .map(PostDto::of)
                 .toList();
     }

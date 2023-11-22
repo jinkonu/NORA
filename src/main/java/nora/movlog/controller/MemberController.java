@@ -3,14 +3,19 @@ package nora.movlog.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nora.movlog.domain.constant.NumberConstant;
+import nora.movlog.domain.constant.StringConstant;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.service.user.PostService;
 import nora.movlog.service.user.MemberService;
 import nora.movlog.utils.validators.MemberValidator;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import static nora.movlog.domain.constant.StringConstant.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -38,7 +43,6 @@ public class MemberController {
     public String joinPage(@Valid @ModelAttribute MemberJoinRequestDto dto,
                            BindingResult bindingResult,
                            Model model) {
-        // 회원가입에 필요한 폼을 양식에 맞게 채우지 못했을 때
         if (memberValidator.validateJoin(dto, bindingResult).hasErrors())
             return "/member/join";
 
@@ -58,8 +62,11 @@ public class MemberController {
     // 프로필 페이지
     @GetMapping("/{id}")
     public String profilePage(@PathVariable long id,
+                              @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
+                              @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
                               Model model) {
         model.addAttribute("member", memberService.profile(id));
+        model.addAttribute("posts", postService.findAllFromOneUser(id, page, size));
 
         return "userPage";
     }
