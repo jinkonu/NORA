@@ -11,9 +11,11 @@ import nora.movlog.repository.user.CommentRepository;
 import nora.movlog.repository.user.LikesRepository;
 import nora.movlog.repository.user.PostRepository;
 import nora.movlog.repository.user.MemberRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -51,10 +53,17 @@ public class PostService {
     }
 
 
+    public List<PostDto> findAllFromOneUser(long memberId, PageRequest pageRequest) {
+        return postRepository.findAllByMemberId(memberId, pageRequest).stream()
+                .map(PostDto::of)
+                .toList();
+    }
+
+
 
     /* UPDATE */
     @Transactional
-    public Long edit(Long postId, PostEditDto dto) {
+    public Long edit(long postId, PostEditDto dto) {
         Optional<Post> optPost = postRepository.findById(postId);
 
         if (optPost.isEmpty()) return null;
@@ -68,7 +77,7 @@ public class PostService {
 
 
     /* DELETE */
-    public Long delete(Long postId) {
+    public Long delete(long postId) {
         Optional<Post> optPost = postRepository.findById(postId);
 
         if (optPost.isEmpty()) return null;

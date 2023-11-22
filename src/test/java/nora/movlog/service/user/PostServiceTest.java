@@ -2,6 +2,7 @@ package nora.movlog.service.user;
 
 import nora.movlog.domain.user.Member;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
+import nora.movlog.utils.dto.user.PostDto;
 import nora.movlog.utils.dto.user.PostEditDto;
 import nora.movlog.service.movie.MovieService;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,12 +12,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SuppressWarnings("ALL")
 @Transactional
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -54,6 +60,24 @@ class PostServiceTest {
         long postId = postService.write(body, "275", member.getId());
 
         assertThat(postService.findOne(postId).getBody()).isEqualTo(body);
+    }
+
+
+    @DisplayName("회원과 연관된 게시물들 조회")
+    @Rollback
+    @ValueSource(strings = "hello world!")
+    @ParameterizedTest
+    void write_and_findAllFromOneUser(String body) {
+        Member member = memberService.findByLoginId(loginId);
+
+        IntStream.range(0, 10)
+                .forEach(i -> postService.write(body, "275", member.getId()));
+
+        List<PostDto> posts = postService.findAllFromOneUser(member.getId(), PageRequest.of(0, 10));
+
+        assertThat(posts.size()).isEqualTo(10);
+        IntStream.range(0, 10)
+                .forEach(i -> assertThat(posts.get(i).getBody()).isEqualTo(body));
     }
 
 
