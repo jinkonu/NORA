@@ -3,13 +3,16 @@ package nora.movlog.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nora.movlog.dto.user.MemberJoinRequestDto;
+import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.service.user.PostService;
 import nora.movlog.service.user.MemberService;
+import nora.movlog.utils.validators.MemberValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import static nora.movlog.domain.constant.StringConstant.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
     private final PostService postService;
+
+    private final MemberValidator memberValidator;
 
 
 
@@ -32,14 +37,14 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String joinPage(@Valid @ModelAttribute MemberJoinRequestDto dto, BindingResult bindingResult, Model model) {
-        if (memberService.validateJoin(dto, bindingResult).hasErrors())
+    public String joinPage(@Valid @ModelAttribute MemberJoinRequestDto dto,
+                           BindingResult bindingResult,
+                           Model model) {
+        if (memberValidator.validateJoin(dto, bindingResult).hasErrors())
             return "/member/join";
 
         memberService.join(dto);
 
-//        model.addAttribute("message", "회원가입에 성공했습니다!\n로그인 후 사용 가능합니다!");
-//        model.addAttribute("nextUrl", "/member/login");
         return "redirect:/";
     }
 
@@ -47,11 +52,21 @@ public class MemberController {
     // 로그인 페이지
     @GetMapping("/login")
     public String loginPage() {
-        log.info("LOGIN PAGE ENTERED");
-
         return "loginPage";
     }
 
+
+    // 프로필 페이지
+    @GetMapping("/{id}")
+    public String profilePage(@PathVariable long id,
+                              @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
+                              @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
+                              Model model) {
+        model.addAttribute("member", memberService.profile(id));
+        model.addAttribute("posts", postService.findAllFromMember(id, page, size));
+
+        return "userPage";
+    }
 
 
     /* 게시물 */
@@ -69,9 +84,7 @@ public class MemberController {
     public String writePost(@PathVariable long id,
                             @RequestParam("post") String body,
                             @RequestParam("movieId") String movieId) {
-        log.info("POST WRITTEN");
-        long postId = postService.write(body, movieId, id);
-        log.info("POST WRITTEN - ID : {}", postId);
+        postService.write(body, movieId, id);
 
         return "redirect:/member/" + id;
     }

@@ -1,4 +1,4 @@
-package nora.movlog.dto.user;
+package nora.movlog.utils.dto.user;
 
 import lombok.Builder;
 import lombok.Data;
@@ -21,8 +21,8 @@ public class PostDto {
     private String movieId;
 
     /* Member */
-    private String userLoginId;
-    private String userNickName;
+    private long memberId;
+    private String memberNickname;
 
     /* Like */
     private Integer likeCnt;
@@ -31,12 +31,12 @@ public class PostDto {
         return PostDto.builder()
                 .id(post.getId())
                 .body(post.getBody())
+                .movieId(post.getMovie().getId())
+                .memberId(post.getMember().getId())
+                .memberNickname(post.getMember().getNickname())
+                .likeCnt(DEFAULT_LIKE_CNT)
                 .createdAt(post.getCreatedAt())
                 .lastModifiedAt(post.getLastModifiedAt())
-                .movieId(post.getMovie().getId())
-                .userLoginId(post.getMember().getLoginId())
-                .userNickName(post.getMember().getNickname())
-                .likeCnt(DEFAULT_LIKE_CNT)
                 .build();
     }
 }

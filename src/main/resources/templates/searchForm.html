@@ -9,12 +9,15 @@
     <link rel="stylesheet" href="right_trending.css">
     <link rel="stylesheet" href="center_body_search.css">
     <title>Search</title>
+
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
     <div class="frame">
 
         <div class="inner_frame">
-    
+
+            <!-- left menu bar -->
             <div class="left_menubar">
                 <div class="logo_main">
                     <img src="/icons/logo(main).svg" alt="movlog"/>
@@ -38,7 +41,7 @@
                         </button>
                     </div>
                     <div class="menu_element">
-                        <button class="menu_button" id="search_btn">
+                        <button class="menu_button" id="search_btn" value="search">
                             <div class="menu_icon">
                                 <img src="/icons/MagnifyingGlass.svg" alt="Search"/>
                             </div>
@@ -93,7 +96,7 @@
                 </div>
             </div>
         
-        
+            <!-- center body -->
             <div class="center_body">
                 <div id="search_header">
                     <div class="right_search">
@@ -132,7 +135,7 @@
                 </div>
             </div>
         
-        
+            <!-- right trending -->
             <div class="right_trending">
                 <div class="right_trending_content">
                     <div class="right_search">
@@ -144,8 +147,10 @@
     
         </div>
 
+        <!-- test -->
     </div>
 
+    <script src="menu_control.js"></script>
     <script>
         const searchEvent = document.querySelectorAll(".search_input");
         for (let s of searchEvent) {
