@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Set;
+
 @RequiredArgsConstructor
 @Service
 public class MemberService {
@@ -30,6 +33,14 @@ public class MemberService {
         memberRepository.save(requestDto.toEntity(encoder.encode(requestDto.getPassword())));
     }
 
+    @Transactional
+    public void follow(long followingId, long followerId) {
+        Member following = memberRepository.findById(followingId).get();
+        Member follower = memberRepository.findById(followerId).get();
+
+        following.follow(follower);
+    }
+
 
 
     /* READ */
@@ -42,8 +53,19 @@ public class MemberService {
         return memberRepository.findByLoginId(loginId).get();
     }
 
-    public Page<Member> findAllByNickname(String query, PageRequest pageRequest) {
-        return memberRepository.findAllByNicknameContains(query, pageRequest);
+    public List<Member> findAllByNickname(String query, PageRequest pageRequest) {
+        return memberRepository.findAllByNicknameContains(query, pageRequest).stream()
+                .toList();
+    }
+
+    public Set<Member> findAllFollowings(long id) {
+        return memberRepository.findById(id).get()
+                .getFollowings();
+    }
+
+    public Set<Member> findAllFollowers(long id) {
+        return memberRepository.findById(id).get()
+                .getFollowers();
     }
 
 

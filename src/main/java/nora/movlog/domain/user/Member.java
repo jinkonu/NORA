@@ -1,16 +1,15 @@
 package nora.movlog.domain.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,10 +37,25 @@ public class Member {
     @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<Likes> likes;
 
+    @ManyToMany
+    @JoinTable(
+            name = "follow",
+            joinColumns = @JoinColumn(name = "follower_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id")
+    )
+    private Set<Member> followings = new HashSet<>();
+
+    @ManyToMany(mappedBy = "followings")
+    private Set<Member> followers = new HashSet<>();
+
     /* 도메인 로직 */
     public void edit(String password, String nickname) {
         this.password = password;
         this.nickname = nickname;
+    }
+
+    public void follow(Member follower) {
+        this.followings.add(follower);
     }
 }
 

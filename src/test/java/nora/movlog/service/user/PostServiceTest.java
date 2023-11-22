@@ -73,7 +73,7 @@ class PostServiceTest {
         IntStream.range(0, 10)
                 .forEach(i -> postService.write(body, "275", member.getId()));
 
-        List<PostDto> posts = postService.findAllFromOneUser(member.getId(), PageRequest.of(0, 10));
+        List<PostDto> posts = postService.findAllFromOneUser(member.getId(), 0, 10);
 
         assertThat(posts.size()).isEqualTo(10);
         IntStream.range(0, 10)

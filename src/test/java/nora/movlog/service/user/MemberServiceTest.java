@@ -18,6 +18,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("ALL")
@@ -34,6 +36,8 @@ class MemberServiceTest {
     private static final String loginId_402 = "hello";
     private static final String nickname_402 = "beatles";
     private static final String password_402 = "bye";
+
+    private static final long id_1802 = 1802;
 
     @Autowired
     MemberService memberService;
@@ -53,16 +57,28 @@ class MemberServiceTest {
     }
 
     @DisplayName("회원가입 요청 dto로부터 회원 등록")
-    @Rollback()
+    @Rollback
     @Test
     void join_회원가입_요청_dto로부터_회원_등록() {
         MemberJoinRequestDto dto = new MemberJoinRequestDto();
         dto.setLoginId("hello2");
         dto.setPassword("bye");
         dto.setPasswordCheck("bye");
-        dto.setNickname("beatles");
+        dto.setNickname("beachBoys");
 
         memberService.join(dto);
+    }
+
+
+    @DisplayName("다른 회원을 팔로우에 추가")
+    @Test
+    void follow_다른_회원을_팔로우에_추가() {
+        Member followingMember = memberService.profile(id_402);
+        Member followerMember = memberService.profile(id_1802);
+        memberService.follow(id_402, id_1802);
+
+        assertThat(memberService.findAllFollowings(id_402).contains(id_1802));
+        assertThat(memberService.findAllFollowers(id_1802).contains(id_402));
     }
 
 
@@ -92,7 +108,7 @@ class MemberServiceTest {
     @ValueSource(strings = "beatles")
     @ParameterizedTest
     void findAllByNickname_닉네임으로부터_회원_페이지_조회(String input) {
-        Page<Member> members = memberService.findAllByNickname(input, PageRequest.of(0, 10));
+        List<Member> members = memberService.findAllByNickname(input, PageRequest.of(0, 10));
 
         assertThat(members.stream()
                 .map(Member::getNickname)
@@ -118,7 +134,7 @@ class MemberServiceTest {
         Member member = memberService.profile(id_402);
 
         assertThat(member.getNickname()).isEqualTo(input);
-//        assertThat(encoder.matches(newPassword, member.getPassword())).isTrue();
+        assertThat(encoder.matches(newPassword, member.getPassword())).isTrue();
     }
 
 
