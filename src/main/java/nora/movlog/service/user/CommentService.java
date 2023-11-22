@@ -29,7 +29,7 @@ public class CommentService {
 
     /* CREATE */
     @Transactional
-    public long write(String body, long postId, long memberId) {
+    public long write(String body, long memberId, long postId) {
         Member member = memberRepository.findById(memberId).get();
         Post post = postRepository.findById(postId).get();
 
@@ -44,6 +44,11 @@ public class CommentService {
 
 
     /* READ */
+    public CommentDto findOne(long commentId) {
+        return CommentDto.of(commentRepository.findById(commentId).get());
+    }
+
+
     public List<CommentDto> findAllFromPost(long postId, int page, int size) {
         return commentRepository.findAllByPostId(postId, PageRequest.of(page, size)).stream()
                 .map(CommentDto::of)
