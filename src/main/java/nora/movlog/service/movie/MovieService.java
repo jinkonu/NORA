@@ -61,7 +61,7 @@ public class MovieService {
     @Transactional
     public Movie createFromTmdbDto(MovieTmdbDto dto) {
         // 연관관계 없는 필드만 채움
-        Movie movie = Movie.createFromTmdbDto(dto);
+        Movie movie = MovieTmdbDto.toEntity(dto);
 
         // 연관관계 있는 필드 채움
         movie.setNations(nationService.fillNations(dto.getNation()));

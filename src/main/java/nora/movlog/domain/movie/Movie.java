@@ -40,17 +40,4 @@ public class Movie {
 
 
     /* 메서드 */
-
-    // TMDB API의 dto에서 Movie 객체로 변환
-    public static Movie createFromTmdbDto(MovieTmdbDto dto) {
-        return Movie.builder()
-                .id(dto.getId())
-                .titleKo(dto.getTitleKo())
-                .titleEn(dto.getTitleEn())
-                .popularity(dto.getPopularity())
-                .runTime(dto.getRunTime())
-                .prdtYear(dto.getPrdtYear())
-                .watchGrade(dto.getWatchGrade())
-                .build();
-    }
 }
