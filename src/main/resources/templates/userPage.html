@@ -137,16 +137,20 @@
                                 <!-- User posts -->
                                 <div class="user_posts">
                                     <div id="user_post">
-                                        <div th:each="post : ${post}">
+                                        <div th:each="post : ${posts}">
                                             <div id="post_title">
                                                 Title
                                                 <div id="post_movie">
-                                                    <div th:text="${post.movie}"></div>
+                                                    <div th:text="${post.movieTitle}"></div>
                                                 </div>
                                             </div>
 
                                             <div id="post_body">
                                                 <div th:text="${post.body}"></div>
+                                            </div>
+
+                                            <div id="post_time">
+                                                <div th:text="${#dates.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></div>
                                             </div>
                                         </div>
                                     </div>
