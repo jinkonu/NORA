@@ -36,6 +36,7 @@ public class Post extends BaseEntity {
 
     @OneToMany(mappedBy = "post", orphanRemoval = true)
     private List<Likes> likes;
+    private int likeCnt;
 
 
 
@@ -46,5 +47,9 @@ public class Post extends BaseEntity {
 
     public void addComment() {
         ++commentCnt;
+    }
+
+    public void addLike() {
+        ++likeCnt;
     }
 }
