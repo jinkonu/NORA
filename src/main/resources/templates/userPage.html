@@ -105,10 +105,10 @@
                                     <img src="/img/example_profile_img.svg" alt="img"/>
                                 </div>
                                 <div class="user_info">
-                                    <div class="user_info_name">
+                                    <div class="user_info_name" th:text="${member.nickname}">
                                         김익명
                                     </div>
-                                    <div class="user_info_account">
+                                    <div class="user_info_account" th:text="${member.loginId}">
                                         @anonymouskim123
                                     </div>
                                 </div>
@@ -116,7 +116,7 @@
 
                             <!-- Refer the number of posts, followers and following from backend? -->
                             <div id="post_count">
-                                <div class="user_post_count">
+                                <div class="user_post_count" th:text="${#lists.size(posts)}">
                                     8
                                 </div>
                             </div>
