@@ -71,8 +71,10 @@ class CommentServiceTest {
         IntStream.range(0, 10).forEach(i ->
                 commentService.write(TEST_CASE_COMMENT_BODY, memberId, postId));
 
-        commentService.findAllFromPost(postId, 0, 10).forEach(comment ->
-                assertThat(comment.getBody()).isEqualTo(TEST_CASE_COMMENT_BODY));
+        commentService.findAllFromPost(postId, 0, 10).forEach(comment -> {
+            assertThat(comment.getBody()).isEqualTo(TEST_CASE_COMMENT_BODY);
+            assertThat(postService.findOne(postId).getCommentCnt()).isEqualTo(10);
+        });
     }
 
 
