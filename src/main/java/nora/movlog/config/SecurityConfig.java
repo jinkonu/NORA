@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/*
+* 사용자 로그인, 회원가입 등 보안 관련 config
+*/
+
 @RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
