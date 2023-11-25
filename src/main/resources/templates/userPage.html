@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../main_frame.css">
-    <link rel="stylesheet" href="../left_menubar.css">
-    <link rel="stylesheet" href="../right_trending.css">
-    <title>User Page</title>
+    <link rel="stylesheet" href="main_frame.css">
+    <link rel="stylesheet" href="left_menubar.css">
+    <link rel="stylesheet" href="right_trending.css">
+    <title>Users</title>
 
 </head>
 
@@ -139,7 +139,7 @@
                                     <div id="user_post">
                                         <div th:each="post : ${post}">
                                             <div id="post_title">
-                                                Title
+
                                                 <div id="post_movie">
                                                     <div th:text="${post.movie}"></div>
                                                 </div>
@@ -150,6 +150,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <!-- Right side icon for user movie pictures. To be implemented later? -->
+                                <div class="user_pictures">
+                                    <div id="user_picture">
+
+                                    </div>
+
                                 </div>
 
                             </div>
