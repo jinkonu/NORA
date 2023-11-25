@@ -37,6 +37,7 @@ public class CommentService {
                 .body(body)
                 .build()
                 .toEntity(member, post));
+        post.addComment();
 
         return comment.getId();
     }

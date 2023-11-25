@@ -1,42 +1,36 @@
 package nora.movlog.service.user;
 
 import nora.movlog.service.movie.MovieService;
-import nora.movlog.utils.dto.user.CommentEditDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
 
 import static nora.movlog.domain.constant.StringConstant.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SuppressWarnings("ALL")
 @Transactional
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class CommentServiceTest {
+class LikesServiceTest {
 
     private static final String TEST_CASE_QUERY = "파고";
     private static final String TEST_CASE_MOVIE_ID = "275";
     private static final String TEST_CASE_POST_BODY = "재밌어요";
-    private static final String TEST_CASE_COMMENT_BODY = "진짜요?";
 
     private static long memberId;
     private static long postId;
 
     @Autowired
-    CommentService commentService;
+    LikesService likesService;
 
     @Autowired
     MemberService memberService;
@@ -46,7 +40,6 @@ class CommentServiceTest {
 
     @Autowired
     PostService postService;
-
 
     @BeforeEach
     void init() {
@@ -65,43 +58,22 @@ class CommentServiceTest {
     }
 
 
-    @DisplayName("게시물, 회원과 연관된 댓글 작성 및 게시물과 관련한 댓글 열람")
+    @DisplayName("게시물, 회원과 연관된 좋아요 추가 및 추가 확인")
     @Test
-    void writeAndFindAllFromPost_게시물_회원과_연관된_댓글_작성_및_게시물과_관련한_댓글_열람() {
-        IntStream.range(0, 10).forEach(i ->
-                commentService.write(TEST_CASE_COMMENT_BODY, memberId, postId));
+    void add_게시물_회원과_연관된_좋아요_추가_및_추가_확인() {
+        likesService.add(memberId, postId);
 
-        commentService.findAllFromPost(postId, 0, 10).forEach(comment -> {
-            assertThat(comment.getBody()).isEqualTo(TEST_CASE_COMMENT_BODY);
-            assertThat(postService.findOne(postId).getCommentCnt()).isEqualTo(10);
-        });
+        assertThat(likesService.check(memberId, postId)).isTrue();
     }
 
 
-    @DisplayName("댓글 수정")
-    @ValueSource(strings = "재미없을듯")
-    @ParameterizedTest
-    void edit_댓글_수정(String changedBody) {
-        long id = commentService.write(TEST_CASE_COMMENT_BODY, memberId, postId);
-
-        commentService.edit(id, CommentEditDto.builder()
-                .body(changedBody)
-                .build());
-
-        assertThat(commentService.findOne(id).getBody()).isEqualTo(changedBody);
-    }
-
-
-    @DisplayName("댓글 삭제")
+    @DisplayName("게시물, 회원과 연관된 좋아요 삭제 및 삭제 확인")
     @Test
-    void delete_댓글_삭제() {
-        long id = commentService.write(TEST_CASE_COMMENT_BODY, memberId, postId);
+    void delete_게시물_회원과_연관된_좋아요_삭제_및_삭제_확인() {
+        likesService.add(memberId, postId);
 
-        commentService.delete(id);
-
-        assertThatThrownBy(() ->
-                commentService.findOne(id)
-        ).isInstanceOf(NoSuchElementException.class);
+        likesService.delete(memberId, postId);
+        assertThat(likesService.check(memberId, postId)).isFalse();
     }
 
 

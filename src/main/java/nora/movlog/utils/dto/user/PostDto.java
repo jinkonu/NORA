@@ -13,7 +13,7 @@ import static nora.movlog.domain.constant.NumberConstant.*;
 @Data
 public class PostDto {
     /* Post */
-    private Long id;
+    private long id;
     private String body;
     private String createdAt;
     private String lastModifiedAt;
@@ -27,7 +27,10 @@ public class PostDto {
     private String memberNickname;
 
     /* Like */
-    private Integer likeCnt;
+    private int likeCnt;
+
+    /* Comment */
+    private int commentCnt;
 
     /* Date */
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -41,6 +44,7 @@ public class PostDto {
                 .memberId(post.getMember().getId())
                 .memberNickname(post.getMember().getNickname())
                 .likeCnt(DEFAULT_LIKE_CNT)
+                .commentCnt(post.getCommentCnt())
                 .createdAt(formatter.format(post.getCreatedAt()))
                 .lastModifiedAt(formatter.format(post.getLastModifiedAt()))
                 .build();
