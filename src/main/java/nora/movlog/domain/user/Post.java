@@ -32,6 +32,7 @@ public class Post extends BaseEntity {
 
     @OneToMany(mappedBy = "post", orphanRemoval = true)
     private List<Comment> comments;
+    private int commentCnt;
 
     @OneToMany(mappedBy = "post", orphanRemoval = true)
     private List<Likes> likes;
@@ -41,5 +42,9 @@ public class Post extends BaseEntity {
     /* 메서드 */
     public void update(PostEditDto dto) {
         this.body = dto.getBody();
+    }
+
+    public void addComment() {
+        ++commentCnt;
     }
 }
