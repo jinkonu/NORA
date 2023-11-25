@@ -11,53 +11,14 @@
 </head>
 
 <body>
-
+  <form method="post" th:action="@{/member/{id}/post(id=${id})}" enctype="multipart/form-data">
+    <div th:text="@{URL : /member/{id}/post(id=${id})}"></div>
+    <label for="movieId">Movie ID: </label>
+    <input type="text" id="movieId" name="movieId" required>
+    <textarea id="post" name="post" cols="100" rows="20" required></textarea>
+    <button type="submit">POST</button>
+  </form>
   <script th:inline="javascript">
-    /*<![CDATA[*/
-    window.onload = function() {
-        var form = document.createElement("form");
-        var id = /*[[${id}]]*/ 'id'; // 서버에서 제공하는 id 값
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "/member/" + id + "/post");     // 정확한 url 매핑을 위해 수정. 건우
-        form.setAttribute("enctype", "multipart/form-data"); // 백엔드에서 게시물 데이터를 받기 위해 추가. 건우
-
-        /* 영화 데이터를 게시물과 결합하기 위해 추가. 건우 */
-        // Create label for movieId
-        var movieIdLabel = document.createElement("label");
-        movieIdLabel.setAttribute("for", "movieId");
-        movieIdLabel.innerHTML = "Movie ID: ";
-
-        // Create input for movieId
-        var movieIdInput = document.createElement("input");
-        movieIdInput.setAttribute("type", "text");
-        movieIdInput.setAttribute("id", "movieId");
-        movieIdInput.setAttribute("name", "movieId");
-        movieIdInput.required = true;
-
-        // Append label and input for movieId to the form
-        form.appendChild(movieIdLabel);
-        form.appendChild(movieIdInput);
-        /* 영화 데이터를 게시물과 결합하기 위해 추가. 건우 */
-
-        var textarea = document.createElement("textarea");
-        textarea.setAttribute("id", "post");
-        textarea.setAttribute("name", "post");
-        textarea.setAttribute("cols", "100");
-        textarea.setAttribute("rows", "20");
-        textarea.required = true;
-
-        form.appendChild(textarea);
-
-        var button = document.createElement("button");
-        button.setAttribute("type", "submit");
-        button.innerHTML = "POST";
-
-        form.appendChild(button);
-
-        document.body.appendChild(form);
-    }
-    /*]]>*/
-</script>
+  </script>
 </body>
-
 </html>
