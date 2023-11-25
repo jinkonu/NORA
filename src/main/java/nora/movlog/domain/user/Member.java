@@ -44,9 +44,11 @@ public class Member {
             inverseJoinColumns = @JoinColumn(name = "following_id")
     )
     private Set<Member> followings;
+    private int followingCnt;
 
     @ManyToMany(mappedBy = "followings")
     private Set<Member> followers;
+    private int followerCnt;
 
     /* 도메인 로직 */
     public void edit(String password, String nickname) {
@@ -55,7 +57,10 @@ public class Member {
     }
 
     public void follow(Member follower) {
+        this.followingCnt++;
         this.followings.add(follower);
+
+        follower.followerCnt++;
     }
 }
 

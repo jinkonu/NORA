@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nora.movlog.utils.dto.movie.MovieTmdbDto;
 
 import java.util.Set;
 

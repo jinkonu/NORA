@@ -105,10 +105,10 @@
                                     <img src="/img/example_profile_img.svg" alt="img"/>
                                 </div>
                                 <div class="user_info">
-                                    <div class="user_info_name">
+                                    <div class="user_info_name" th:text="${member.nickname}">
                                         김익명
                                     </div>
-                                    <div class="user_info_account">
+                                    <div class="user_info_account" th:text="${member.loginId}">
                                         @anonymouskim123
                                     </div>
                                 </div>
@@ -116,17 +116,17 @@
 
                             <!-- Refer the number of posts, followers and following from backend? -->
                             <div id="post_count">
-                                <div class="user_post_count">
+                                <div class="user_post_count" th:text="${#lists.size(posts)}">
                                     8
                                 </div>
                             </div>
                             <div id="follower_count">
-                                <div class="user_follower_count">
+                                <div class="user_follower_count" th:text="${member.followerCnt}">
                                     156
                                 </div>
                             </div>
                             <div id="following_count">
-                                <div class="user_following_count">
+                                <div class="user_following_count" th:text="${member.followingCnt}">
                                     201
                                 </div>
                             </div>
@@ -137,16 +137,20 @@
                                 <!-- User posts -->
                                 <div class="user_posts">
                                     <div id="user_post">
-                                        <div th:each="post : ${post}">
+                                        <div th:each="post : ${posts}">
                                             <div id="post_title">
                                                 Title
                                                 <div id="post_movie">
-                                                    <div th:text="${post.movie}"></div>
+                                                    <div th:text="${post.movieTitle}"></div>
                                                 </div>
                                             </div>
 
                                             <div id="post_body">
                                                 <div th:text="${post.body}"></div>
+                                            </div>
+
+                                            <div id="post_time">
+                                                <div th:text="${post.createdAt}"></div>
                                             </div>
                                         </div>
                                     </div>
