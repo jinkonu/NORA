@@ -11,8 +11,7 @@
 </head>
 
 <body>
-  <form method="post" th:action="@{/member/{id}/post(id=${id})}" enctype="multipart/form-data">
-    <div th:text="@{URL : /member/{id}/post(id=${id})}"></div>
+  <form method="post" th:action="@{/member/post}" enctype="multipart/form-data">
     <label for="movieId">Movie ID: </label>
     <input type="text" id="movieId" name="movieId" required>
     <textarea id="post" name="post" cols="100" rows="20" required></textarea>
