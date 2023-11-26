@@ -10,8 +10,6 @@ import nora.movlog.repository.user.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Service
 public class LikesService {
@@ -24,9 +22,9 @@ public class LikesService {
 
     /* CREATE */
     @Transactional
-    public void add(long memberId, long postId) {
+    public void add(String memberLoginId, long postId) {
+        Member member = memberRepository.findByLoginId(memberLoginId).get();
         Post post = postRepository.findById(postId).get();
-        Member member = memberRepository.findById(memberId).get();
 
         likesRepository.save(Likes.builder()
                 .member(member)
@@ -44,7 +42,7 @@ public class LikesService {
 
     /* DELETE */
     @Transactional
-    public void delete(long memberId, long postId) {
-        likesRepository.deleteByMemberIdAndPostId(memberId, postId);
+    public void delete(String memberLoginId, long postId) {
+        likesRepository.deleteByMemberLoginIdAndPostId(memberLoginId, postId);
     }
 }
