@@ -24,7 +24,6 @@ public class NumberConstant {
 
 
     // USER
-    public static final int MAX_LOGIN_ID_LENGTH = 10;
     public static final int MAX_NICKNAME_LENGTH = 10;
 
 
