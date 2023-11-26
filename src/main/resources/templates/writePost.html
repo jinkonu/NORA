@@ -11,13 +11,13 @@
 </head>
 
 <body>
-  <form method="post" th:action="@{/member/post}" enctype="multipart/form-data">
+  <form method="post" th:action="@{/post}" th:object="${postDto}" enctype="multipart/form-data">
     <label for="movieId">Movie ID: </label>
-    <input type="text" id="movieId" name="movieId" required>
-    <textarea id="post" name="post" cols="100" rows="20" required></textarea>
+    <input type="text" th:field="{movieId}" required>
+
+    <textarea th:field="{post}" cols="100" rows="20" required></textarea>
+
     <button type="submit">POST</button>
   </form>
-  <script th:inline="javascript">
-  </script>
 </body>
 </html>
