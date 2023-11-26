@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nora.movlog.service.user.CommentService;
-import nora.movlog.service.user.PostService;
 import nora.movlog.utils.dto.user.CommentCreateRequestDto;
 import nora.movlog.utils.dto.user.CommentDto;
 import nora.movlog.utils.dto.user.CommentEditDto;
@@ -25,7 +24,6 @@ import static nora.movlog.utils.constant.StringConstant.LAST_URL;
 public class CommentController {
 
     private final CommentService commentService;
-    private final PostService postService;
 
 
 
