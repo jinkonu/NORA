@@ -78,7 +78,6 @@ public class StringConstant {
 
     // USER
     public static final String NO_LOGIN_ID_ERROR = "아이디가 비어있습니다.";
-    public static final String TOO_LONG_LOGIN_ID_ERROR = "아이디 길이가 " + MAX_LOGIN_ID_LENGTH + "자를 넘습니다.";
     public static final String DUPLICATE_LOGIN_ID_ERROR = "아이디가 중복됩니다.";
 
     public static final String NO_PASSWORD_ERROR = "비밀번호가 비어있습니다.";
