@@ -16,7 +16,7 @@ public class CommentDto {
     private LocalDateTime lastModifiedAt;
 
     /* Member */
-    private long memberId;
+    private String memberLoginId;
     private String memberNickname;
 
     /* Post */
@@ -26,7 +26,7 @@ public class CommentDto {
         return CommentDto.builder()
                 .id(comment.getId())
                 .body(comment.getBody())
-                .memberId(comment.getId())
+                .memberLoginId(comment.getMember().getLoginId())
                 .memberNickname(comment.getMember().getNickname())
                 .postId(comment.getPost().getId())
                 .build();

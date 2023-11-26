@@ -1,6 +1,7 @@
 package nora.movlog.service.user;
 
 import nora.movlog.service.movie.MovieService;
+import nora.movlog.utils.dto.user.CommentCreateRequestDto;
 import nora.movlog.utils.dto.user.CommentEditDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.utils.dto.user.PostCreateRequestDto;
@@ -33,7 +34,6 @@ class CommentServiceTest {
     private static final String TEST_CASE_POST_BODY = "재밌어요";
     private static final String TEST_CASE_COMMENT_BODY = "진짜요?";
 
-    private static long memberId;
     private static long postId;
 
     @Autowired
@@ -51,7 +51,7 @@ class CommentServiceTest {
 
     @BeforeEach
     void init() {
-        memberId = generateMember(
+        generateMember(
                 TEST_CASE_MEMBER_LOGIN_ID,
                 TEST_CASE_MEMBER_PASSWORD,
                 TEST_CASE_MEMBER_NICKNAME
@@ -70,7 +70,9 @@ class CommentServiceTest {
     @Test
     void writeAndFindAllFromPost_게시물_회원과_연관된_댓글_작성_및_게시물과_관련한_댓글_열람() {
         IntStream.range(0, 10).forEach(i ->
-                commentService.write(TEST_CASE_COMMENT_BODY, memberId, postId));
+                commentService.write(CommentCreateRequestDto.builder()
+                        .body(TEST_CASE_COMMENT_BODY)
+                        .build(), postId, TEST_CASE_MEMBER_LOGIN_ID));
 
         commentService.findAllFromPost(postId, 0, 10).forEach(comment -> {
             assertThat(comment.getBody()).isEqualTo(TEST_CASE_COMMENT_BODY);
@@ -83,11 +85,13 @@ class CommentServiceTest {
     @ValueSource(strings = "재미없을듯")
     @ParameterizedTest
     void edit_댓글_수정(String changedBody) {
-        long id = commentService.write(TEST_CASE_COMMENT_BODY, memberId, postId);
+        long id = commentService.write(CommentCreateRequestDto.builder()
+                .body(TEST_CASE_COMMENT_BODY)
+                .build(), postId, TEST_CASE_MEMBER_LOGIN_ID);
 
         commentService.edit(id, CommentEditDto.builder()
                 .body(changedBody)
-                .build());
+                .build(), TEST_CASE_MEMBER_LOGIN_ID);
 
         assertThat(commentService.findOne(id).getBody()).isEqualTo(changedBody);
     }
@@ -96,9 +100,11 @@ class CommentServiceTest {
     @DisplayName("댓글 삭제")
     @Test
     void delete_댓글_삭제() {
-        long id = commentService.write(TEST_CASE_COMMENT_BODY, memberId, postId);
+        long id = commentService.write(CommentCreateRequestDto.builder()
+                .body(TEST_CASE_COMMENT_BODY)
+                .build(), postId, TEST_CASE_MEMBER_LOGIN_ID);
 
-        commentService.delete(id);
+        commentService.delete(id, TEST_CASE_MEMBER_LOGIN_ID);
 
         assertThatThrownBy(() ->
                 commentService.findOne(id)
