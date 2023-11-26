@@ -89,6 +89,10 @@ public class StringConstant {
     public static final String NO_NOW_PASSWORD = "현재 비밀번호가 비어있습니다.";
 
 
+    // CONTROLLER
+    public static final String LAST_URL = "lastUrl";
+
+
     // TEST
     public static final String TEST_CASE_MEMBER_LOGIN_ID = "gingNangBoyz";
     public static final String TEST_CASE_MEMBER_PASSWORD = "tokyo";

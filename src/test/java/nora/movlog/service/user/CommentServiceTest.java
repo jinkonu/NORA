@@ -3,6 +3,7 @@ package nora.movlog.service.user;
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.utils.dto.user.CommentEditDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
+import nora.movlog.utils.dto.user.PostCreateRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,7 +61,7 @@ class CommentServiceTest {
                 TEST_CASE_POST_BODY,
                 TEST_CASE_QUERY,
                 TEST_CASE_MOVIE_ID,
-                memberId
+                TEST_CASE_MEMBER_LOGIN_ID
         );
     }
 
@@ -118,9 +119,12 @@ class CommentServiceTest {
     }
 
 
-    private long generatePost(String body, String query, String movieId, long memberId) {
+    private long generatePost(String body, String query, String movieId, String memberLoginId) {
         movieService.findAndJoinFromTmdb(query, 0);
 
-        return postService.write(body, movieId, memberId);
+        return postService.write(PostCreateRequestDto.builder()
+                .body(body)
+                .movieId(movieId)
+                .build(), memberLoginId);
     }
 }

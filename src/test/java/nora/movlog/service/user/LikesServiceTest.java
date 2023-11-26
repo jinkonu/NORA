@@ -2,6 +2,7 @@ package nora.movlog.service.user;
 
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
+import nora.movlog.utils.dto.user.PostCreateRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.stream.IntStream;
 
 import static nora.movlog.domain.constant.StringConstant.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,7 +52,7 @@ class LikesServiceTest {
                 TEST_CASE_POST_BODY,
                 TEST_CASE_QUERY,
                 TEST_CASE_MOVIE_ID,
-                memberId
+                TEST_CASE_MEMBER_LOGIN_ID
         );
     }
 
@@ -90,9 +89,12 @@ class LikesServiceTest {
     }
 
 
-    private long generatePost(String body, String query, String movieId, long memberId) {
+    private long generatePost(String body, String query, String movieId, String memberLoginId) {
         movieService.findAndJoinFromTmdb(query, 0);
 
-        return postService.write(body, movieId, memberId);
+        return postService.write(PostCreateRequestDto.builder()
+                .body(body)
+                .movieId(movieId)
+                .build(), memberLoginId);
     }
 }

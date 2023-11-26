@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import static nora.movlog.domain.constant.StringConstant.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/member")
-@Slf4j
 @Controller
 public class MemberController {
     private final MemberService memberService;
@@ -66,26 +66,5 @@ public class MemberController {
         model.addAttribute("posts", postService.findAllFromMember(id, page, size));
 
         return "userPage";
-    }
-
-
-    /* 게시물 */
-
-    // 게시물 생성
-    @GetMapping("/{id}/post")
-    public String postPage(@PathVariable long id,
-                           Model model) {
-        model.addAttribute("id", id);
-
-        return "writePost";
-    }
-
-    @PostMapping("/{id}/post")
-    public String writePost(@PathVariable long id,
-                            @RequestParam("post") String body,
-                            @RequestParam("movieId") String movieId) {
-        postService.write(body, movieId, id);
-
-        return "redirect:/member/" + id;
     }
 }

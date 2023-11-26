@@ -25,22 +25,17 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
-    private final CommentRepository commentRepository;
-    private final LikesRepository likesRepository;
     private final MovieRepository movieRepository;
 
 
 
     /* CREATE */
     @Transactional
-    public long write(String body, String movieId, long userId) {
-        Member member = memberRepository.findById(userId).get();
-        Movie movie = movieRepository.findById(movieId).get();
+    public long write(PostCreateRequestDto dto, String userLoginId) {
+        Member member = memberRepository.findByLoginId(userLoginId).get();
+        Movie movie = movieRepository.findById(dto.getMovieId()).get();
 
-        Post post = postRepository.save(PostCreateRequestDto.builder()
-                .body(body)
-                .build()
-                .toEntity(member, movie));
+        Post post = postRepository.save(dto.toEntity(member, movie));
 
         return post.getId();
     }
@@ -54,9 +49,14 @@ public class PostService {
                 .orElseGet(() -> null);
     }
 
-
     public List<PostDto> findAllFromMember(long memberId, int page, int size) {
         return postRepository.findAllByMemberId(memberId, PageRequest.of(page, size)).stream()
+                .map(PostDto::of)
+                .toList();
+    }
+
+    public List<PostDto> findAllFromMemberLoginId(String memberLoginId, int page, int size) {
+        return postRepository.findAllByMemberLoginId(memberLoginId, PageRequest.of(page, size)).stream()
                 .map(PostDto::of)
                 .toList();
     }
