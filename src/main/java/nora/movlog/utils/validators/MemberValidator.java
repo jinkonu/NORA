@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import static nora.movlog.domain.constant.NumberConstant.MAX_NICKNAME_LENGTH;
-import static nora.movlog.domain.constant.StringConstant.*;
-import static nora.movlog.domain.constant.StringConstant.TOOL_LONG_NICKNAME_ERROR;
+import static nora.movlog.utils.constant.NumberConstant.MAX_NICKNAME_LENGTH;
+import static nora.movlog.utils.constant.StringConstant.*;
+import static nora.movlog.utils.constant.StringConstant.TOOL_LONG_NICKNAME_ERROR;
 
 @RequiredArgsConstructor
 @Component

@@ -12,8 +12,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.ArrayList;
 import java.util.List;
 
-import static nora.movlog.domain.constant.NumberConstant.*;
-import static nora.movlog.domain.constant.StringConstant.*;
+import static nora.movlog.utils.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.StringConstant.*;
 
 /*
 KOBIS API에 쿼리 날리는 리포지토리

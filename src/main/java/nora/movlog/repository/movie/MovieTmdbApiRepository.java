@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static nora.movlog.domain.constant.StringConstant.*;
-import static nora.movlog.domain.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.StringConstant.*;
+import static nora.movlog.utils.constant.NumberConstant.*;
 
 @Repository
 public class MovieTmdbApiRepository {

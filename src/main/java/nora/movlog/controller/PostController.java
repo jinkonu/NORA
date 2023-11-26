@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import static nora.movlog.domain.constant.StringConstant.LAST_URL;
+import static nora.movlog.utils.constant.StringConstant.LAST_URL;
 
 @Slf4j
 @RequiredArgsConstructor

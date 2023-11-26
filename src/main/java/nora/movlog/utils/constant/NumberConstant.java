@@ -1,4 +1,4 @@
-package nora.movlog.domain.constant;
+package nora.movlog.utils.constant;
 
 public class NumberConstant {
     // COMMON

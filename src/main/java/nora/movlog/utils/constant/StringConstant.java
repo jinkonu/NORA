@@ -1,6 +1,6 @@
-package nora.movlog.domain.constant;
+package nora.movlog.utils.constant;
 
-import static nora.movlog.domain.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.NumberConstant.*;
 
 public class StringConstant {
     // COMMON
