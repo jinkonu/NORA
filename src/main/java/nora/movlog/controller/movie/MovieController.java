@@ -1,4 +1,4 @@
-package nora.movlog.controller;
+package nora.movlog.controller.movie;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

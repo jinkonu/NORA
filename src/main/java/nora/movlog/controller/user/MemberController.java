@@ -1,4 +1,4 @@
-package nora.movlog.controller;
+package nora.movlog.controller.user;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
