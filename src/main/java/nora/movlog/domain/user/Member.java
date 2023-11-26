@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -56,7 +55,7 @@ public class Member {
         this.nickname = nickname;
     }
 
-    public void follow(Member follower) {
+    public void follows(Member follower) {
         this.followingCnt++;
         this.followings.add(follower);
 
