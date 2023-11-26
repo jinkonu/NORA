@@ -4,8 +4,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
+import nora.movlog.utils.dto.user.MemberLoginRequestDto;
 import nora.movlog.service.user.PostService;
 import nora.movlog.service.user.MemberService;
+import org.springframework.security.core.Authentication;
 import nora.movlog.utils.validators.MemberValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,16 +17,19 @@ import org.springframework.web.bind.annotation.*;
 import static nora.movlog.domain.constant.StringConstant.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@RequestMapping("/")
 @Slf4j
 @Controller
 public class MemberController {
     private final MemberService memberService;
     private final PostService postService;
-
     private final MemberValidator memberValidator;
 
+    @GetMapping(value={"", "/"})
+    public String home(Model model, Authentication auth) {
 
+        return "home";
+    }
 
     /* 회원 */
 
@@ -32,32 +37,33 @@ public class MemberController {
     @GetMapping("/join")
     public String joinPage(Model model) {
         model.addAttribute("memberJoinRequest", new MemberJoinRequestDto());
-
-        return "joinPage";
+        return "join_form";
     }
 
     @PostMapping("/join")
     public String joinPage(@Valid @ModelAttribute MemberJoinRequestDto dto,
                            BindingResult bindingResult,
                            Model model) {
+        // 회원가입에 필요한 폼을 양식에 맞게 채우지 못했을 때
         if (memberValidator.validateJoin(dto, bindingResult).hasErrors())
-            return "/member/join";
+            return "redirect:/join";
 
         memberService.join(dto);
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
 
     // 로그인 페이지
     @GetMapping("/login")
-    public String loginPage() {
-        return "loginPage";
+    public String loginPage(Model model) {
+        model.addAttribute("memberLoginRequest", new MemberLoginRequestDto());
+        return "login_form";
     }
 
 
     // 프로필 페이지
-    @GetMapping("/{id}")
+    @GetMapping("/member/{id}")
     public String profilePage(@PathVariable long id,
                               @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
                               @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
@@ -72,7 +78,7 @@ public class MemberController {
     /* 게시물 */
 
     // 게시물 생성
-    @GetMapping("/{id}/post")
+    @GetMapping("/member/{id}/post")
     public String postPage(@PathVariable long id,
                            Model model) {
         model.addAttribute("id", id);
@@ -80,7 +86,7 @@ public class MemberController {
         return "writePost";
     }
 
-    @PostMapping("/{id}/post")
+    @PostMapping("/member/{id}/post")
     public String writePost(@PathVariable long id,
                             @RequestParam("post") String body,
                             @RequestParam("movieId") String movieId) {

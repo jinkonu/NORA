@@ -10,10 +10,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import static nora.movlog.domain.constant.NumberConstant.MAX_LOGIN_ID_LENGTH;
-import static nora.movlog.domain.constant.NumberConstant.MAX_NICKNAME_LENGTH;
+import static nora.movlog.domain.constant.NumberConstant.*;
+import static nora.movlog.domain.constant.NumberConstant.MIN_NICKNAME_LENGTH;
 import static nora.movlog.domain.constant.StringConstant.*;
-import static nora.movlog.domain.constant.StringConstant.TOOL_LONG_NICKNAME_ERROR;
 
 @RequiredArgsConstructor
 @Component
@@ -27,25 +26,29 @@ public class MemberValidator {
     public BindingResult validateJoin(MemberJoinRequestDto dto, BindingResult bindingResult) {
         // loginId
         if (dto.getLoginId().isEmpty())
-            bindingResult.addError(new FieldError("requestDto", "loginId", NO_LOGIN_ID_ERROR));
-        else if (dto.getLoginId().length() < MAX_LOGIN_ID_LENGTH)
-            bindingResult.addError(new FieldError("requestDto", "loginId", TOO_LONG_LOGIN_ID_ERROR));
+            bindingResult.addError(new FieldError("memberJoinRequest", "loginId", NO_LOGIN_ID_ERROR));
+        else if (dto.getLoginId().length() < MIN_LOGIN_ID_LENGTH)
+            bindingResult.addError(new FieldError("memberJoinRequest", "loginId", TOO_SHORT_LOGIN_ID_ERROR));
+        else if (dto.getLoginId().length() > MAX_LOGIN_ID_LENGTH)
+            bindingResult.addError(new FieldError("memberJoinRequest", "loginId", TOO_LONG_LOGIN_ID_ERROR));
         else if (memberRepository.existsByLoginId(dto.getLoginId()))
-            bindingResult.addError(new FieldError("requestDto", "loginId", DUPLICATE_LOGIN_ID_ERROR));
+            bindingResult.addError(new FieldError("memberJoinRequest", "loginId", DUPLICATE_LOGIN_ID_ERROR));
 
         // password
         if (dto.getPassword().isEmpty())
-            bindingResult.addError(new FieldError("requestDto", "password", NO_PASSWORD_ERROR));
+            bindingResult.addError(new FieldError("memberJoinRequest", "password", NO_PASSWORD_ERROR));
 
         // passwordCheck
         if (!dto.getPassword().equals(dto.getPasswordCheck()))
-            bindingResult.addError(new FieldError("requestDto", "passwordCheck", NOT_EQUAL_PASSWORD_ERROR));
+            bindingResult.addError(new FieldError("memberJoinRequest", "passwordCheck", NOT_EQUAL_PASSWORD_ERROR));
 
         // nickname
         if (dto.getNickname().isEmpty())
-            bindingResult.addError(new FieldError("requestDto", "nickname", NO_NICKNAME_ERROR));
-        else if (dto.getNickname().length() < MAX_NICKNAME_LENGTH)
-            bindingResult.addError(new FieldError("requestDto", "nickname", TOOL_LONG_NICKNAME_ERROR));
+            bindingResult.addError(new FieldError("memberJoinRequest", "nickname", NO_NICKNAME_ERROR));
+        else if (dto.getNickname().length() < MIN_NICKNAME_LENGTH)
+            bindingResult.addError(new FieldError("memberJoinRequest", "nickname", TOO_SHORT_NICKNAME_ERROR));
+        else if (dto.getNickname().length() > MAX_NICKNAME_LENGTH)
+            bindingResult.addError(new FieldError("memberJoinRequest", "nickname", TOO_LONG_NICKNAME_ERROR));
 
         return bindingResult;
     }
@@ -68,7 +71,7 @@ public class MemberValidator {
         if (dto.getNickname().isEmpty())
             bindingResult.addError(new FieldError("requestDto", "nickname", NO_NICKNAME_ERROR));
         else if (dto.getNickname().length() < MAX_NICKNAME_LENGTH)
-            bindingResult.addError(new FieldError("requestDto", "nickname", TOOL_LONG_NICKNAME_ERROR));
+            bindingResult.addError(new FieldError("requestDto", "nickname", TOO_LONG_NICKNAME_ERROR));
 
         return bindingResult;
     }
