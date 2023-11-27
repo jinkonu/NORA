@@ -11,10 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import static nora.movlog.utils.constant.StringConstant.LAST_URL;
+import static nora.movlog.utils.constant.StringConstant.POST_URI;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/post")
+@RequestMapping(POST_URI)
 @Controller
 public class PostController {
 

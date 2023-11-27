@@ -18,7 +18,7 @@ import static nora.movlog.utils.constant.StringConstant.*;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@RequestMapping(MEMBER_URI)
 @Controller
 public class MemberController {
     private final MemberService memberService;

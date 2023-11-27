@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import static nora.movlog.utils.constant.StringConstant.*;
+
 @RequiredArgsConstructor
-@RequestMapping("/movie")
+@RequestMapping(MOVIE_URI)
 @Controller
 @Slf4j
 public class MovieController {

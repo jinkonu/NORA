@@ -19,7 +19,7 @@ import static nora.movlog.utils.constant.StringConstant.*;
  */
 
 @RequiredArgsConstructor
-@RequestMapping("/search")
+@RequestMapping(SEARCH_URI)
 @Slf4j
 @Controller
 public class SearchController {

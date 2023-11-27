@@ -98,6 +98,12 @@ public class StringConstant {
     public static final String HOME_URI = "/";
     public static final String LOGIN_URI = "/login";
     public static final String JOIN_URI = "/join";
+    public static final String SEARCH_URI = "/search";
+    public static final String MOVIE_URI = "/movie";
+    public static final String MEMBER_URI = "/member";
+    public static final String POST_URI = "/post";
+    public static final String LIKE_URI = "/likes";
+    public static final String COMMENT_URI = "/comment";
 
 
     // TEST

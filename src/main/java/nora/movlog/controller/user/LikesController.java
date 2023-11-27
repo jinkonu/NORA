@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import static nora.movlog.utils.constant.StringConstant.*;
+
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/likes")
+@RequestMapping(LIKE_URI)
 @Controller
 public class LikesController {
 

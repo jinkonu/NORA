@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import static nora.movlog.utils.constant.StringConstant.COMMENT_URI;
 import static nora.movlog.utils.constant.StringConstant.LAST_URL;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/comment")
+@RequestMapping(COMMENT_URI)
 @Controller
 public class CommentController {
 
