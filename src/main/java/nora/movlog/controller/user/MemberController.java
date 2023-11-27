@@ -38,8 +38,7 @@ public class MemberController {
 
     @PostMapping("/join")
     public String joinPage(@Valid @ModelAttribute MemberJoinRequestDto dto,
-                           BindingResult bindingResult,
-                           Model model) {
+                           BindingResult bindingResult) {
         if (memberValidator.validateJoin(dto, bindingResult).hasErrors())
             return "/member/join";
 
@@ -47,7 +46,6 @@ public class MemberController {
 
         return "redirect:/";
     }
-
 
     // 로그인 페이지
     @GetMapping("/login")
