@@ -52,7 +52,6 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .defaultSuccessUrl(HOME_URI) // 이후 수정
                         .failureUrl(LOGIN_URI)
-                        .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl(HOME_URI)
