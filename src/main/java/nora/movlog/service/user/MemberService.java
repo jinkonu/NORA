@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.user.Member;
 import nora.movlog.utils.dto.user.MemberDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
-import nora.movlog.utils.dto.user.MemberLoginRequestDto;
 import nora.movlog.repository.user.CommentRepository;
 import nora.movlog.repository.user.LikesRepository;
 import nora.movlog.repository.user.MemberRepository;
@@ -22,7 +21,6 @@ import static nora.movlog.domain.constant.NumberConstant.*;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
@@ -55,16 +53,12 @@ public class MemberService {
         Member following = memberRepository.findById(followingId).get();
         Member follower = memberRepository.findById(followerId).get();
 
-        following.follow(follower);
+        following.follows(follower);
     }
 
     /* READ */
 
     public Member profile(long id) {
-        return memberRepository.findById(id).get();
-    }
-
-    public Member findById(Long id) {
         return memberRepository.findById(id).get();
     }
 
@@ -90,9 +84,8 @@ public class MemberService {
 
 
     /* UPDATE */
-
     @Transactional
-    public void edit(MemberDto dto, long id) {
+    public void edit(long id, MemberDto dto) {
         Member member = memberRepository.findById(id).get();
 
         if (dto.getNewPassword().isBlank())
@@ -104,7 +97,6 @@ public class MemberService {
 
 
     /* DELETE */
-
     @Transactional
     public boolean delete(long id, String nowPassword) {
         Member member = memberRepository.findById(id).get();

@@ -4,10 +4,9 @@ import lombok.Builder;
 import lombok.Data;
 import nora.movlog.domain.user.Post;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static nora.movlog.domain.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.NumberConstant.*;
 
 @Builder
 @Data

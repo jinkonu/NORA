@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-import static nora.movlog.domain.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.NumberConstant.*;
 
 /*
 영화 서비스

@@ -1,7 +1,7 @@
 package nora.movlog.service.user;
 
-import nora.movlog.domain.user.Member;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
+import nora.movlog.utils.dto.user.PostCreateRequestDto;
 import nora.movlog.utils.dto.user.PostDto;
 import nora.movlog.utils.dto.user.PostEditDto;
 import nora.movlog.service.movie.MovieService;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static nora.movlog.domain.constant.StringConstant.*;
+import static nora.movlog.utils.constant.StringConstant.*;
 
 @SuppressWarnings("ALL")
 @Transactional
@@ -56,11 +56,10 @@ class PostServiceTest {
     @Rollback
     @Test
     void write_and_findOne_게시물_작성_및_조회() {
-        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
-        long postId = postService.write(
-                TEST_CASE_POST_BODY,
-                TEST_CASE_MOVIE_ID,
-                member.getId());
+        long postId = postService.write(PostCreateRequestDto.builder()
+                .body(TEST_CASE_POST_BODY)
+                .movieId(TEST_CASE_MOVIE_ID)
+                .build(), TEST_CASE_MEMBER_LOGIN_ID);
 
         assertThat(postService.findOne(postId).getBody()).isEqualTo(TEST_CASE_POST_BODY);
     }
@@ -70,15 +69,14 @@ class PostServiceTest {
     @Rollback
     @Test
     void write_and_findAllFromMember() {
-        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
-
         IntStream.range(0, 10)
                 .forEach(i -> postService.write(
-                        TEST_CASE_POST_BODY,
-                        TEST_CASE_MOVIE_ID,
-                        member.getId()));
+                        PostCreateRequestDto.builder()
+                                .body(TEST_CASE_POST_BODY)
+                                .movieId(TEST_CASE_MOVIE_ID)
+                                .build(), TEST_CASE_MEMBER_LOGIN_ID));
 
-        List<PostDto> posts = postService.findAllFromMember(member.getId(), 0, 10);
+        List<PostDto> posts = postService.findAllFromMemberLoginId(TEST_CASE_MEMBER_LOGIN_ID, 0, 10);
 
         assertThat(posts.size()).isEqualTo(10);
         IntStream.range(0, 10)
@@ -90,12 +88,10 @@ class PostServiceTest {
     @ValueSource(strings = "bye world")
     @ParameterizedTest
     void edit_게시물_수정(String changedBody) {
-        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
-
-        long postId = postService.write(
-                TEST_CASE_POST_BODY,
-                TEST_CASE_MOVIE_ID,
-                member.getId());
+        long postId = postService.write(PostCreateRequestDto.builder()
+                .body(TEST_CASE_POST_BODY)
+                .movieId(TEST_CASE_MOVIE_ID)
+                .build(), TEST_CASE_MEMBER_LOGIN_ID);
 
         long editedPostId = postService.edit(postId, PostEditDto.builder().body(changedBody).build());
 
@@ -107,11 +103,10 @@ class PostServiceTest {
     @DisplayName("게시물 삭제")
     @Test
     void delete_게시물_삭제() {
-        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
-        long postId = postService.write(
-                TEST_CASE_POST_BODY,
-                TEST_CASE_MOVIE_ID,
-                member.getId());
+        long postId = postService.write(PostCreateRequestDto.builder()
+                .body(TEST_CASE_POST_BODY)
+                .movieId(TEST_CASE_MOVIE_ID)
+                .build(), TEST_CASE_MEMBER_LOGIN_ID);
 
         postService.delete(postId);
         assertThat(postService.findOne(postId)).isNull();

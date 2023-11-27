@@ -1,6 +1,6 @@
-package nora.movlog.domain.constant;
+package nora.movlog.utils.constant;
 
-import static nora.movlog.domain.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.NumberConstant.*;
 
 public class StringConstant {
     // COMMON
@@ -92,6 +92,10 @@ public class StringConstant {
     public static final String NO_NOW_PASSWORD = "현재 비밀번호가 비어있습니다.";
 
     public static final String NO_SUCH_MEMBER = "해당 유저를 찾을 수 없습니다.";
+
+    // CONTROLLER
+    public static final String LAST_URL = "lastUrl";
+
 
     // TEST
     public static final String TEST_CASE_MEMBER_LOGIN_ID = "gingNangBoyz";

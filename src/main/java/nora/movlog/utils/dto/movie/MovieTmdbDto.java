@@ -8,8 +8,8 @@ import nora.movlog.domain.movie.WatchGrade;
 import java.util.*;
 
 import static nora.movlog.domain.movie.WatchGrade.*;
-import static nora.movlog.domain.constant.NumberConstant.*;
-import static nora.movlog.domain.constant.StringConstant.*;
+import static nora.movlog.utils.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.StringConstant.*;
 
 @Data
 public class MovieTmdbDto {

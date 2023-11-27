@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static nora.movlog.domain.constant.StringConstant.*;
+import static nora.movlog.utils.constant.StringConstant.*;
 
 @SuppressWarnings("ALL")
 @Transactional
@@ -116,7 +116,7 @@ class MemberServiceTest {
     @ParameterizedTest
     void edit_MemberDto와_id로부터_회원_수정(String input) {
         long id = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID).getId();
-        String newPassword = TEST_CASE_MEMBER_PASSWORD + " paul";
+        String newPassword = input;
 
         MemberDto dto = MemberDto.builder()
                 .loginId(TEST_CASE_MEMBER_LOGIN_ID)
@@ -126,7 +126,7 @@ class MemberServiceTest {
                 .newPasswordCheck(newPassword)
                 .build();
 
-        memberService.edit(dto, id);
+        memberService.edit(id, dto);
         Member member = memberService.profile(id);
 
         assertThat(member.getNickname()).isEqualTo(input);
