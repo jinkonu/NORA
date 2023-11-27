@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import static nora.movlog.domain.constant.StringConstant.*;
+import static nora.movlog.utils.constant.StringConstant.*;
 
 @Service
 @RequiredArgsConstructor
