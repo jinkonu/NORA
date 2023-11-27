@@ -7,6 +7,7 @@ import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.repository.user.CommentRepository;
 import nora.movlog.repository.user.LikesRepository;
 import nora.movlog.repository.user.MemberRepository;
+import nora.movlog.utils.dto.user.MemberLoginRequestDto;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,8 @@ import java.util.Optional;
 import java.util.List;
 import java.util.Set;
 
-import static nora.movlog.domain.constant.StringConstant.*;
-import static nora.movlog.domain.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.StringConstant.*;
+import static nora.movlog.utils.constant.NumberConstant.*;
 
 @RequiredArgsConstructor
 @Service
@@ -28,25 +29,9 @@ public class MemberService {
     private final BCryptPasswordEncoder encoder;
 
     /* CREATE */
-
     @Transactional
     public void join(MemberJoinRequestDto requestDto) {
         memberRepository.save(requestDto.toEntity(encoder.encode(requestDto.getPassword())));
-    }
-
-    @Transactional
-    public Member login(MemberLoginRequestDto memberLoginRequestDto) {
-        Optional<Member> optionalMember = memberRepository.findByLoginId(memberLoginRequestDto.getLoginId());
-        if(optionalMember.isEmpty()) {
-            return null;
-        }
-
-        Member member = optionalMember.get();
-        if(!member.getPassword().equals(memberLoginRequestDto.getPassword())) {
-            return null;
-        }
-
-        return member;
     }
 
     public void follow(long followingId, long followerId) {
@@ -56,8 +41,8 @@ public class MemberService {
         following.follows(follower);
     }
 
-    /* READ */
 
+    /* READ */
     public Member profile(long id) {
         return memberRepository.findById(id).get();
     }
@@ -81,6 +66,21 @@ public class MemberService {
                 .getFollowers();
     }
 
+
+    @Transactional
+    public Member login(MemberLoginRequestDto dto) {
+        Optional<Member> optionalMember = memberRepository.findByLoginId(dto.getLoginId());
+
+        if (optionalMember.isEmpty())
+            return null;
+
+        Member member = optionalMember.get();
+
+        if (!member.getPassword().equals(dto.getPassword()))
+            return null;
+
+        return member;
+    }
 
 
     /* UPDATE */

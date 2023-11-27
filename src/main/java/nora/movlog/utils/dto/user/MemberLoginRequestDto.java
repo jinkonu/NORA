@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MemberLoginRequestDto {
+
     private String loginId;
     private String password;
 }
