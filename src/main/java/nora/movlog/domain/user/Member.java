@@ -88,7 +88,7 @@ public class Member implements UserDetails {
         return true;
     }
 
-    public void follow(Member follower) {
+    public void follows(Member follower) {
         this.followingCnt++;
         this.followings.add(follower);
 
