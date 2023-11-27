@@ -24,10 +24,10 @@ public class NumberConstant {
 
 
     // USER
-    public static final int MIN_NICKNAME_LENGTH = 0;
-    public static final int MAX_NICKNAME_LENGTH = 10;
-
-    public static final int MAX_LOGIN_LENGTH = 10;
+    public static final int MIN_LOGIN_LENGTH = 5;
+    public static final int MAX_LOGIN_LENGTH = 15;
+    public static final int MIN_NICKNAME_LENGTH = 1;
+    public static final int MAX_NICKNAME_LENGTH = 15;
 
 
     // POST

@@ -24,46 +24,9 @@ public class MemberController {
     private final MemberService memberService;
     private final PostService postService;
 
-    private final MemberValidator memberValidator;
 
 
-
-    @GetMapping(value={"", "/"})
-    public String home(Model model, Authentication auth) {
-
-        return "home";
-    }
-
-    /* 회원 */
-
-    // 회원가입 페이지
-    @GetMapping("/join")
-    public String joinPage(Model model) {
-        model.addAttribute("memberJoinRequest", new MemberJoinRequestDto());
-
-        return "joinPage";
-    }
-
-    @PostMapping("/join")
-    public String joinPage(@Valid @ModelAttribute MemberJoinRequestDto dto,
-                           BindingResult bindingResult) {
-        if (memberValidator.validateJoin(dto, bindingResult).hasErrors())
-            return "/member/join";
-
-        memberService.join(dto);
-
-        return "redirect:/";
-    }
-
-    // 로그인 페이지
-    @GetMapping("/login")
-    public String loginPage(Model model) {
-        model.addAttribute("memberLoginRequest", new MemberLoginRequestDto());
-        return "loginPage";
-    }
-
-
-    // 프로필 페이지
+    // 프로필
     @GetMapping("/{id}")
     public String profilePage(@PathVariable long id,
                               @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
