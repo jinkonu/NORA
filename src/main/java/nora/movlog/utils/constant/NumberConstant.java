@@ -27,6 +27,8 @@ public class NumberConstant {
     public static final int MIN_NICKNAME_LENGTH = 0;
     public static final int MAX_NICKNAME_LENGTH = 10;
 
+    public static final int MAX_LOGIN_LENGTH = 10;
+
 
     // POST
     public static final int DEFAULT_LIKE_CNT = 0;

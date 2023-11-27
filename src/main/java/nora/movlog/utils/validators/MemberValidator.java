@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import static nora.movlog.utils.constant.StringConstant.*;
 import static nora.movlog.utils.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.StringConstant.*;
 
 @RequiredArgsConstructor
 @Component
@@ -26,6 +26,8 @@ public class MemberValidator {
         // loginId
         if (dto.getLoginId().isEmpty())
             bindingResult.addError(new FieldError("requestDto", "loginId", NO_LOGIN_ID_ERROR));
+        else if (dto.getLoginId().length() < MAX_LOGIN_LENGTH)
+            bindingResult.addError(new FieldError("requestDto", "loginId", TOO_LONG_LOGIN_ID_ERROR));
         else if (memberRepository.existsByLoginId(dto.getLoginId()))
             bindingResult.addError(new FieldError("requestDto", "loginId", DUPLICATE_LOGIN_ID_ERROR));
 

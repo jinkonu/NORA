@@ -17,9 +17,6 @@ import java.util.Optional;
 import java.util.List;
 import java.util.Set;
 
-import static nora.movlog.utils.constant.StringConstant.*;
-import static nora.movlog.utils.constant.NumberConstant.*;
-
 @RequiredArgsConstructor
 @Service
 public class MemberService {
