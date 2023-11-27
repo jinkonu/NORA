@@ -1,17 +1,13 @@
 package nora.movlog.controller.user;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nora.movlog.utils.dto.user.MemberJoinRequestDto;
-import nora.movlog.utils.dto.user.MemberLoginRequestDto;
-import nora.movlog.service.user.PostService;
+import nora.movlog.domain.user.PrincipalDetails;
 import nora.movlog.service.user.MemberService;
-import org.springframework.security.core.Authentication;
-import nora.movlog.utils.validators.MemberValidator;
+import nora.movlog.service.user.PostService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import static nora.movlog.utils.constant.StringConstant.*;
@@ -32,7 +28,11 @@ public class MemberController {
                               @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
                               @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
                               Model model) {
-        model.addAttribute("member", memberService.profile(id));
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PrincipalDetails loginMember = (PrincipalDetails) principal;
+        model.addAttribute("loginMember", memberService.findByLoginId(loginMember.getUsername()));
+
+        model.addAttribute("profileMember", memberService.profile(id));
         model.addAttribute("posts", postService.findAllFromMember(id, page, size));
 
         return "userPage";

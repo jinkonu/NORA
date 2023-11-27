@@ -2,8 +2,10 @@ package nora.movlog.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nora.movlog.domain.user.PrincipalDetails;
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.service.user.MemberService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +40,9 @@ public class SearchController {
             model.addAttribute("members", memberService.findAllByNickname(query, page, size));
         }
 
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PrincipalDetails loginMember = (PrincipalDetails) principal;
+        model.addAttribute("loginMember", memberService.findByLoginId(loginMember.getUsername()));
         return "searchForm";
     }
 }

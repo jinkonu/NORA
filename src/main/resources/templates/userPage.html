@@ -80,10 +80,10 @@
                                 <img src="/img/example_profile_img.svg" alt="img"/>
                             </div>
                             <div class="user_info">
-                                <div class="user_info_name">
+                                <div class="user_info_name" th:text="${loginMember.nickname}">
                                     김익명
                                 </div>
-                                <div class="user_info_account">
+                                <div class="user_info_account" th:text="${loginMember.loginId}">
                                     @anonymouskim123
                                 </div>
                             </div>
@@ -105,10 +105,10 @@
                                     <img src="/img/example_profile_img.svg" alt="img"/>
                                 </div>
                                 <div class="user_info">
-                                    <div class="user_info_name" th:text="${member.nickname}">
+                                    <div class="user_info_name" th:text="${profileMember.nickname}">
                                         김익명
                                     </div>
-                                    <div class="user_info_account" th:text="${member.loginId}">
+                                    <div class="user_info_account" th:text="${profileMember.loginId}">
                                         @anonymouskim123
                                     </div>
                                 </div>
@@ -121,12 +121,12 @@
                                 </div>
                             </div>
                             <div id="follower_count">
-                                <div class="user_follower_count" th:text="${member.followerCnt}">
+                                <div class="user_follower_count" th:text="${profileMember.followerCnt}">
                                     156
                                 </div>
                             </div>
                             <div id="following_count">
-                                <div class="user_following_count" th:text="${member.followingCnt}">
+                                <div class="user_following_count" th:text="${profileMember.followingCnt}">
                                     201
                                 </div>
                             </div>
