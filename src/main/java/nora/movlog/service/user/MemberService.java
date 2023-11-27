@@ -48,8 +48,8 @@ public class MemberService {
         return memberRepository.findByLoginId(loginId).get();
     }
 
-    public List<Member> findAllByNickname(String query, PageRequest pageRequest) {
-        return memberRepository.findAllByNicknameContains(query, pageRequest).stream()
+    public List<Member> findAllByNickname(String query, int page, int size) {
+        return memberRepository.findAllByNicknameContains(query, PageRequest.of(page, size)).stream()
                 .toList();
     }
 
