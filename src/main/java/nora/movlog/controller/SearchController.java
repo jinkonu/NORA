@@ -27,6 +27,7 @@ public class SearchController {
     private final MovieService movieService;
     private final MemberService memberService;
 
+    // 검색
     @GetMapping()
     public String search(@RequestParam(value = "query", required = false) String query,
                          Model model,

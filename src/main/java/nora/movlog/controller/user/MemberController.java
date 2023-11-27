@@ -26,8 +26,8 @@ public class MemberController {
 
 
 
-    // 프로필
-    @GetMapping("/{id}")
+    // 사용자 프로필
+    @GetMapping(ID_URI)
     public String profilePage(@PathVariable long id,
                               @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
                               @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,

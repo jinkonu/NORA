@@ -2,7 +2,6 @@ package nora.movlog.controller.movie;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nora.movlog.domain.movie.Movie;
 import nora.movlog.service.movie.MovieService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,18 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import static nora.movlog.utils.constant.StringConstant.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping(MOVIE_URI)
 @Controller
-@Slf4j
 public class MovieController {
+
     private final MovieService movieService;
 
-    @GetMapping("/{id}")
+
+
+    // 영화 프로필
+    @GetMapping(ID_URI)
     public String movieProfile(@PathVariable String id,
                                Model model) {
-        Movie movie = movieService.findOne(id);
-        model.addAttribute("movie", movie);
+        model.addAttribute("movie", movieService.findOne(id));
 
         return "moviePage";
     }

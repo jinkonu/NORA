@@ -95,10 +95,12 @@ public class StringConstant {
 
 
     // URI
+    public static final String NOTHING_URI = "";
     public static final String HOME_URI = "/";
     public static final String LOGIN_URI = "/login";
     public static final String JOIN_URI = "/join";
     public static final String SEARCH_URI = "/search";
+    public static final String ID_URI = "/{id}";
     public static final String MOVIE_URI = "/movie";
     public static final String MEMBER_URI = "/member";
     public static final String POST_URI = "/post";

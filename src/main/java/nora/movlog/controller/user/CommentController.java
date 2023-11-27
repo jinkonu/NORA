@@ -73,7 +73,7 @@ public class CommentController {
 
 
     /* DELETE */
-    @GetMapping("/{commenId}/delete")
+    @GetMapping("/{commentId}/delete")
     public String delete(@PathVariable long commentId,
                          Authentication auth,
                          HttpServletRequest request) throws URISyntaxException {

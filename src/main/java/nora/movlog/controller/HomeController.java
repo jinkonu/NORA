@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import static nora.movlog.utils.constant.StringConstant.*;
+
 @Slf4j
 @RequiredArgsConstructor
 @Controller
@@ -26,34 +28,35 @@ public class HomeController {
 
 
     // 홈
-    @GetMapping(value={"", "/"})
+    @GetMapping(value={NOTHING_URI, HOME_URI})
     public String home(Model model, Authentication auth) {
 
-        return "home";
+        return "homePage";
     }
 
 
     // 회원가입
-    @GetMapping("/join")
+    @GetMapping(JOIN_URI)
     public String joinPage(Model model) {
         model.addAttribute("memberJoinRequest", new MemberJoinRequestDto());
 
         return "joinPage";
     }
 
-    @PostMapping("/join")
+    @PostMapping(JOIN_URI)
     public String joinPage(@Valid @ModelAttribute MemberJoinRequestDto dto,
                            BindingResult bindingResult) {
         if (memberValidator.validateJoin(dto, bindingResult).hasErrors())
-            return "redirect:/join";
+            return "redirect:" + JOIN_URI;
 
         memberService.join(dto);
 
-        return "redirect:/login";
+        return "redirect:" + LOGIN_URI;
     }
 
-    // 로그인 페이지
-    @GetMapping("/login")
+
+    // 로그인
+    @GetMapping(LOGIN_URI)
     public String loginPage(Model model) {
         model.addAttribute("memberLoginRequest", new MemberLoginRequestDto());
 
