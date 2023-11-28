@@ -35,7 +35,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
+        http
                 .httpBasic(HttpBasicConfigurer::disable)
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
@@ -54,10 +54,12 @@ public class SecurityConfig {
                         .failureUrl(LOGIN_URI)
                 )
                 .logout(logout -> logout
-                        .logoutUrl(HOME_URI)
+                        .logoutUrl(LOGOUT_URI)
+                        .logoutSuccessUrl(LOGIN_URI)
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
-                )
-                .build();
+                );
+
+        return http.build();
     }
 }

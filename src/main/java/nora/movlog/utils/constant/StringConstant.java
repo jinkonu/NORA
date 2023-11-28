@@ -100,6 +100,7 @@ public class StringConstant {
     public static final String NOTHING_URI = "";
     public static final String HOME_URI = "/";
     public static final String LOGIN_URI = "/login";
+    public static final String LOGOUT_URI = "/logout";
     public static final String JOIN_URI = "/join";
     public static final String SEARCH_URI = "/search";
     public static final String ID_URI = "/{id}";
