@@ -29,14 +29,11 @@ public class CommentService {
 
     /* CREATE */
     @Transactional
-    public long write(String body, long memberId, long postId) {
-        Member member = memberRepository.findById(memberId).get();
+    public long write(CommentCreateRequestDto dto, long postId, String memberLoginId) {
+        Member member = memberRepository.findByLoginId(memberLoginId).get();
         Post post = postRepository.findById(postId).get();
 
-        Comment comment = commentRepository.save(CommentCreateRequestDto.builder()
-                .body(body)
-                .build()
-                .toEntity(member, post));
+        Comment comment = commentRepository.save(dto.toEntity(member, post));
         post.addComment();
 
         return comment.getId();
@@ -59,10 +56,11 @@ public class CommentService {
 
 
     /* UPDATE */
-    public Long edit(long commentId, CommentEditDto dto) {
+    public Long edit(long commentId, CommentEditDto dto, String memberLoginId) {
         Optional<Comment> optComment = commentRepository.findById(commentId);
+        Optional<Member> optMember = memberRepository.findByLoginId(memberLoginId);
 
-        if (optComment.isEmpty())
+        if (optComment.isEmpty() || optMember.isEmpty())
             return null;
 
         optComment.get().update(dto);
@@ -72,10 +70,11 @@ public class CommentService {
 
 
     /* DELETE */
-    public Long delete(long commentId) {
+    public Long delete(long commentId, String memberLoginId) {
         Optional<Comment> optComment = commentRepository.findById(commentId);
+        Optional<Member> optMember = memberRepository.findByLoginId(memberLoginId);
 
-        if (optComment.isEmpty())
+        if (optComment.isEmpty() || optMember.isEmpty())
             return null;
 
         commentRepository.deleteById(commentId);

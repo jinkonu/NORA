@@ -2,6 +2,7 @@ package nora.movlog.service.user;
 
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
+import nora.movlog.utils.dto.user.PostCreateRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,9 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.stream.IntStream;
-
-import static nora.movlog.domain.constant.StringConstant.*;
+import static nora.movlog.utils.constant.StringConstant.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("ALL")
@@ -53,7 +52,7 @@ class LikesServiceTest {
                 TEST_CASE_POST_BODY,
                 TEST_CASE_QUERY,
                 TEST_CASE_MOVIE_ID,
-                memberId
+                TEST_CASE_MEMBER_LOGIN_ID
         );
     }
 
@@ -61,7 +60,7 @@ class LikesServiceTest {
     @DisplayName("게시물, 회원과 연관된 좋아요 추가 및 추가 확인")
     @Test
     void add_게시물_회원과_연관된_좋아요_추가_및_추가_확인() {
-        likesService.add(memberId, postId);
+        likesService.add(TEST_CASE_MEMBER_LOGIN_ID, postId);
 
         assertThat(likesService.check(memberId, postId)).isTrue();
     }
@@ -70,9 +69,9 @@ class LikesServiceTest {
     @DisplayName("게시물, 회원과 연관된 좋아요 삭제 및 삭제 확인")
     @Test
     void delete_게시물_회원과_연관된_좋아요_삭제_및_삭제_확인() {
-        likesService.add(memberId, postId);
+        likesService.add(TEST_CASE_MEMBER_LOGIN_ID, postId);
 
-        likesService.delete(memberId, postId);
+        likesService.delete(TEST_CASE_MEMBER_LOGIN_ID, postId);
         assertThat(likesService.check(memberId, postId)).isFalse();
     }
 
@@ -90,9 +89,12 @@ class LikesServiceTest {
     }
 
 
-    private long generatePost(String body, String query, String movieId, long memberId) {
+    private long generatePost(String body, String query, String movieId, String memberLoginId) {
         movieService.findAndJoinFromTmdb(query, 0);
 
-        return postService.write(body, movieId, memberId);
+        return postService.write(PostCreateRequestDto.builder()
+                .body(body)
+                .movieId(movieId)
+                .build(), memberLoginId);
     }
 }

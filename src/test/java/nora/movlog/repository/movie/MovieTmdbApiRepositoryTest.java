@@ -13,8 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.IOException;
 import java.util.List;
 
-import static nora.movlog.domain.constant.NumberConstant.*;
-import static nora.movlog.domain.constant.StringConstant.TMDB_SEARCH_BY_ID_PATH;
+import static nora.movlog.utils.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.StringConstant.TMDB_SEARCH_BY_ID_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("ALL")

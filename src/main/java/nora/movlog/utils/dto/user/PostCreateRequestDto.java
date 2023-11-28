@@ -10,6 +10,7 @@ import nora.movlog.domain.user.Member;
 @Data
 public class PostCreateRequestDto {
     private String body;
+    private String movieId;
 
     public Post toEntity(Member member, Movie movie) {
         return Post.builder()

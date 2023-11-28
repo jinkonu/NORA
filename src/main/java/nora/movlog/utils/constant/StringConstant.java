@@ -1,6 +1,6 @@
-package nora.movlog.domain.constant;
+package nora.movlog.utils.constant;
 
-import static nora.movlog.domain.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.NumberConstant.*;
 
 public class StringConstant {
     // COMMON
@@ -78,16 +78,36 @@ public class StringConstant {
 
     // USER
     public static final String NO_LOGIN_ID_ERROR = "아이디가 비어있습니다.";
-    public static final String TOO_LONG_LOGIN_ID_ERROR = "아이디 길이가 " + MAX_LOGIN_ID_LENGTH + "자를 넘습니다.";
     public static final String DUPLICATE_LOGIN_ID_ERROR = "아이디가 중복됩니다.";
+    public static final String TOO_SHORT_LOGIN_ID_ERROR = "아이디 길이가 " + MIN_LOGIN_LENGTH + "자 이상이어야 합니다.";
+    public static final String TOO_LONG_LOGIN_ID_ERROR = "아이디 길이가 " + MAX_LOGIN_LENGTH + "자를 넘습니다.";
 
     public static final String NO_PASSWORD_ERROR = "비밀번호가 비어있습니다.";
     public static final String NOT_EQUAL_PASSWORD_ERROR = "비밀번호가 일치하지 않습니다.";
 
     public static final String NO_NICKNAME_ERROR = "닉네임이 비어있습니다.";
-    public static final String TOOL_LONG_NICKNAME_ERROR = "닉네임 길이가 " + MAX_NICKNAME_LENGTH + "자를 넘습니다.";
+    public static final String TOO_LONG_NICKNAME_ERROR = "닉네임 길이가 " + MAX_NICKNAME_LENGTH + "자를 넘습니다.";
 
     public static final String NO_NOW_PASSWORD = "현재 비밀번호가 비어있습니다.";
+
+    public static final String NO_SUCH_MEMBER = "해당하는 유저를 찾을 수 없습니다.";
+
+    // CONTROLLER
+    public static final String LAST_URL = "lastUrl";
+
+
+    // URI
+    public static final String NOTHING_URI = "";
+    public static final String HOME_URI = "/";
+    public static final String LOGIN_URI = "/login";
+    public static final String JOIN_URI = "/join";
+    public static final String SEARCH_URI = "/search";
+    public static final String ID_URI = "/{id}";
+    public static final String MOVIE_URI = "/movie";
+    public static final String MEMBER_URI = "/member";
+    public static final String POST_URI = "/post";
+    public static final String LIKE_URI = "/likes";
+    public static final String COMMENT_URI = "/comment";
 
 
     // TEST
