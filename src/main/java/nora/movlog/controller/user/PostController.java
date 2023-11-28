@@ -8,6 +8,7 @@ import nora.movlog.utils.dto.user.PostCreateRequestDto;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import static nora.movlog.utils.constant.StringConstant.LAST_URL;
@@ -24,7 +25,9 @@ public class PostController {
 
 
     @GetMapping
-    public String postPage(HttpServletRequest request) {
+    public String postPage(HttpServletRequest request,
+                           Model model) {
+        model.addAttribute("postDto", new PostCreateRequestDto());
         request.getSession().setAttribute(LAST_URL, request.getRequestURI());
 
         return "writePost";
