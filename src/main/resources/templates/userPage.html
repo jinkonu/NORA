@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/css/left_menubar.css">
     <link rel="stylesheet" href="/css/right_trending.css">
     <title>User Page</title>
-
 </head>
 
 <body>
@@ -139,7 +138,7 @@
                                     <div id="user_post">
                                         <div th:each="post : ${posts}">
                                             <div id="post_title">
-                                                Title
+
                                                 <div id="post_movie">
                                                     <div th:text="${post.movieTitle}"></div>
                                                 </div>
@@ -154,6 +153,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <!-- Right side icon for user movie pictures. To be implemented later? -->
+                                <div class="user_pictures">
+                                    <div id="user_picture">
+
+                                    </div>
+
                                 </div>
 
                             </div>

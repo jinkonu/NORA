@@ -11,6 +11,29 @@
     <title>MoviePage</title>
 
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- 모달 스타일 -->
+    <style>
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+    </style>
 </head>
 <body>
     <div class="frame">
@@ -154,7 +177,12 @@
                                     <div class="btn_txt">보고싶은 영화에 담기</div>
 
                                 </div>
-
+                            </div>
+                            <div class="list_btn" id="write_btn" onclick="openModal()"> <!-- 유저 id 및 영화 id가 글 작성 html로 넘어가도록 구현해야 함-->
+                                <div class="btn_content">
+                                    <!-- <img class="btn_icon" src="/icons/EyeClosed.svg" alt="WatchList"/> -->
+                                    <div class="btn_txt">글 작성하기</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -169,7 +197,15 @@
                 </div>
                 <!-- 검색결과 띄우는 창 -->
                 <div id="movie_body">
-                    
+
+                    <div id="myModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <!-- 여기에 writePost.html의 내용이 로드됩니다 -->
+                            <div id="modalBody"></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         
@@ -215,6 +251,18 @@
             });
         }
         
+        function openModal() {
+            fetch('/post')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('modalBody').innerHTML = data;
+                    document.getElementById('myModal').style.display = 'block';
+                });
+        }
+        
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
     </script>
 </body>
 </html>
