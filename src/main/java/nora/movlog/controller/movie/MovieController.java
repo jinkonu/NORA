@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import nora.movlog.domain.user.PrincipalDetails;
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.service.user.MemberService;
+import nora.movlog.utils.MemberFinder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,11 +28,11 @@ public class MovieController {
     // 영화 프로필
     @GetMapping(ID_URI)
     public String movieProfile(@PathVariable String id,
+                               Authentication auth,
                                Model model) {
         model.addAttribute("movie", movieService.findOne(id));
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        PrincipalDetails loginMember = (PrincipalDetails) principal;
-        model.addAttribute("loginMember", memberService.findByLoginId(loginMember.getUsername()));
+        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getUsernameFrom(auth)));
+
         return "moviePage";
     }
 }

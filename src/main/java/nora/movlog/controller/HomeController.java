@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nora.movlog.service.user.MemberService;
+import nora.movlog.utils.MemberFinder;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.utils.dto.user.MemberLoginRequestDto;
 import nora.movlog.utils.validators.MemberValidator;
@@ -29,7 +30,9 @@ public class HomeController {
 
     // 홈
     @GetMapping(value={NOTHING_URI, HOME_URI})
-    public String home(Model model, Authentication auth) {
+    public String home(Authentication auth,
+                       Model model) {
+        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getUsernameFrom(auth)));
 
         return "homePage";
     }
