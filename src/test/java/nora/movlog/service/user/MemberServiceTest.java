@@ -12,7 +12,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -79,8 +78,8 @@ class MemberServiceTest {
         Member follower = memberService.findByLoginId(TEST_CASE_MEMBER2_LOGIN_ID);
         memberService.follow(following.getLoginId(), follower.getLoginId());
 
-        assertThat(memberService.findAllFollowings(following.getLoginId())).contains(follower);
-        assertThat(memberService.findAllFollowers(follower.getLoginId()).contains(following));
+        assertThat(memberService.findAllFollowings(following.getLoginId()).contains(follower)).isTrue();
+        assertThat(memberService.findAllFollowers(follower.getLoginId()).contains(following)).isTrue();
     }
 
 
@@ -145,7 +144,6 @@ class MemberServiceTest {
     @ValueSource(strings = "pinkFloyd")
     @ParameterizedTest
     void edit_MemberDto와_id로부터_회원_수정(String input) {
-        long id = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID).getId();
         String newPassword = input;
 
         MemberDto dto = MemberDto.builder()
@@ -156,8 +154,8 @@ class MemberServiceTest {
                 .newPasswordCheck(newPassword)
                 .build();
 
-        memberService.edit(id, dto);
-        Member member = memberService.profile(id);
+        memberService.edit(TEST_CASE_MEMBER_LOGIN_ID, dto);
+        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
 
         assertThat(member.getNickname()).isEqualTo(input);
         assertThat(encoder.matches(newPassword, member.getPassword())).isTrue();
@@ -167,9 +165,7 @@ class MemberServiceTest {
     @DisplayName("id와 현재 비밀번호로부터 회원 삭제")
     @Test
     void delete_id와_현재_비밀번호로부터_회원_삭제() {
-        long id = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID).getId();
-
-        assertThat(memberService.delete(id, TEST_CASE_MEMBER_PASSWORD)).isTrue();
+        assertThat(memberService.delete(TEST_CASE_MEMBER_LOGIN_ID, TEST_CASE_MEMBER_PASSWORD)).isTrue();
     }
 
 
