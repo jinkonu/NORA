@@ -42,8 +42,8 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/icons/**"),
                                          new AntPathRequestMatcher("/img/**"),
                                          new AntPathRequestMatcher("/css/**")).permitAll() // 웹페이지 표시를 위한 리소스는 전체 공개
-                        .requestMatchers(new AntPathRequestMatcher(LOGIN_URI),
-                                         new AntPathRequestMatcher(JOIN_URI)).anonymous() // 로그인, 회원가입 페이지는 로그인하지 않은 회원에게만 보이게
+                        .requestMatchers(new AntPathRequestMatcher(LOGIN_URI + ALL_URI),
+                                         new AntPathRequestMatcher(JOIN_URI + ALL_URI)).anonymous() // 로그인, 회원가입 페이지는 로그인하지 않은 회원에게만 보이게
                         .anyRequest().authenticated() // 그 외 페이지는 로그인한 회원에게만 보이게
                 )
                 .formLogin(login -> login

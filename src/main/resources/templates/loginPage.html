@@ -10,7 +10,7 @@
     <h1>로그인</h1>
     <form th:method="post" th:action="login" th:object="${memberLoginRequest}">
         <div>
-            <label th:for="loginId">로그인 아이디 : </label>
+            <label th:for="loginId">이메일 : </label>
             <input type="text" th:field="*{loginId}"/>
         </div>
         <br/>
