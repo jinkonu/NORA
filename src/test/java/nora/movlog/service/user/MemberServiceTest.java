@@ -69,13 +69,17 @@ class MemberServiceTest {
                 TEST_CASE_MEMBER2_NICKNAME
         );
 
-        long followingId = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID).getId();
-        long followerId = memberService.findByLoginId(TEST_CASE_MEMBER2_LOGIN_ID).getId();
-        memberService.follow(followingId, followerId);
+        String following = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID).getLoginId();
+        String follower = memberService.findByLoginId(TEST_CASE_MEMBER2_LOGIN_ID).getLoginId();
+        memberService.follow(following, follower);
 
-        assertThat(memberService.findAllFollowings(followingId).contains(followerId));
-        assertThat(memberService.findAllFollowers(followerId).contains(followingId));
+        assertThat(memberService.findAllFollowings(following).contains(follower));
+        assertThat(memberService.findAllFollowers(follower).contains(following));
     }
+
+
+//    @DisplayName("이미 본 영화에 추가")
+
 
 
     @DisplayName("id로부터 회원 조회")
@@ -103,7 +107,7 @@ class MemberServiceTest {
     @DisplayName("닉네임으로부터 회원 페이지 조회")
     @Test
     void findAllByNickname_닉네임으로부터_회원_페이지_조회() {
-        List<Member> members = memberService.findAllByNickname(TEST_CASE_MEMBER_NICKNAME, PageRequest.of(0, 10));
+        List<Member> members = memberService.findAllByNickname(TEST_CASE_MEMBER_NICKNAME, 0, 10);
 
         assertThat(members.stream()
                 .map(Member::getNickname)

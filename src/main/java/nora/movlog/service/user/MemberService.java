@@ -1,7 +1,9 @@
 package nora.movlog.service.user;
 
 import lombok.RequiredArgsConstructor;
+import nora.movlog.domain.movie.Movie;
 import nora.movlog.domain.user.Member;
+import nora.movlog.repository.movie.interfaces.MovieRepository;
 import nora.movlog.utils.dto.user.MemberDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.repository.user.MemberRepository;
@@ -19,6 +21,7 @@ import java.util.Set;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final MovieRepository movieRepository;
     private final BCryptPasswordEncoder encoder;
 
     /* CREATE */
@@ -27,11 +30,28 @@ public class MemberService {
         memberRepository.save(requestDto.toEntity(encoder.encode(requestDto.getPassword())));
     }
 
-    public void follow(long followingId, long followerId) {
-        Member following = memberRepository.findById(followingId).get();
-        Member follower = memberRepository.findById(followerId).get();
+    @Transactional
+    public void follow(String followingId, String followerId) {
+        Member following = memberRepository.findByLoginId(followingId).get();
+        Member follower = memberRepository.findByLoginId(followerId).get();
 
         following.follows(follower);
+    }
+
+    @Transactional
+    public void addSeenMovie(String memberLoginId, String movieId) {
+        Member member = memberRepository.findByLoginId(memberLoginId).get();
+        Movie movie = movieRepository.findById(movieId).get();
+
+        member.addSeen(movie);
+    }
+
+    @Transactional
+    public void addToSeeMovie(String memberLoginId, String movieId) {
+        Member member = memberRepository.findByLoginId(memberLoginId).get();
+        Movie movie = movieRepository.findById(movieId).get();
+
+        member.addToSee(movie);
     }
 
 
@@ -49,14 +69,24 @@ public class MemberService {
                 .toList();
     }
 
-    public Set<Member> findAllFollowings(long id) {
-        return memberRepository.findById(id).get()
+    public Set<Member> findAllFollowings(String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
                 .getFollowings();
     }
 
-    public Set<Member> findAllFollowers(long id) {
-        return memberRepository.findById(id).get()
+    public Set<Member> findAllFollowers(String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
                 .getFollowers();
+    }
+
+    public Set<Movie> findAllSeenMovies(String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
+                .getSeenMovies();
+    }
+
+    public Set<Movie> findAllToSeeMovies(String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
+                .getToSeeMovies();
     }
 
 
