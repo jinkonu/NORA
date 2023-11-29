@@ -1,6 +1,7 @@
 package nora.movlog.service.user;
 
 import nora.movlog.domain.user.Member;
+import nora.movlog.service.movie.MovieService;
 import nora.movlog.utils.dto.user.MemberDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -31,9 +31,14 @@ class MemberServiceTest {
     private static final String TEST_CASE_MEMBER2_LOGIN_ID = "hello";
     private static final String TEST_CASE_MEMBER2_PASSWORD = "bye";
     private static final String TEST_CASE_MEMBER2_NICKNAME = "beachboys";
+    private static final String TEST_CASE_MOVIE_ID = "275";
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    MovieService movieService;
+
 
     @Autowired
     BCryptPasswordEncoder encoder;
@@ -69,13 +74,87 @@ class MemberServiceTest {
                 TEST_CASE_MEMBER2_NICKNAME
         );
 
-        long followingId = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID).getId();
-        long followerId = memberService.findByLoginId(TEST_CASE_MEMBER2_LOGIN_ID).getId();
-        memberService.follow(followingId, followerId);
+        Member following = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
+        Member follower = memberService.findByLoginId(TEST_CASE_MEMBER2_LOGIN_ID);
+        memberService.follow(following.getLoginId(), follower.getLoginId());
 
-        assertThat(memberService.findAllFollowings(followingId).contains(followerId));
-        assertThat(memberService.findAllFollowers(followerId).contains(followingId));
+        assertThat(memberService.findAllFollowings(following.getLoginId()).contains(follower)).isTrue();
+        assertThat(memberService.findAllFollowers(follower.getLoginId()).contains(following)).isTrue();
     }
+
+
+    @DisplayName("다른 회원을 팔로우에서 제거")
+    @Test
+    void unfollow_다른_회원을_팔로우에서_제거() {
+        generateMember(
+                TEST_CASE_MEMBER2_LOGIN_ID,
+                TEST_CASE_MEMBER2_PASSWORD,
+                TEST_CASE_MEMBER2_NICKNAME
+        );
+
+        Member following = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
+        Member follower = memberService.findByLoginId(TEST_CASE_MEMBER2_LOGIN_ID);
+        memberService.follow(following.getLoginId(), follower.getLoginId());
+
+        memberService.unfollow(following.getLoginId(), follower.getLoginId());
+
+        assertThat(memberService.findAllFollowings(following.getLoginId()).isEmpty()).isTrue();
+        assertThat(memberService.findAllFollowers(follower.getLoginId()).isEmpty()).isTrue();
+    }
+
+
+    @DisplayName("이미 본 영화에 추가")
+    @Test
+    void addSeen_이미_본_영화에_추가() {
+        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
+
+        memberService.addSeenMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
+
+        assertThat(memberService.findAllSeenMovies(member.getLoginId())
+                .contains(movieService.findOne(TEST_CASE_MOVIE_ID)))
+                .isTrue();
+    }
+
+
+    @DisplayName("이미 본 영화에서 제거")
+    @Test
+    void removeSeenMovie_이미_본_영화에서_제거() {
+        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
+        memberService.addSeenMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
+
+        memberService.removeSeenMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
+
+        assertThat(memberService.findAllSeenMovies(member.getLoginId())
+                .contains(movieService.findOne(TEST_CASE_MOVIE_ID)))
+                .isFalse();
+    }
+
+
+    @DisplayName("보고 싶은 영화에 추가")
+    @Test
+    void addToSee_보고_싶은_영화에_추가() {
+        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
+
+        memberService.addToSeeMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
+
+        assertThat(memberService.findAllToSeeMovies(member.getLoginId()))
+                .contains(movieService.findOne(TEST_CASE_MOVIE_ID));
+    }
+
+
+    @DisplayName("보고 싶은 영화에서 제거")
+    @Test
+    void removeToSee_보고_싶은_영화에서_제거() {
+        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
+        memberService.addSeenMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
+
+        memberService.removeToSeeMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
+
+        assertThat(memberService.findAllToSeeMovies(member.getLoginId())
+                .contains(movieService.findOne(TEST_CASE_MOVIE_ID)))
+                .isFalse();
+    }
+
 
 
     @DisplayName("id로부터 회원 조회")
@@ -103,7 +182,7 @@ class MemberServiceTest {
     @DisplayName("닉네임으로부터 회원 페이지 조회")
     @Test
     void findAllByNickname_닉네임으로부터_회원_페이지_조회() {
-        List<Member> members = memberService.findAllByNickname(TEST_CASE_MEMBER_NICKNAME, PageRequest.of(0, 10));
+        List<Member> members = memberService.findAllByNickname(TEST_CASE_MEMBER_NICKNAME, 0, 10);
 
         assertThat(members.stream()
                 .map(Member::getNickname)
@@ -115,7 +194,6 @@ class MemberServiceTest {
     @ValueSource(strings = "pinkFloyd")
     @ParameterizedTest
     void edit_MemberDto와_id로부터_회원_수정(String input) {
-        long id = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID).getId();
         String newPassword = input;
 
         MemberDto dto = MemberDto.builder()
@@ -126,8 +204,8 @@ class MemberServiceTest {
                 .newPasswordCheck(newPassword)
                 .build();
 
-        memberService.edit(id, dto);
-        Member member = memberService.profile(id);
+        memberService.edit(TEST_CASE_MEMBER_LOGIN_ID, dto);
+        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
 
         assertThat(member.getNickname()).isEqualTo(input);
         assertThat(encoder.matches(newPassword, member.getPassword())).isTrue();
@@ -137,9 +215,7 @@ class MemberServiceTest {
     @DisplayName("id와 현재 비밀번호로부터 회원 삭제")
     @Test
     void delete_id와_현재_비밀번호로부터_회원_삭제() {
-        long id = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID).getId();
-
-        assertThat(memberService.delete(id, TEST_CASE_MEMBER_PASSWORD)).isTrue();
+        assertThat(memberService.delete(TEST_CASE_MEMBER_LOGIN_ID, TEST_CASE_MEMBER_PASSWORD)).isTrue();
     }
 
 

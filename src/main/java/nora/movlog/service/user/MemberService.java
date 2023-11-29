@@ -1,13 +1,13 @@
 package nora.movlog.service.user;
 
 import lombok.RequiredArgsConstructor;
+import nora.movlog.domain.movie.Movie;
 import nora.movlog.domain.user.Member;
+import nora.movlog.repository.movie.interfaces.MovieRepository;
 import nora.movlog.service.exception.BusinessLogicException;
 import nora.movlog.service.exception.ExceptionCode;
 import nora.movlog.utils.dto.user.MemberDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
-import nora.movlog.repository.user.CommentRepository;
-import nora.movlog.repository.user.LikesRepository;
 import nora.movlog.repository.user.MemberRepository;
 import nora.movlog.utils.dto.user.MemberLoginRequestDto;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,8 +31,7 @@ import static nora.movlog.utils.constant.StringConstant.*;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final CommentRepository commentRepository;
-    private final LikesRepository likesRepository;
+    private final MovieRepository movieRepository;
     private final BCryptPasswordEncoder encoder;
 
     private final MailService mailService;
@@ -46,7 +45,7 @@ public class MemberService {
     public void join(MemberJoinRequestDto requestDto) {
         memberRepository.save(requestDto.toEntity(encoder.encode(requestDto.getPassword())));
     }
-
+  
     public void sendCodeToEmail(String email) {
         String title = "MOVLOG 이메일 인증";
         String authCode = this.createCode();
@@ -75,11 +74,28 @@ public class MemberService {
         return redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode);
     }
 
+    @Transactional
     public void follow(long followingId, long followerId) {
         Member following = memberRepository.findById(followingId).get();
         Member follower = memberRepository.findById(followerId).get();
 
         following.follows(follower);
+    }
+
+    @Transactional
+    public void addSeenMovie(String loginId, String movieId) {
+        Member member = memberRepository.findByLoginId(loginId).get();
+        Movie movie = movieRepository.findById(movieId).get();
+
+        member.addSeen(movie);
+    }
+
+    @Transactional
+    public void addToSeeMovie(String loginId, String movieId) {
+        Member member = memberRepository.findByLoginId(loginId).get();
+        Movie movie = movieRepository.findById(movieId).get();
+
+        member.addToSee(movie);
     }
 
 
@@ -97,37 +113,31 @@ public class MemberService {
                 .toList();
     }
 
-    public Set<Member> findAllFollowings(long id) {
-        return memberRepository.findById(id).get()
+    public Set<Member> findAllFollowings(String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
                 .getFollowings();
     }
 
-    public Set<Member> findAllFollowers(long id) {
-        return memberRepository.findById(id).get()
+    public Set<Member> findAllFollowers(String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
                 .getFollowers();
     }
 
+    public Set<Movie> findAllSeenMovies(String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
+                .getSeenMovies();
+    }
 
-    @Transactional
-    public Member login(MemberLoginRequestDto dto) {
-        Optional<Member> optionalMember = memberRepository.findByLoginId(dto.getLoginId());
-
-        if (optionalMember.isEmpty())
-            return null;
-
-        Member member = optionalMember.get();
-
-        if (!member.getPassword().equals(dto.getPassword()))
-            return null;
-
-        return member;
+    public Set<Movie> findAllToSeeMovies(String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
+                .getToSeeMovies();
     }
 
 
     /* UPDATE */
     @Transactional
-    public void edit(long id, MemberDto dto) {
-        Member member = memberRepository.findById(id).get();
+    public void edit(String loginId, MemberDto dto) {
+        Member member = memberRepository.findByLoginId(loginId).get();
 
         if (dto.getNewPassword().isBlank())
             member.edit(member.getPassword(), dto.getNickname());
@@ -139,8 +149,8 @@ public class MemberService {
 
     /* DELETE */
     @Transactional
-    public boolean delete(long id, String nowPassword) {
-        Member member = memberRepository.findById(id).get();
+    public boolean delete(String loginId, String nowPassword) {
+        Member member = memberRepository.findByLoginId(loginId).get();
 
         if (encoder.matches(nowPassword, member.getPassword())) {
             memberRepository.delete(member);
@@ -148,5 +158,29 @@ public class MemberService {
         }
 
         return false;
+    }
+
+    @Transactional
+    public void unfollow(String followingId, String followerId) {
+        Member following = memberRepository.findByLoginId(followingId).get();
+        Member follower = memberRepository.findByLoginId(followerId).get();
+
+        following.unfollows(follower);
+    }
+
+    @Transactional
+    public void removeSeenMovie(String loginId, String movieId) {
+        Member member = memberRepository.findByLoginId(loginId).get();
+        Movie movie = movieRepository.findById(movieId).get();
+
+        member.removeSeen(movie);
+    }
+
+    @Transactional
+    public void removeToSeeMovie(String loginId, String movieId) {
+        Member member = memberRepository.findByLoginId(loginId).get();
+        Movie movie = movieRepository.findById(movieId).get();
+
+        member.removeToSee(movie);
     }
 }

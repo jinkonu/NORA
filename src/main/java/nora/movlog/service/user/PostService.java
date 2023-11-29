@@ -8,8 +8,6 @@ import nora.movlog.utils.dto.user.PostCreateRequestDto;
 import nora.movlog.utils.dto.user.PostDto;
 import nora.movlog.utils.dto.user.PostEditDto;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
-import nora.movlog.repository.user.CommentRepository;
-import nora.movlog.repository.user.LikesRepository;
 import nora.movlog.repository.user.PostRepository;
 import nora.movlog.repository.user.MemberRepository;
 import org.springframework.data.domain.PageRequest;

@@ -22,7 +22,7 @@ public class PostDto {
     private String movieTitle;
 
     /* Member */
-    private long memberId;
+    private String memberLoginId;
     private String memberNickname;
 
     /* Like */
@@ -40,7 +40,7 @@ public class PostDto {
                 .body(post.getBody())
                 .movieId(post.getMovie().getId())
                 .movieTitle(post.getMovie().getTitleKo())
-                .memberId(post.getMember().getId())
+                .memberLoginId(post.getMember().getLoginId())
                 .memberNickname(post.getMember().getNickname())
                 .likeCnt(DEFAULT_LIKE_CNT)
                 .commentCnt(post.getCommentCnt())

@@ -33,6 +33,7 @@ public class HomeController {
     public String home(Authentication auth,
                        Model model) {
         model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getUsernameFrom(auth)));
+        // 10개 게시물 보내기
 
         return "homePage";
     }

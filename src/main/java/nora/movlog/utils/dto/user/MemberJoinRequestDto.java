@@ -23,6 +23,8 @@ public class MemberJoinRequestDto {
                 .createdAt(LocalDateTime.now())
                 .followings(new HashSet<>())
                 .followers(new HashSet<>())
+                .seenMovies(new HashSet<>())
+                .toSeeMovies(new HashSet<>())
                 .build();
     }
 }
