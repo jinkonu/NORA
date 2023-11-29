@@ -28,6 +28,7 @@ public class Member implements UserDetails {
     private String loginId;
     private String password;
     private String nickname;
+    private boolean isVerified;
     private LocalDateTime createdAt;
 
     /* 연관관계 */
@@ -132,6 +133,17 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setVerified() {
+        this.isVerified = true;
+    }
+
+    public void follows(Member follower) {
+        this.followingCnt++;
+        this.followings.add(follower);
+
+        follower.followerCnt++;
     }
 }
 
