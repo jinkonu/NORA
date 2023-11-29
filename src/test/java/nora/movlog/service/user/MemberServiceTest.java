@@ -1,6 +1,7 @@
 package nora.movlog.service.user;
 
 import nora.movlog.domain.user.Member;
+import nora.movlog.service.movie.MovieService;
 import nora.movlog.utils.dto.user.MemberDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,9 +32,14 @@ class MemberServiceTest {
     private static final String TEST_CASE_MEMBER2_LOGIN_ID = "hello";
     private static final String TEST_CASE_MEMBER2_PASSWORD = "bye";
     private static final String TEST_CASE_MEMBER2_NICKNAME = "beachboys";
+    private static final String TEST_CASE_MOVIE_ID = "275";
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    MovieService movieService;
+
 
     @Autowired
     BCryptPasswordEncoder encoder;
@@ -69,17 +75,37 @@ class MemberServiceTest {
                 TEST_CASE_MEMBER2_NICKNAME
         );
 
-        String following = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID).getLoginId();
-        String follower = memberService.findByLoginId(TEST_CASE_MEMBER2_LOGIN_ID).getLoginId();
-        memberService.follow(following, follower);
+        Member following = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
+        Member follower = memberService.findByLoginId(TEST_CASE_MEMBER2_LOGIN_ID);
+        memberService.follow(following.getLoginId(), follower.getLoginId());
 
-        assertThat(memberService.findAllFollowings(following).contains(follower));
-        assertThat(memberService.findAllFollowers(follower).contains(following));
+        assertThat(memberService.findAllFollowings(following.getLoginId())).contains(follower);
+        assertThat(memberService.findAllFollowers(follower.getLoginId()).contains(following));
     }
 
 
-//    @DisplayName("이미 본 영화에 추가")
+    @DisplayName("이미 본 영화에 추가")
+    @Test
+    void addSeen_이미_본_영화에_추가() {
+        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
 
+        memberService.addSeenMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
+
+        assertThat(memberService.findAllSeenMovies(member.getLoginId()))
+                .contains(movieService.findOne(TEST_CASE_MOVIE_ID));
+    }
+
+
+    @DisplayName("보고 싶은 영화에 추가")
+    @Test
+    void addToSee_보고_싶은_영화에_추가() {
+        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
+
+        memberService.addToSeeMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
+
+        assertThat(memberService.findAllToSeeMovies(member.getLoginId()))
+                .contains(movieService.findOne(TEST_CASE_MOVIE_ID));
+    }
 
 
     @DisplayName("id로부터 회원 조회")

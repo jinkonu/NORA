@@ -69,9 +69,24 @@ public class Member implements UserDetails {
         this.nickname = nickname;
     }
 
+    public void follows(Member follower) {
+        this.followingCnt++;
+        this.followings.add(follower);
+
+        follower.followerCnt++;
+    }
+
+    public void addSeen(Movie movie) {
+        this.seenMovies.add(movie);
+    }
+
+    public void addToSee(Movie movie) {
+        this.toSeeMovies.add(movie);
+    }
 
 
     /* 보안 관련 로직 */
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -100,13 +115,6 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public void follows(Member follower) {
-        this.followingCnt++;
-        this.followings.add(follower);
-
-        follower.followerCnt++;
     }
 }
 

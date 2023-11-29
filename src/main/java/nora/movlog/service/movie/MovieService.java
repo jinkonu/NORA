@@ -31,9 +31,6 @@ public class MovieService {
 
 
     /* CREATE */
-
-
-
     // DB에 신규 영화 저장
     @Transactional
     public void join(Movie movie) {
@@ -66,7 +63,6 @@ public class MovieService {
 
 
     /* READ */
-
     // 문자열 기반 검색
     //  -> 1차적으로 DB 검색
     //  -> 없거나 부족하면 findFromTmdb()
