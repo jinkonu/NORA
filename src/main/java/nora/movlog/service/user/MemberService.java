@@ -90,22 +90,6 @@ public class MemberService {
     }
 
 
-    @Transactional
-    public Member login(MemberLoginRequestDto dto) {
-        Optional<Member> optionalMember = memberRepository.findByLoginId(dto.getLoginId());
-
-        if (optionalMember.isEmpty())
-            return null;
-
-        Member member = optionalMember.get();
-
-        if (!member.getPassword().equals(dto.getPassword()))
-            return null;
-
-        return member;
-    }
-
-
     /* UPDATE */
     @Transactional
     public void edit(long id, MemberDto dto) {
