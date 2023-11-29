@@ -83,6 +83,26 @@ class MemberServiceTest {
     }
 
 
+    @DisplayName("다른 회원을 팔로우에서 제거")
+    @Test
+    void unfollow_다른_회원을_팔로우에서_제거() {
+        generateMember(
+                TEST_CASE_MEMBER2_LOGIN_ID,
+                TEST_CASE_MEMBER2_PASSWORD,
+                TEST_CASE_MEMBER2_NICKNAME
+        );
+
+        Member following = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
+        Member follower = memberService.findByLoginId(TEST_CASE_MEMBER2_LOGIN_ID);
+        memberService.follow(following.getLoginId(), follower.getLoginId());
+
+        memberService.unfollow(following.getLoginId(), follower.getLoginId());
+
+        assertThat(memberService.findAllFollowings(following.getLoginId()).isEmpty()).isTrue();
+        assertThat(memberService.findAllFollowers(follower.getLoginId()).isEmpty()).isTrue();
+    }
+
+
     @DisplayName("이미 본 영화에 추가")
     @Test
     void addSeen_이미_본_영화에_추가() {

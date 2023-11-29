@@ -74,6 +74,15 @@ public class Member implements UserDetails {
         this.followings.add(follower);
 
         follower.followerCnt++;
+        follower.followers.add(this);
+    }
+
+    public void unfollows(Member follower) {
+        this.followingCnt--;
+        this.followings.remove(follower);
+
+        follower.followerCnt--;
+        follower.followers.remove(this);
     }
 
     public void addSeen(Movie movie) {

@@ -92,8 +92,8 @@ public class MemberService {
 
     /* UPDATE */
     @Transactional
-    public void edit(long id, MemberDto dto) {
-        Member member = memberRepository.findById(id).get();
+    public void edit(String loginId, MemberDto dto) {
+        Member member = memberRepository.findByLoginId(loginId).get();
 
         if (dto.getNewPassword().isBlank())
             member.edit(member.getPassword(), dto.getNickname());
@@ -105,8 +105,8 @@ public class MemberService {
 
     /* DELETE */
     @Transactional
-    public boolean delete(long id, String nowPassword) {
-        Member member = memberRepository.findById(id).get();
+    public boolean delete(String loginId, String nowPassword) {
+        Member member = memberRepository.findByLoginId(loginId).get();
 
         if (encoder.matches(nowPassword, member.getPassword())) {
             memberRepository.delete(member);
@@ -114,5 +114,13 @@ public class MemberService {
         }
 
         return false;
+    }
+
+    @Transactional
+    public void unfollow(String followingId, String followerId) {
+        Member following = memberRepository.findByLoginId(followingId).get();
+        Member follower = memberRepository.findByLoginId(followerId).get();
+
+        following.unfollows(follower);
     }
 }
