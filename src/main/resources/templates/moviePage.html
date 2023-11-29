@@ -178,7 +178,7 @@
 
                                 </div>
                             </div>
-                            <div class="list_btn" id="write_btn" onclick="openModal()"> <!-- 유저 id 및 영화 id가 글 작성 html로 넘어가도록 구현해야 함-->
+                            <div class="list_btn" id="write_btn" onclick="openModal()">
                                 <div class="btn_content">
                                     <!-- <img class="btn_icon" src="/icons/EyeClosed.svg" alt="WatchList"/> -->
                                     <div class="btn_txt">글 작성하기</div>
@@ -224,7 +224,8 @@
     </div>
 
     <script src="../menu_control.js"></script>
-    <script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
         const searchEvent = document.querySelectorAll(".search_input");
         for (let s of searchEvent) {
             s.addEventListener('keyup', e => {
@@ -250,9 +251,10 @@
               window.open('/movie' + '/' + urlParam, '_self');
             });
         }
-        
+
+        var movieId = /*[[${movie.id}]]*/ 'defaultMovieId';
         function openModal() {
-            fetch('/post')
+            fetch('/post?movieId='+movieId)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('modalBody').innerHTML = data;
@@ -263,6 +265,7 @@
         function closeModal() {
             document.getElementById('myModal').style.display = 'none';
         }
+        /*]]>*/
     </script>
 </body>
 </html>
