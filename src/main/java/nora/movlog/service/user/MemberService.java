@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.user.Member;
 import nora.movlog.utils.dto.user.MemberDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
-import nora.movlog.repository.user.CommentRepository;
-import nora.movlog.repository.user.LikesRepository;
 import nora.movlog.repository.user.MemberRepository;
 import nora.movlog.utils.dto.user.MemberLoginRequestDto;
 import org.springframework.data.domain.PageRequest;
@@ -21,8 +19,6 @@ import java.util.Set;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final CommentRepository commentRepository;
-    private final LikesRepository likesRepository;
     private final BCryptPasswordEncoder encoder;
 
     /* CREATE */
