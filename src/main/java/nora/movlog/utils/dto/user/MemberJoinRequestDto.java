@@ -19,6 +19,7 @@ public class MemberJoinRequestDto {
                 .loginId(loginId)
                 .password(encodedPassword)
                 .nickname(nickname)
+                .isVerified(false)
                 .createdAt(LocalDateTime.now())
                 .followings(new HashSet<>())
                 .followers(new HashSet<>())
