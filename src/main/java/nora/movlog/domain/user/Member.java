@@ -89,8 +89,16 @@ public class Member implements UserDetails {
         this.seenMovies.add(movie);
     }
 
+    public void removeSeen(Movie movie) {
+        this.seenMovies.remove(movie);
+    }
+
     public void addToSee(Movie movie) {
         this.toSeeMovies.add(movie);
+    }
+
+    public void removeToSee(Movie movie) {
+        this.seenMovies.remove(movie);
     }
 
 

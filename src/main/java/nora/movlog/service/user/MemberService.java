@@ -7,13 +7,11 @@ import nora.movlog.repository.movie.interfaces.MovieRepository;
 import nora.movlog.utils.dto.user.MemberDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.repository.user.MemberRepository;
-import nora.movlog.utils.dto.user.MemberLoginRequestDto;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.List;
 import java.util.Set;
 
@@ -39,16 +37,16 @@ public class MemberService {
     }
 
     @Transactional
-    public void addSeenMovie(String memberLoginId, String movieId) {
-        Member member = memberRepository.findByLoginId(memberLoginId).get();
+    public void addSeenMovie(String loginId, String movieId) {
+        Member member = memberRepository.findByLoginId(loginId).get();
         Movie movie = movieRepository.findById(movieId).get();
 
         member.addSeen(movie);
     }
 
     @Transactional
-    public void addToSeeMovie(String memberLoginId, String movieId) {
-        Member member = memberRepository.findByLoginId(memberLoginId).get();
+    public void addToSeeMovie(String loginId, String movieId) {
+        Member member = memberRepository.findByLoginId(loginId).get();
         Movie movie = movieRepository.findById(movieId).get();
 
         member.addToSee(movie);
@@ -122,5 +120,21 @@ public class MemberService {
         Member follower = memberRepository.findByLoginId(followerId).get();
 
         following.unfollows(follower);
+    }
+
+    @Transactional
+    public void removeSeenMovie(String loginId, String movieId) {
+        Member member = memberRepository.findByLoginId(loginId).get();
+        Movie movie = movieRepository.findById(movieId).get();
+
+        member.removeSeen(movie);
+    }
+
+    @Transactional
+    public void removeToSeeMovie(String loginId, String movieId) {
+        Member member = memberRepository.findByLoginId(loginId).get();
+        Movie movie = movieRepository.findById(movieId).get();
+
+        member.removeToSee(movie);
     }
 }

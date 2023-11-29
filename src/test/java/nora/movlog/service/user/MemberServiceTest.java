@@ -110,8 +110,23 @@ class MemberServiceTest {
 
         memberService.addSeenMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
 
-        assertThat(memberService.findAllSeenMovies(member.getLoginId()))
-                .contains(movieService.findOne(TEST_CASE_MOVIE_ID));
+        assertThat(memberService.findAllSeenMovies(member.getLoginId())
+                .contains(movieService.findOne(TEST_CASE_MOVIE_ID)))
+                .isTrue();
+    }
+
+
+    @DisplayName("이미 본 영화에서 제거")
+    @Test
+    void removeSeenMovie_이미_본_영화에서_제거() {
+        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
+        memberService.addSeenMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
+
+        memberService.removeSeenMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
+
+        assertThat(memberService.findAllSeenMovies(member.getLoginId())
+                .contains(movieService.findOne(TEST_CASE_MOVIE_ID)))
+                .isFalse();
     }
 
 
@@ -125,6 +140,21 @@ class MemberServiceTest {
         assertThat(memberService.findAllToSeeMovies(member.getLoginId()))
                 .contains(movieService.findOne(TEST_CASE_MOVIE_ID));
     }
+
+
+    @DisplayName("보고 싶은 영화에서 제거")
+    @Test
+    void removeToSee_보고_싶은_영화에서_제거() {
+        Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
+        memberService.addSeenMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
+
+        memberService.removeToSeeMovie(member.getLoginId(), TEST_CASE_MOVIE_ID);
+
+        assertThat(memberService.findAllToSeeMovies(member.getLoginId())
+                .contains(movieService.findOne(TEST_CASE_MOVIE_ID)))
+                .isFalse();
+    }
+
 
 
     @DisplayName("id로부터 회원 조회")
