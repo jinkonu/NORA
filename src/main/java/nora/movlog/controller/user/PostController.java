@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nora.movlog.service.user.PostService;
+import nora.movlog.utils.MemberFinder;
 import nora.movlog.utils.dto.user.PostCreateRequestDto;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +35,7 @@ public class PostController {
     public String writePost(@ModelAttribute PostCreateRequestDto dto,
                             Authentication auth,
                             HttpServletRequest request) {
-        postService.write(dto, ((UserDetails) auth.getPrincipal()).getUsername());
+        postService.write(dto, MemberFinder.getUsernameFrom(auth));
 
         String lastUrl = (String) request.getSession().getAttribute(LAST_URL);
         request.getSession().removeAttribute(LAST_URL);
