@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import nora.movlog.domain.movie.Movie;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -55,8 +55,11 @@ public class Member implements UserDetails {
     private int followerCnt;
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Movie> seenMovies;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Movie> toSeeMovies;
 
 
 
@@ -66,6 +69,9 @@ public class Member implements UserDetails {
         this.nickname = nickname;
     }
 
+
+
+    /* 보안 관련 로직 */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
