@@ -40,6 +40,7 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<Likes> likes;
 
+
     @ManyToMany
     @JoinTable(
             name = "follow",
@@ -52,6 +53,12 @@ public class Member implements UserDetails {
     @ManyToMany(mappedBy = "followings")
     private Set<Member> followers;
     private int followerCnt;
+
+
+    @ManyToMany
+
+
+
 
     /* 도메인 로직 */
     public void edit(String password, String nickname) {

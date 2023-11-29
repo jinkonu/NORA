@@ -2,8 +2,7 @@ package nora.movlog.utils.dto.movie;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
-import nora.movlog.domain.movie.Movie;
-import nora.movlog.domain.movie.WatchGrade;
+import nora.movlog.domain.movie.*;
 
 import java.util.*;
 
@@ -21,11 +20,12 @@ public class MovieTmdbDto {
     private double popularity;
     private String runTime;
     private String prdtYear;
+    private WatchGrade watchGrade;
+
     private Set<String> nation;
     private Map<Integer, String> genres;
     private Map<String, String> directors;
     private Map<String, String> actors;
-    private WatchGrade watchGrade;
 
     public static MovieTmdbDto create(List<JsonNode> nodes) {
         MovieTmdbDto dto = new MovieTmdbDto();
@@ -55,6 +55,10 @@ public class MovieTmdbDto {
                 .runTime(dto.getRunTime())
                 .prdtYear(dto.getPrdtYear())
                 .watchGrade(dto.getWatchGrade())
+                .nations(Nation.of(dto.getNation()))
+                .genres(Genre.of(dto.getGenres()))
+                .directors(Director.of(dto.getDirectors()))
+                .actors(Actor.of(dto.getActors()))
                 .build();
     }
 

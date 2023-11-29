@@ -60,16 +60,7 @@ public class MovieService {
     // MovieTmdbDto로부터 Movie 객체 생성
     @Transactional
     public Movie createFromTmdbDto(MovieTmdbDto dto) {
-        // 연관관계 없는 필드만 채움
-        Movie movie = MovieTmdbDto.toEntity(dto);
-
-        // 연관관계 있는 필드 채움
-        movie.setNations(nationService.fillNations(dto.getNation()));
-        movie.setGenre(genreService.fillGenres(dto.getGenres()));
-        movie.setDirectors(directorService.fillDirectors(dto.getDirectors()));
-        movie.setActors(actorService.fillActors(dto.getActors()));
-
-        return movie;
+        return MovieTmdbDto.toEntity(dto);
     }
 
 

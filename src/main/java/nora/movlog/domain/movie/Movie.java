@@ -1,10 +1,7 @@
 package nora.movlog.domain.movie;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
@@ -28,7 +25,7 @@ public class Movie {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Nation>     nations;    // 제작 국가
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Genre>      genre;      // 장르
+    private Set<Genre>      genres;      // 장르
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Director>   directors;  // 감독
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
