@@ -98,10 +98,12 @@ public class StringConstant {
 
     // URI
     public static final String NOTHING_URI = "";
+    public static final String ALL_URI = "/**";
     public static final String HOME_URI = "/";
     public static final String LOGIN_URI = "/login";
     public static final String LOGOUT_URI = "/logout";
     public static final String JOIN_URI = "/join";
+    public static final String VERIFY_URI = "/verify";
     public static final String SEARCH_URI = "/search";
     public static final String ID_URI = "/{id}";
     public static final String MOVIE_URI = "/movie";
@@ -110,6 +112,7 @@ public class StringConstant {
     public static final String LIKE_URI = "/likes";
     public static final String COMMENT_URI = "/comment";
 
+    public static final String AUTH_CODE_PREFIX = "AuthCode ";
 
     // TEST
     public static final String TEST_CASE_MEMBER_LOGIN_ID = "gingNangBoyz";
