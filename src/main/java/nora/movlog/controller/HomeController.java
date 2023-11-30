@@ -65,23 +65,22 @@ public class HomeController {
 
     // 이메일 인증
     @GetMapping(JOIN_URI + VERIFY_URI + "/{loginId}")
-    public String verifyPage(Authentication auth,
+    public String verifyPage(@PathVariable String loginId,
+                             Authentication auth,
                              Model model) {
         if(auth==null || !auth.isAuthenticated()) {
+            model.addAttribute("loginId", loginId);
             model.addAttribute("verifyRequest", new VerificationRequestDto());
             return "verifyPage";
         }
-        else return "redirect:/search";
+        else return "redirect:" + SEARCH_URI;
     }
 
     @PostMapping(JOIN_URI + VERIFY_URI + "/{loginId}")
     public String verifyPage(@PathVariable String loginId,
                              @Valid @ModelAttribute VerificationRequestDto dto) {
-        if (memberService.verifiedCode(loginId, dto.getVerifyCode())) {
-            memberService.findByLoginId(loginId).setVerified();
-            return "redirect:/login";
-        }
-        else return "redirect: " + JOIN_URI + VERIFY_URI + loginId; // 수정해야 함
+        if (memberService.verifiedCode(loginId, dto.getVerifyCode())) return "redirect:" + LOGIN_URI;
+        else return "redirect: " + JOIN_URI + VERIFY_URI + loginId;
     }
 
 

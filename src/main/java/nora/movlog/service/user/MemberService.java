@@ -42,14 +42,14 @@ public class MemberService {
     public void join(MemberJoinRequestDto requestDto) {
         memberRepository.save(requestDto.toEntity(encoder.encode(requestDto.getPassword())));
     }
-  
-    public void sendCodeToEmail(String email) {
+
+    public void sendCodeToEmail(String loginId) {
         String title = "MOVLOG 이메일 인증";
         String authCode = this.createCode();
-        mailService.sendEmail(email, title, authCode);
+        mailService.sendEmail(loginId, title, authCode);
 
         // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "AuthCode " + Email / value = AuthCode )
-        redisService.setValues(AUTH_CODE_PREFIX + email, authCode, Duration.ofMillis(this.authCodeExpirationMillis));
+        redisService.setValues(AUTH_CODE_PREFIX + loginId, authCode, Duration.ofMillis(this.authCodeExpirationMillis));
     }
 
     private String createCode() {
@@ -66,9 +66,15 @@ public class MemberService {
         }
     }
 
-    public boolean verifiedCode(String email, String authCode) {
-        String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + email);
-        return redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode);
+    @Transactional
+    public boolean verifiedCode(String loginId, String authCode) {
+        String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + loginId);
+        boolean verified = redisAuthCode.equals(authCode);
+        if (verified) {
+            Member member = memberRepository.findByLoginId(loginId).get();
+            member.setVerified();
+        }
+        return verified;
     }
 
     @Transactional
