@@ -4,12 +4,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nora.movlog.domain.user.Member;
+import nora.movlog.service.user.AuthService;
 import nora.movlog.service.user.MemberService;
 import nora.movlog.service.user.PostService;
 import nora.movlog.utils.MemberFinder;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.utils.dto.user.MemberLoginRequestDto;
-import nora.movlog.utils.dto.user.VerificationRequestDto;
 import nora.movlog.utils.validators.MemberValidator;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -25,10 +25,9 @@ import static nora.movlog.utils.constant.StringConstant.*;
 public class HomeController {
 
     private final MemberService memberService;
+    private final AuthService authService;
     private final PostService postService;
     private final MemberValidator memberValidator;
-
-
 
     // 홈
     @GetMapping(value={NOTHING_URI, HOME_URI})
@@ -41,7 +40,6 @@ public class HomeController {
 
         return "homePage";
     }
-
 
     // 회원가입
     @GetMapping(JOIN_URI)
@@ -58,31 +56,9 @@ public class HomeController {
             return "redirect:" + JOIN_URI;
 
         memberService.join(dto);
-        memberService.sendCodeToEmail(dto.getLoginId());
+        authService.sendCodeToEmail(dto.getLoginId());
         return "redirect:" + JOIN_URI + VERIFY_URI + "/" + dto.getLoginId();
     }
-
-
-    // 이메일 인증
-    @GetMapping(JOIN_URI + VERIFY_URI + "/{loginId}")
-    public String verifyPage(@PathVariable String loginId,
-                             Authentication auth,
-                             Model model) {
-        if(auth==null || !auth.isAuthenticated()) {
-            model.addAttribute("loginId", loginId);
-            model.addAttribute("verifyRequest", new VerificationRequestDto());
-            return "verifyPage";
-        }
-        else return "redirect:" + SEARCH_URI;
-    }
-
-    @PostMapping(JOIN_URI + VERIFY_URI + "/{loginId}")
-    public String verifyPage(@PathVariable String loginId,
-                             @Valid @ModelAttribute VerificationRequestDto dto) {
-        if (memberService.verifiedCode(loginId, dto.getVerifyCode())) return "redirect:" + LOGIN_URI;
-        else return "redirect: " + JOIN_URI + VERIFY_URI + loginId;
-    }
-
 
     // 로그인
     @GetMapping(LOGIN_URI)
