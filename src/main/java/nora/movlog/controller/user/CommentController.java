@@ -64,7 +64,7 @@ public class CommentController {
     /* DELETE */
     @GetMapping("/{commentId}/delete")
     public void delete(@PathVariable long commentId,
-                         Authentication auth) {
+                       Authentication auth) {
         commentService.delete(commentId, ((UserDetails) auth.getPrincipal()).getUsername());
     }
 }
