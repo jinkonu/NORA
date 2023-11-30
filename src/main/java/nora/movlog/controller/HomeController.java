@@ -62,7 +62,7 @@ public class HomeController {
     // 이메일 인증
     @GetMapping(JOIN_URI + VERIFY_URI + "/{loginId}")
     public String verifyPage(Authentication auth,
-                                  Model model) {
+                             Model model) {
         if(auth==null || !auth.isAuthenticated()) {
             model.addAttribute("verifyRequest", new VerificationRequestDto());
             return "verifyPage";
@@ -72,7 +72,7 @@ public class HomeController {
 
     @PostMapping(JOIN_URI + VERIFY_URI + "/{loginId}")
     public String verifyPage(@PathVariable String loginId,
-                                  @Valid @ModelAttribute VerificationRequestDto dto) {
+                             @Valid @ModelAttribute VerificationRequestDto dto) {
         if (memberService.verifiedCode(loginId, dto.getVerifyCode())) {
             memberService.findByLoginId(loginId).setVerified();
             return "redirect:/login";
