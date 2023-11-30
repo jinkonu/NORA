@@ -22,6 +22,17 @@ public class PostController {
 
 
 
+    // 게시글 읽기
+    @GetMapping("/{postId}")
+    public String readPost(@PathVariable long postId,
+                           Model model) {
+        model.addAttribute("post", postService.findOne(postId));
+
+        return "postPage";
+    }
+
+
+    // 게시글 쓰기
     @GetMapping
     public String writePost(@RequestParam String movieId,
                             Model model) {
