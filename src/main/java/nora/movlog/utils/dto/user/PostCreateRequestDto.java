@@ -6,6 +6,7 @@ import nora.movlog.domain.movie.Movie;
 import nora.movlog.domain.user.Post;
 import nora.movlog.domain.user.Member;
 
+@Builder
 @Data
 public class PostCreateRequestDto {
     private String body;
