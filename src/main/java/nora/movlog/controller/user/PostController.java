@@ -23,8 +23,8 @@ public class PostController {
 
 
     @GetMapping
-    public String postPage(@RequestParam String movieId,
-                           Model model) {
+    public String writePost(@RequestParam String movieId,
+                            Model model) {
         model.addAttribute("postDto", PostCreateRequestDto.builder()
                 .movieId(movieId)
                 .build());
