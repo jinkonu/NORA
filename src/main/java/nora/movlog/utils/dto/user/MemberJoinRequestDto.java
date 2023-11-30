@@ -1,6 +1,5 @@
 package nora.movlog.utils.dto.user;
 
-import lombok.Builder;
 import lombok.Data;
 import nora.movlog.domain.user.Member;
 

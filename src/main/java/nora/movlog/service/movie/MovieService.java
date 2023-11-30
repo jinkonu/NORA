@@ -23,11 +23,6 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieTmdbApiRepository movieTmdbApiRepository;
 
-    private final NationService nationService;
-    private final GenreService genreService;
-    private final DirectorService directorService;
-    private final ActorService actorService;
-
 
 
     /* CREATE */
