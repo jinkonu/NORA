@@ -42,6 +42,7 @@ public class HomeController {
         return "homePage";
     }
 
+
     // 회원가입
     @GetMapping(JOIN_URI)
     public String joinPage(Model model) {
@@ -60,6 +61,7 @@ public class HomeController {
         memberService.sendCodeToEmail(dto.getLoginId());
         return "redirect:" + JOIN_URI + VERIFY_URI + "/" + dto.getLoginId();
     }
+
 
     // 이메일 인증
     @GetMapping(JOIN_URI + VERIFY_URI + "/{loginId}")
@@ -81,6 +83,7 @@ public class HomeController {
         }
         else return "redirect: " + JOIN_URI + VERIFY_URI + loginId; // 수정해야 함
     }
+
 
     // 로그인
     @GetMapping(LOGIN_URI)
