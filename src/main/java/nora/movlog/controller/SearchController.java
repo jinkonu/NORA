@@ -2,10 +2,10 @@ package nora.movlog.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nora.movlog.domain.user.PrincipalDetails;
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.service.user.MemberService;
-import org.springframework.security.core.context.SecurityContextHolder;
+import nora.movlog.utils.MemberFinder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,20 +29,24 @@ public class SearchController {
     private final MovieService movieService;
     private final MemberService memberService;
 
+
+
     // 검색
     @GetMapping()
-    public String search(@RequestParam(value = "query", required = false) String query,
+    public String search(@RequestParam(value = "movieQuery", required = false) String movieQuery,
+                         @RequestParam(value = "memberQuery", required = false) String memberQuery,
+                         Authentication auth,
                          Model model,
                          @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
                          @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size) {
-        if (query != null) {
-            model.addAttribute("movies", movieService.search(query, page, size));
-            model.addAttribute("members", memberService.findAllByNickname(query, page, size));
-        }
+        if (movieQuery != null)
+            model.addAttribute("movies", movieService.search(movieQuery, page, size));
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        PrincipalDetails loginMember = (PrincipalDetails) principal;
-        model.addAttribute("loginMember", memberService.findByLoginId(loginMember.getUsername()));
+        if (memberQuery != null)
+            model.addAttribute("members", memberService.findAllByNickname(movieQuery, page, size));
+
+        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getUsernameFrom(auth)));
+
         return "searchForm";
     }
 }

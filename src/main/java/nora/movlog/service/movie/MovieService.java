@@ -23,17 +23,9 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieTmdbApiRepository movieTmdbApiRepository;
 
-    private final NationService nationService;
-    private final GenreService genreService;
-    private final DirectorService directorService;
-    private final ActorService actorService;
-
 
 
     /* CREATE */
-
-
-
     // DB에 신규 영화 저장
     @Transactional
     public void join(Movie movie) {
@@ -60,22 +52,12 @@ public class MovieService {
     // MovieTmdbDto로부터 Movie 객체 생성
     @Transactional
     public Movie createFromTmdbDto(MovieTmdbDto dto) {
-        // 연관관계 없는 필드만 채움
-        Movie movie = MovieTmdbDto.toEntity(dto);
-
-        // 연관관계 있는 필드 채움
-        movie.setNations(nationService.fillNations(dto.getNation()));
-        movie.setGenre(genreService.fillGenres(dto.getGenres()));
-        movie.setDirectors(directorService.fillDirectors(dto.getDirectors()));
-        movie.setActors(actorService.fillActors(dto.getActors()));
-
-        return movie;
+        return MovieTmdbDto.toEntity(dto);
     }
 
 
 
     /* READ */
-
     // 문자열 기반 검색
     //  -> 1차적으로 DB 검색
     //  -> 없거나 부족하면 findFromTmdb()

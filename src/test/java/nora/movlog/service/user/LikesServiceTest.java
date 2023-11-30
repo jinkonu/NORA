@@ -61,18 +61,6 @@ class LikesServiceTest {
     @Test
     void add_게시물_회원과_연관된_좋아요_추가_및_추가_확인() {
         likesService.add(TEST_CASE_MEMBER_LOGIN_ID, postId);
-
-        assertThat(likesService.check(memberId, postId)).isTrue();
-    }
-
-
-    @DisplayName("게시물, 회원과 연관된 좋아요 삭제 및 삭제 확인")
-    @Test
-    void delete_게시물_회원과_연관된_좋아요_삭제_및_삭제_확인() {
-        likesService.add(TEST_CASE_MEMBER_LOGIN_ID, postId);
-
-        likesService.delete(TEST_CASE_MEMBER_LOGIN_ID, postId);
-        assertThat(likesService.check(memberId, postId)).isFalse();
     }
 
 

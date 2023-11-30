@@ -137,7 +137,6 @@
                                 <div class="user_posts">
                                     <div id="user_post">
                                         <div th:each="post : ${posts}">
-
                                             <div id="post_member">
                                                 <div th:text="${post.memberNickname}"></div>
                                             </div>
@@ -150,6 +149,7 @@
 
                                             <div id="post_title">
                                                 <span class="movie_on">on </span>
+                                              
                                                 <div id="post_movie">
                                                     <div th:text="${post.movieTitle}"></div>
                                                 </div>
@@ -161,6 +161,14 @@
 
                                             <div id="post_likes">
                                                 <div th:text="${post.likeCnt}"></div>
+                                            </div>
+
+                                            <div id="post_memberLoginId">
+                                                <div th:text="${post.memberLoginId}"></div>
+                                            </div>
+
+                                            <div id="post_memberNickname">
+                                                <div th:text="${post.memberNickname}"></div>
                                             </div>
                                         </div>
                                     </div>
