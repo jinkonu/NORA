@@ -14,8 +14,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
+
+import static nora.movlog.utils.constant.NumberConstant.*;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +27,7 @@ public class PostService {
     private final MemberRepository memberRepository;
     private final MovieRepository movieRepository;
 
+    private static final LocalDateTime homePostsDate = LocalDateTime.now().minusDays(MIN_LATEST_DAYS);
 
 
     /* CREATE */
@@ -55,6 +58,24 @@ public class PostService {
 
     public List<PostDto> findAllFromMemberLoginId(String memberLoginId, int page, int size) {
         return postRepository.findAllByMemberLoginId(memberLoginId, PageRequest.of(page, size)).stream()
+                .map(PostDto::of)
+                .toList();
+    }
+
+    public List<PostDto> findHomePosts(String memberLoginId) {
+        List<PostDto> homePosts = new ArrayList<>();
+
+        Set<Member> followings = memberRepository.findByLoginId(memberLoginId).get().getFollowings();
+        followings.forEach(following ->
+                homePosts.addAll(findLatestPostsFromFollowing(following.getLoginId()))
+        );
+
+        Collections.sort(homePosts);
+        return homePosts;
+    }
+
+    private List<PostDto> findLatestPostsFromFollowing(String followingLoginId) {
+        return postRepository.findAllByMemberLoginIdAndCreatedAtAfter(followingLoginId, PostService.homePostsDate).stream()
                 .map(PostDto::of)
                 .toList();
     }

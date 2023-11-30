@@ -3,7 +3,9 @@ package nora.movlog.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nora.movlog.domain.user.Member;
 import nora.movlog.service.user.MemberService;
+import nora.movlog.service.user.PostService;
 import nora.movlog.utils.MemberFinder;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.utils.dto.user.MemberLoginRequestDto;
@@ -13,10 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import static nora.movlog.utils.constant.StringConstant.*;
 
@@ -26,14 +25,17 @@ import static nora.movlog.utils.constant.StringConstant.*;
 public class HomeController {
 
     private final MemberService memberService;
+    private final PostService postService;
     private final MemberValidator memberValidator;
 
     // 홈
     @GetMapping(value={NOTHING_URI, HOME_URI})
     public String home(Authentication auth,
                        Model model) {
-        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getUsernameFrom(auth)));
-        // 10개 게시물 보내기
+        Member member = memberService.findByLoginId(MemberFinder.getUsernameFrom(auth));
+
+        model.addAttribute("loginMember", member);
+        model.addAttribute("posts", postService.findHomePosts(member.getLoginId()));
 
         return "homePage";
     }
