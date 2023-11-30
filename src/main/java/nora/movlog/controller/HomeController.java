@@ -28,6 +28,8 @@ public class HomeController {
     private final PostService postService;
     private final MemberValidator memberValidator;
 
+
+
     // 홈
     @GetMapping(value={NOTHING_URI, HOME_URI})
     public String home(Authentication auth,

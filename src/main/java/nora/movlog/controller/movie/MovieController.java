@@ -25,6 +25,8 @@ public class MovieController {
     private final MovieService movieService;
     private final MemberService memberService;
 
+
+
     // 영화 프로필
     @GetMapping(ID_URI)
     public String movieProfile(@PathVariable String id,
