@@ -75,9 +75,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void follow(long followingId, long followerId) {
-        Member following = memberRepository.findById(followingId).get();
-        Member follower = memberRepository.findById(followerId).get();
+    public void follow(String followingId, String followerId) {
+        Member following = memberRepository.findByLoginId(followingId).get();
+        Member follower = memberRepository.findByLoginId(followerId).get();
 
         following.follows(follower);
     }
