@@ -2,6 +2,7 @@ package nora.movlog.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nora.movlog.service.user.CommentService;
 import nora.movlog.service.user.PostService;
 import nora.movlog.utils.MemberFinder;
 import nora.movlog.utils.dto.user.PostCreateRequestDto;
@@ -19,14 +20,18 @@ import static nora.movlog.utils.constant.StringConstant.*;
 public class PostController {
 
     private final PostService postService;
+    private final CommentService commentService;
 
 
 
     // 게시글 읽기
     @GetMapping("/{postId}")
     public String readPost(@PathVariable long postId,
+                           @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
+                           @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
                            Model model) {
         model.addAttribute("post", postService.findOne(postId));
+        model.addAttribute("comments", commentService.findAllFromPost(postId, page, size));
 
         return "postPage";
     }
