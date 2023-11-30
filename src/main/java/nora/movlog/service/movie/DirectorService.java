@@ -1,38 +1,20 @@
 package nora.movlog.service.movie;
 
-import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Director;
-import nora.movlog.repository.movie.interfaces.DirectorRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
 public class DirectorService {
-    private final DirectorRepository directorRepository;
-
-    @Transactional( readOnly = true )
     public Set<Director> fillDirectors(Map<String, String> ids) {
-        Set<Director> directors = new HashSet<>();
-
-        for (String id : ids.keySet()) {
-            Optional<Director> director = directorRepository.findById(id);
-
-            if (director.isPresent()) directors.add(director.get());
-            else {
-                Director savedDirector = directorRepository.save(Director.builder()
-                        .id(id)
-                        .name(ids.get(id))
-                        .build());
-                directors.add(savedDirector);
-            }
-        }
-
-        return directors;
+        return ids.entrySet().stream()
+                .map(entry -> Director.builder()
+                        .id(entry.getKey())
+                        .name(entry.getValue())
+                        .build())
+                .collect(Collectors.toSet());
     }
 }

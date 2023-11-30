@@ -2,7 +2,7 @@ package nora.movlog.service.movie;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Movie;
-import nora.movlog.dto.movie.MovieTmdbDto;
+import nora.movlog.utils.dto.movie.MovieTmdbDto;
 import nora.movlog.repository.movie.MovieTmdbApiRepository;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
 import org.springframework.data.domain.PageRequest;
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-import static nora.movlog.domain.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.NumberConstant.*;
 
 /*
 영화 서비스
@@ -61,7 +61,7 @@ public class MovieService {
     @Transactional
     public Movie createFromTmdbDto(MovieTmdbDto dto) {
         // 연관관계 없는 필드만 채움
-        Movie movie = Movie.createFromTmdbDto(dto);
+        Movie movie = MovieTmdbDto.toEntity(dto);
 
         // 연관관계 있는 필드 채움
         movie.setNations(nationService.fillNations(dto.getNation()));

@@ -1,4 +1,4 @@
-package nora.movlog.dto.movie;
+package nora.movlog.utils.dto.movie;
 
 import lombok.Data;
 

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main_frame.css">
-    <link rel="stylesheet" href="left_menubar.css">
-    <link rel="stylesheet" href="right_trending.css">
-    <link rel="stylesheet" href="center_body_search.css">
+    <link rel="stylesheet" href="/css/main_frame.css">
+    <link rel="stylesheet" href="/css/left_menubar.css">
+    <link rel="stylesheet" href="/css/right_trending.css">
+    <link rel="stylesheet" href="/css/center_body_search.css">
     <title>Search</title>
 
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -81,10 +81,10 @@
                                 <img src="/img/example_profile_img.svg" alt="img"/>
                             </div>
                             <div class="user_info">
-                                <div class="user_info_name">
+                                <div class="user_info_name" th:text="${loginMember.nickname}">
                                     김익명
                                 </div>
-                                <div class="user_info_account">
+                                <div class="user_info_account" th:text="${loginMember.loginId}">
                                     @anonymouskim123
                                 </div>
                             </div>
@@ -107,9 +107,9 @@
                 </div>
                 <!-- 검색결과 띄우는 창 -->
                 <div id="search_body">
-                    <th:block th:if="${result != null}">
+                    <th:block th:if="${movies != null}">
                         <div id="items">
-                          <div th:each="movie : ${result}">
+                          <div th:each="movie : ${movies}">
                             <button type="button" class="item" th:value="${movie.id}">
                                 <div class="item_contents">
                                     <div class="item_main">

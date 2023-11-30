@@ -2,7 +2,7 @@ package nora.movlog.repository.movie;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import nora.movlog.domain.movie.WatchGrade;
-import nora.movlog.dto.movie.MovieTmdbDto;
+import nora.movlog.utils.dto.movie.MovieTmdbDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,8 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.IOException;
 import java.util.List;
 
-import static nora.movlog.domain.constant.NumberConstant.*;
-import static nora.movlog.domain.constant.StringConstant.TMDB_SEARCH_BY_ID_PATH;
+import static nora.movlog.utils.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.StringConstant.TMDB_SEARCH_BY_ID_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("ALL")

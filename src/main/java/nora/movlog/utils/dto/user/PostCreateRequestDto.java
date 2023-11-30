@@ -1,4 +1,4 @@
-package nora.movlog.dto.user;
+package nora.movlog.utils.dto.user;
 
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +10,9 @@ import nora.movlog.domain.user.Member;
 @Data
 public class PostCreateRequestDto {
     private String body;
-    private Movie movie;
+    private String movieId;
 
-    public Post toEntity(Member member) {
+    public Post toEntity(Member member, Movie movie) {
         return Post.builder()
                 .member(member)
                 .body(body)

@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main_frame.css">
-    <link rel="stylesheet" href="left_menubar.css">
-    <link rel="stylesheet" href="right_trending.css">
-    <title>Users</title>
-
+    <link rel="stylesheet" href="/css/main_frame.css">
+    <link rel="stylesheet" href="/css/left_menubar.css">
+    <link rel="stylesheet" href="/css/right_trending.css">
+    <title>User Page</title>
 </head>
 
 <body>
@@ -80,10 +79,10 @@
                                 <img src="/img/example_profile_img.svg" alt="img"/>
                             </div>
                             <div class="user_info">
-                                <div class="user_info_name">
+                                <div class="user_info_name" th:text="${loginMember.nickname}">
                                     김익명
                                 </div>
-                                <div class="user_info_account">
+                                <div class="user_info_account" th:text="${loginMember.loginId}">
                                     @anonymouskim123
                                 </div>
                             </div>
@@ -138,6 +137,7 @@
                                 <div class="user_posts">
                                     <div id="user_post">
                                         <div th:each="post : ${posts}">
+
                                             <div id="post_member">
                                                 <div th:text="${post.memberNickname}"></div>
                                             </div>
@@ -147,6 +147,7 @@
                                             <div id="post_time">
                                                 <div th:text="${post.createdAt}"></div>
                                             </div>
+
                                             <div id="post_title">
                                                 <span class="movie_on">on </span>
                                                 <div id="post_movie">

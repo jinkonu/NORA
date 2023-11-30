@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nora.movlog.domain.movie.Movie;
-import nora.movlog.dto.user.PostDto;
+import nora.movlog.utils.dto.user.PostEditDto;
 
 import java.util.List;
 
@@ -32,14 +32,24 @@ public class Post extends BaseEntity {
 
     @OneToMany(mappedBy = "post", orphanRemoval = true)
     private List<Comment> comments;
+    private int commentCnt;
 
     @OneToMany(mappedBy = "post", orphanRemoval = true)
     private List<Likes> likes;
+    private int likeCnt;
 
 
 
     /* 메서드 */
-    public void update(PostDto postDto) {
-        this.body = postDto.getBody();
+    public void update(PostEditDto dto) {
+        this.body = dto.getBody();
+    }
+
+    public void addComment() {
+        ++commentCnt;
+    }
+
+    public void addLike() {
+        ++likeCnt;
     }
 }

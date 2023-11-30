@@ -1,14 +1,15 @@
-package nora.movlog.dto.movie;
+package nora.movlog.utils.dto.movie;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
+import nora.movlog.domain.movie.Movie;
 import nora.movlog.domain.movie.WatchGrade;
 
 import java.util.*;
 
 import static nora.movlog.domain.movie.WatchGrade.*;
-import static nora.movlog.domain.constant.NumberConstant.*;
-import static nora.movlog.domain.constant.StringConstant.*;
+import static nora.movlog.utils.constant.NumberConstant.*;
+import static nora.movlog.utils.constant.StringConstant.*;
 
 @Data
 public class MovieTmdbDto {
@@ -42,6 +43,19 @@ public class MovieTmdbDto {
         dto.setWatchGrade(gradeMapper(gradeNode));
 
         return dto;
+    }
+
+
+    public static Movie toEntity(MovieTmdbDto dto) {
+        return Movie.builder()
+                .id(dto.getId())
+                .titleKo(dto.getTitleKo())
+                .titleEn(dto.getTitleEn())
+                .popularity(dto.getPopularity())
+                .runTime(dto.getRunTime())
+                .prdtYear(dto.getPrdtYear())
+                .watchGrade(dto.getWatchGrade())
+                .build();
     }
 
 

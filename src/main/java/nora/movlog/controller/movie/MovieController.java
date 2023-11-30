@@ -1,4 +1,4 @@
-package nora.movlog.controller;
+package nora.movlog.controller.movie;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,40 +9,28 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import static nora.movlog.utils.constant.StringConstant.*;
 
-/*
-"Search" 페이지
-지금은 searchMovie와 searchMember로 쪼개서 검색하도록
-후에 두 가지를 한꺼번에 할 수 있도록 해야할듯
- */
-
-@RequiredArgsConstructor
-@RequestMapping(SEARCH_URI)
 @Slf4j
+@RequiredArgsConstructor
+@RequestMapping(MOVIE_URI)
 @Controller
-public class SearchController {
+public class MovieController {
 
     private final MovieService movieService;
     private final MemberService memberService;
 
-    // 검색
-    @GetMapping()
-    public String search(@RequestParam(value = "query", required = false) String query,
-                         Model model,
-                         @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
-                         @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size) {
-        if (query != null) {
-            model.addAttribute("movies", movieService.search(query, page, size));
-            model.addAttribute("members", memberService.findAllByNickname(query, page, size));
-        }
-
+    // 영화 프로필
+    @GetMapping(ID_URI)
+    public String movieProfile(@PathVariable String id,
+                               Model model) {
+        model.addAttribute("movie", movieService.findOne(id));
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         PrincipalDetails loginMember = (PrincipalDetails) principal;
         model.addAttribute("loginMember", memberService.findByLoginId(loginMember.getUsername()));
-        return "searchForm";
+        return "moviePage";
     }
 }
