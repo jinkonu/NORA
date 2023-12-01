@@ -111,11 +111,22 @@ public class StringConstant {
     public static final String POST_URI = "/post";
     public static final String LIKE_URI = "/likes";
     public static final String COMMENT_URI = "/comment";
+    public static final String NOTIFICATION_URI = "/notification";
 
     public static final String AUTH_CODE_PREFIX = "AuthCode ";
+
 
     // TEST
     public static final String TEST_CASE_MEMBER_LOGIN_ID = "gingNangBoyz";
     public static final String TEST_CASE_MEMBER_PASSWORD = "tokyo";
     public static final String TEST_CASE_MEMBER_NICKNAME = "babybaby";
+
+
+    // NOTIFICATION
+    public static final String COMMENT_TYPE = "comment";
+    public static final String LIKES_TYPE = "likes";
+    public static final String FOLLOW_TYPE = "follow";
+
+    public static final String FOLLOWING = "following";
+    public static final String FOLLOWER = "follower";
 }
