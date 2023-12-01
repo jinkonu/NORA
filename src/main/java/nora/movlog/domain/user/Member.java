@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import nora.movlog.domain.movie.Movie;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,6 +28,7 @@ public class Member implements UserDetails {
     private String loginId;
     private String password;
     private String nickname;
+    private boolean isVerified;
     private LocalDateTime createdAt;
 
     /* 연관관계 */
@@ -38,6 +40,7 @@ public class Member implements UserDetails {
 
     @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<Likes> likes;
+
 
     @ManyToMany
     @JoinTable(
@@ -52,11 +55,55 @@ public class Member implements UserDetails {
     private Set<Member> followers;
     private int followerCnt;
 
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Movie> seenMovies;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Movie> toSeeMovies;
+
+
+
     /* 도메인 로직 */
     public void edit(String password, String nickname) {
         this.password = password;
         this.nickname = nickname;
     }
+
+    public void follows(Member follower) {
+        this.followingCnt++;
+        this.followings.add(follower);
+
+        follower.followerCnt++;
+        follower.followers.add(this);
+    }
+
+    public void unfollows(Member follower) {
+        this.followingCnt--;
+        this.followings.remove(follower);
+
+        follower.followerCnt--;
+        follower.followers.remove(this);
+    }
+
+    public void addSeen(Movie movie) {
+        this.seenMovies.add(movie);
+    }
+
+    public void removeSeen(Movie movie) {
+        this.seenMovies.remove(movie);
+    }
+
+    public void addToSee(Movie movie) {
+        this.toSeeMovies.add(movie);
+    }
+
+    public void removeToSee(Movie movie) {
+        this.seenMovies.remove(movie);
+    }
+
+
+    /* 보안 관련 로직 */
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -88,11 +135,8 @@ public class Member implements UserDetails {
         return true;
     }
 
-    public void follows(Member follower) {
-        this.followingCnt++;
-        this.followings.add(follower);
-
-        follower.followerCnt++;
+    public void setVerified() {
+        this.isVerified = true;
     }
 }
 

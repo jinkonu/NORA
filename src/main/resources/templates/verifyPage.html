@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Verification</title>
+</head>
+<body>
+  <form th:method="post" th:action="@{/join/verify/{loginId}}" th:object="${verifyRequest}">
+      <div>
+          <label th:for="verifyCode">인증 코드 : </label>
+          <input type="text" th:field="*{verifyCode}"/>
+      </div>
+      <div>
+          <button type="submit">확인</button>
+      </div>
+  </form>
+</body>
+</html>

@@ -20,9 +20,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByLoginId(username)
-                .orElseThrow(() -> {
-                    return new UsernameNotFoundException(NO_SUCH_MEMBER);
-                });
+                .orElseThrow(() -> new UsernameNotFoundException(NO_SUCH_MEMBER));
         return new PrincipalDetails(member);
     }
 }

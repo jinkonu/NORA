@@ -1,6 +1,5 @@
 package nora.movlog.utils.dto.user;
 
-import lombok.Builder;
 import lombok.Data;
 import nora.movlog.domain.user.Member;
 
@@ -19,9 +18,12 @@ public class MemberJoinRequestDto {
                 .loginId(loginId)
                 .password(encodedPassword)
                 .nickname(nickname)
+                .isVerified(false)
                 .createdAt(LocalDateTime.now())
                 .followings(new HashSet<>())
                 .followers(new HashSet<>())
+                .seenMovies(new HashSet<>())
+                .toSeeMovies(new HashSet<>())
                 .build();
     }
 }

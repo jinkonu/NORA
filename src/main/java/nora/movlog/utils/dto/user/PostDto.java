@@ -5,12 +5,15 @@ import lombok.Data;
 import nora.movlog.domain.user.Post;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 
 import static nora.movlog.utils.constant.NumberConstant.*;
 
 @Builder
 @Data
-public class PostDto {
+public class PostDto implements Comparable<PostDto> {
+    private static final Comparator<String> COMPARATOR = String.CASE_INSENSITIVE_ORDER.reversed();
+
     /* Post */
     private long id;
     private String body;
@@ -22,7 +25,7 @@ public class PostDto {
     private String movieTitle;
 
     /* Member */
-    private long memberId;
+    private String memberLoginId;
     private String memberNickname;
 
     /* Like */
@@ -40,12 +43,17 @@ public class PostDto {
                 .body(post.getBody())
                 .movieId(post.getMovie().getId())
                 .movieTitle(post.getMovie().getTitleKo())
-                .memberId(post.getMember().getId())
+                .memberLoginId(post.getMember().getLoginId())
                 .memberNickname(post.getMember().getNickname())
                 .likeCnt(DEFAULT_LIKE_CNT)
                 .commentCnt(post.getCommentCnt())
                 .createdAt(formatter.format(post.getCreatedAt()))
                 .lastModifiedAt(formatter.format(post.getLastModifiedAt()))
                 .build();
+    }
+
+    @Override
+    public int compareTo(PostDto dto) {
+        return COMPARATOR.compare(this.createdAt, dto.createdAt);
     }
 }
