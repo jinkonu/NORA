@@ -48,7 +48,7 @@
 
                 <div class="menu">
                     <div class="menu_element">
-                        <button type="button" class="menu_button" id="home_btn">
+                        <button class="menu_button" id="home_btn" value="home">
                             <div class="menu_icon">
                                 <img src="/icons/House.svg" alt="home"/>
                             </div>
@@ -56,7 +56,7 @@
                         </button>
                     </div>
                     <div class="menu_element">
-                        <button class="menu_button" id="notification_btn">
+                        <button class="menu_button" id="notification_btn" value="notifications">
                             <div class="menu_icon">
                                 <img src="/icons/Heart.svg" alt="notifications"/>
                             </div>
@@ -72,7 +72,7 @@
                         </button>
                     </div>
                     <div class="menu_element">
-                        <button class="menu_button" id="watchedlsit_btn">
+                        <button class="menu_button" id="watchedlsit_btn" value="watched">
                             <div class="menu_icon">
                                 <img src="/icons/EyeOpened.svg" alt="WatchList"/>
                             </div>
@@ -80,7 +80,7 @@
                         </button>
                     </div>
                     <div class="menu_element">
-                        <button class="menu_button" id="watchlist_btn">
+                        <button class="menu_button" id="watchlist_btn" value="towatch">
                             <div class="menu_icon">
                                 <img src="/icons/EyeClosed.svg" alt="towatchlist"/>
                             </div>
@@ -88,7 +88,7 @@
                         </button>
                     </div>
                     <div class="menu_element">
-                        <button class="menu_button" id="profile_btn">
+                        <button class="menu_button" id="profile_btn" value="profile">
                             <div class="menu_icon">
                                 <img src="/icons/UserCircle.svg" alt="profile"/>
                             </div>
@@ -116,6 +116,12 @@
                             <img src="/icons/DotsThree.svg" alt="more"/>
                         </div>
                     </button>
+
+                    <!-- 로그아웃 버튼 임시 추가 -->
+                    <button class="logout_button" th:onclick="location.href='/logout'">
+                        <div class="menu_button_text">로그아웃</div>
+                    </button>    
+                    <!-- 로그아웃 버튼 임시 추가 -->
                 </div>
             </div>
 
