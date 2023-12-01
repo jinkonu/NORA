@@ -114,8 +114,15 @@ public class StringConstant {
 
     public static final String AUTH_CODE_PREFIX = "AuthCode ";
 
+
     // TEST
     public static final String TEST_CASE_MEMBER_LOGIN_ID = "gingNangBoyz";
     public static final String TEST_CASE_MEMBER_PASSWORD = "tokyo";
     public static final String TEST_CASE_MEMBER_NICKNAME = "babybaby";
+
+
+    // NOTIFICATION
+    public static final String COMMENT_TYPE = "comment";
+    public static final String LIKES_TYPE = "likes";
+    public static final String FOLLOW_TYPE = "follow";
 }
