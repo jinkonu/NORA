@@ -50,7 +50,7 @@ public class SecurityConfig {
                         .loginPage(LOGIN_URI)
                         .usernameParameter("loginId")
                         .passwordParameter("password")
-                        .defaultSuccessUrl(SEARCH_URI, true) // 이후 수정
+                        .defaultSuccessUrl(CHECK_VERIFY_URI, true) // 이후 수정
                         .failureUrl(LOGIN_URI)
                 )
                 .logout(logout -> logout
