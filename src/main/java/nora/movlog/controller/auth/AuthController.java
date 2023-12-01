@@ -1,12 +1,12 @@
-package nora.movlog.controller;
+package nora.movlog.controller.auth;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nora.movlog.service.user.AuthService;
+import nora.movlog.service.auth.AuthService;
 import nora.movlog.service.user.MemberService;
 import nora.movlog.utils.MemberFinder;
-import nora.movlog.utils.dto.user.VerificationRequestDto;
+import nora.movlog.utils.dto.auth.VerificationRequestDto;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

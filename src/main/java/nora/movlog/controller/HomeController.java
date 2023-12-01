@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nora.movlog.domain.user.Member;
-import nora.movlog.service.user.AuthService;
+import nora.movlog.service.auth.AuthService;
 import nora.movlog.service.user.MemberService;
 import nora.movlog.service.user.PostService;
 import nora.movlog.utils.MemberFinder;
