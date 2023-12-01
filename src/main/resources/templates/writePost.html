@@ -8,18 +8,19 @@
 
   <style>
   </style>
+  <link rel="stylesheet" href="/css/post_body.css">
 </head>
 
 <body>
-  <div th:text="${param.movieTitle}"></div>
+  <!-- <div class="movie-title" th:text="${param.movieTitle}"></div> -->
   <form method="post" th:action="@{/post}" th:object="${postDto}" enctype="multipart/form-data">
-    <label th:for="movieId">Movie ID: </label>
+    <label th:for="movieId"></label>
     <label>
-      <input type="text" th:field="*{movieId}" required/>
+      <input type="hidden" th:field="*{movieId}" required/>
     </label>
     <br/>
     <label>
-      <textarea th:field="*{body}" cols="100" rows="20" required></textarea>
+      <textarea th:field="*{body}" required></textarea>
     </label>
   
     <button type="submit">POST</button>
