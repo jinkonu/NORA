@@ -1,12 +1,12 @@
-package nora.movlog.controller;
+package nora.movlog.controller.auth;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nora.movlog.service.user.AuthService;
+import nora.movlog.service.auth.AuthService;
 import nora.movlog.service.user.MemberService;
 import nora.movlog.utils.MemberFinder;
-import nora.movlog.utils.dto.user.VerificationRequestDto;
+import nora.movlog.utils.dto.auth.VerificationRequestDto;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,11 +63,4 @@ public class AuthController {
         }
         else return "redirect:" + VERIFY_URI + "/" + loginId;
     }
-
-//    @RequestMapping(RESEND_URI + "/{loginId}")
-//    public String resend(@PathVariable String loginId,
-//                         Authentication auth) {
-//        String authId = MemberFinder.getUsernameFrom(auth);
-//
-//    }
 }

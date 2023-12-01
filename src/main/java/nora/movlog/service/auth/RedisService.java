@@ -1,4 +1,4 @@
-package nora.movlog.service.user;
+package nora.movlog.service.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
