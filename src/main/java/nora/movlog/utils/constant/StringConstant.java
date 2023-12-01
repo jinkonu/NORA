@@ -125,4 +125,7 @@ public class StringConstant {
     public static final String COMMENT_TYPE = "comment";
     public static final String LIKES_TYPE = "likes";
     public static final String FOLLOW_TYPE = "follow";
+
+    public static final String FOLLOWING = "following";
+    public static final String FOLLOWER = "follower";
 }

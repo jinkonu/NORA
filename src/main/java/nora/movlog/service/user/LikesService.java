@@ -22,18 +22,15 @@ public class LikesService {
 
     /* CREATE */
     @Transactional
-    public void add(String memberLoginId, long postId) {
+    public Likes add(String memberLoginId, long postId) {
         Member member = memberRepository.findByLoginId(memberLoginId).get();
         Post post = postRepository.findById(postId).get();
 
-        if (check(memberLoginId, postId)) {
-            likesRepository.save(Likes.builder()
-                    .member(member)
-                    .post(post)
-                    .build());
-
-            post.addLike();
-        }
+        post.addLike();
+        return likesRepository.save(Likes.builder()
+                .member(member)
+                .post(post)
+                .build());
     }
 
 

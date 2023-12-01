@@ -1,6 +1,8 @@
 package nora.movlog.service.user;
 
+import nora.movlog.domain.Notification;
 import nora.movlog.domain.user.Member;
+import nora.movlog.repository.NotificationRepository;
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.utils.dto.user.MemberDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
@@ -38,6 +40,9 @@ class MemberServiceTest {
 
     @Autowired
     MovieService movieService;
+
+    @Autowired
+    NotificationRepository notificationRepository;
 
 
     @Autowired
@@ -80,6 +85,7 @@ class MemberServiceTest {
 
         assertThat(memberService.findAllFollowings(following.getLoginId()).contains(follower)).isTrue();
         assertThat(memberService.findAllFollowers(follower.getLoginId()).contains(following)).isTrue();
+        assertThat(notificationRepository.findAllByType(Notification.Type.FOLLOW).size()).isGreaterThan(0);
     }
 
 

@@ -12,8 +12,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import static nora.movlog.utils.constant.StringConstant.FOLLOWER;
+import static nora.movlog.utils.constant.StringConstant.FOLLOWING;
 
 @RequiredArgsConstructor
 @Service
@@ -29,11 +34,16 @@ public class MemberService {
     }
 
     @Transactional
-    public void follow(String followingId, String followerId) {
+    public Map<String, Member> follow(String followingId, String followerId) {
         Member following = memberRepository.findByLoginId(followingId).get();
         Member follower = memberRepository.findByLoginId(followerId).get();
 
         following.follows(follower);
+
+        return new HashMap<>(Map.of(
+                FOLLOWING, following,
+                FOLLOWER, follower
+        ));
     }
 
     @Transactional

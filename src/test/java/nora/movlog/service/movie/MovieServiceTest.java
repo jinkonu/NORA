@@ -32,7 +32,7 @@ class MovieServiceTest {
     MovieService movieService;
 
     @DisplayName("문자열 기반 검색")
-    @Rollback(value = false)
+    @Rollback
     @ValueSource(strings = "보이")
     @ParameterizedTest
     void search_문자열_기반_검색(String searchParam) {
@@ -48,7 +48,7 @@ class MovieServiceTest {
     }
 
     @DisplayName("API 검색 결과 영화들을 DB에 저장")
-    @Rollback(value = false)
+    @Rollback
     @ValueSource(strings = "돼지")
     @ParameterizedTest
     void search_API_검색_결과_영화들을_DB에_저장(String searchParam) {
