@@ -2,6 +2,7 @@ package nora.movlog.service.movie;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Movie;
+import nora.movlog.repository.user.MemberRepository;
 import nora.movlog.utils.dto.movie.MovieTmdbDto;
 import nora.movlog.repository.movie.MovieTmdbApiRepository;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
@@ -22,6 +23,7 @@ import static nora.movlog.utils.constant.NumberConstant.*;
 public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieTmdbApiRepository movieTmdbApiRepository;
+    private final MemberRepository memberRepository;
 
 
 
@@ -59,8 +61,6 @@ public class MovieService {
 
     /* READ */
     // 문자열 기반 검색
-    //  -> 1차적으로 DB 검색
-    //  -> 없거나 부족하면 findFromTmdb()
     @Transactional
     public List<Movie> search(String query, int pageNumber, int pageSize) {
         List<Movie> movies = new ArrayList<>(movieRepository.findAllByTitleKoContains(query, PageRequest.of(pageNumber, pageSize))
@@ -77,5 +77,17 @@ public class MovieService {
     @Transactional( readOnly = true )
     public Movie findOne(String id) {
         return movieRepository.findById(id).orElse(null);
+    }
+
+    // 북마크 이미 본 영화 조회
+    public Set<Movie> findAllSeenFrom(String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
+                .getSeenMovies();
+    }
+
+    // 북마크 보고싶은 영화 조회
+    public Set<Movie> findAllToSeeFrom(String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
+                .getToSeeMovies();
     }
 }
