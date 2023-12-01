@@ -21,7 +21,23 @@
     width: 368px;
 }
 
+.user_profile_info {
+    display: flex;
+    flex-direction: column;
 
+    color: #303337;
+    text-align: start;
+    font-family: Pretendard Variable;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 140%;
+
+}
+
+.user_profile_info_account {
+    color: rgba(0, 0, 0, 0.50);
+}
 
 .user_profile_img {
     width: 56px;
