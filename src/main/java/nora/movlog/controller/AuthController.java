@@ -10,10 +10,7 @@ import nora.movlog.utils.dto.user.VerificationRequestDto;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import static nora.movlog.utils.constant.StringConstant.*;
 
@@ -40,18 +37,37 @@ public class AuthController {
     public String verifyPage(@PathVariable String loginId,
                              Authentication auth,
                              Model model) {
-        if(auth==null || !auth.isAuthenticated()) {
-            model.addAttribute("loginId", loginId);
-            model.addAttribute("verifyRequest", new VerificationRequestDto());
-            return "verifyPage";
+        String authId = MemberFinder.getUsernameFrom(auth);
+        if (memberService.findByLoginId(authId).getMemberAuth().equals(AUTH_VERIFIED)) { // 인증된 유저가 접근 시도 시 검색 페이지로
+            return "redirect:" + SEARCH_URI;
         }
-        else return "redirect:" + SEARCH_URI;
+        else { // 미인증된 유저는 인증 페이지로
+            if (!authId.equals(loginId)) { // loginId가 자신의 아이디와 일치하지 않을 경우 자신의 인증 페이지로
+                return "redirect:" + VERIFY_URI + "/" + authId;
+            }
+            else { // 인증되지 않은 유저에 대한 정상적인 인증 처리
+                model.addAttribute("loginId", loginId);
+                model.addAttribute("verifyRequest", new VerificationRequestDto());
+                return "verifyPage";
+            }
+        }
     }
 
-    @PostMapping(JOIN_URI + VERIFY_URI + "/{loginId}")
+    @PostMapping(VERIFY_URI + "/{loginId}")
     public String verifyPage(@PathVariable String loginId,
+                             Authentication auth,
                              @Valid @ModelAttribute VerificationRequestDto dto) {
-        if (authService.verifiedCode(loginId, dto.getVerifyCode())) return "redirect:" + LOGIN_URI;
-        else return "redirect: " + JOIN_URI + VERIFY_URI + loginId;
+        if (authService.verifiedCode(loginId, dto.getVerifyCode())) {
+            authService.setVerified(loginId, auth);
+            return "redirect:" + SEARCH_URI;
+        }
+        else return "redirect:" + VERIFY_URI + "/" + loginId;
     }
+
+//    @RequestMapping(RESEND_URI + "/{loginId}")
+//    public String resend(@PathVariable String loginId,
+//                         Authentication auth) {
+//        String authId = MemberFinder.getUsernameFrom(auth);
+//
+//    }
 }

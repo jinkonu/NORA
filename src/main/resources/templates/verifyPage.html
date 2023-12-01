@@ -5,13 +5,14 @@
     <title>Email Verification</title>
 </head>
 <body>
-<form th:method="post" th:action="@{/join/verify/{loginId}(loginId=${loginId})}" th:object="${verifyRequest}">
+<form th:method="post" th:action="@{/verify/{loginId}(loginId=${loginId})}" th:object="${verifyRequest}">
     <div>
         <label th:for="verifyCode">인증 코드 : </label>
         <input type="text" th:field="*{verifyCode}"/>
     </div>
     <div>
         <button type="submit">확인</button>
+        <button type="button" th:onclick="location.href='/resend/{loginId}(loginId=${loginId})'"></button>
     </div>
 </form>
 </body>
