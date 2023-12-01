@@ -7,20 +7,20 @@
 </head>
 <body>
 <div>
-    <h1>로그인</h1>
+    <h1>MOVLOG</h1>
     <form th:method="post" th:action="login" th:object="${memberLoginRequest}">
         <div>
-            <label th:for="loginId">이메일 : </label>
-            <input type="text" th:field="*{loginId}"/>
+            <label th:for="loginId"></label>
+            <input type="text" th:field="*{loginId}" placeholder="아이디(이메일:example@example.com)" required/>
         </div>
         <br/>
         <div>
-            <label th:for="password">비밀번호 : </label>
-            <input type="password" th:field="*{password}"/>
+            <label th:for="password"></label>
+            <input type="password" th:field="*{password}" placeholder="비밀번호" required/>
         </div>
         <br/>
         <button type="submit">로그인</button>
-        <button type="button" th:onclick="location.href='/join'">회원 가입</button>
+        <button type="button" th:onclick="location.href='/join'">계정 만들기</button>
     </form>
 </div>
 </body>
