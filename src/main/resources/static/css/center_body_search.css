@@ -88,10 +88,13 @@
     display: flex;
 }
 
-.item_nation {
+.item_nations {
     display: flex;
     flex-direction: row;
     gap: 4px;
+}
+
+.item_nation {
     color: #303337;
     font-family: Inter;
     font-size: 18px;
