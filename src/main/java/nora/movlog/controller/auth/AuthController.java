@@ -63,11 +63,4 @@ public class AuthController {
         }
         else return "redirect:" + VERIFY_URI + "/" + loginId;
     }
-
-//    @RequestMapping(RESEND_URI + "/{loginId}")
-//    public String resend(@PathVariable String loginId,
-//                         Authentication auth) {
-//        String authId = MemberFinder.getUsernameFrom(auth);
-//
-//    }
 }
