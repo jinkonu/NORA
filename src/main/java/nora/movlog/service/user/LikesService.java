@@ -22,21 +22,21 @@ public class LikesService {
 
     /* CREATE */
     @Transactional
-    public void add(String memberLoginId, long postId) {
+    public Likes add(String memberLoginId, long postId) {
         Member member = memberRepository.findByLoginId(memberLoginId).get();
         Post post = postRepository.findById(postId).get();
 
-        likesRepository.save(Likes.builder()
+        post.addLike();
+        return likesRepository.save(Likes.builder()
                 .member(member)
                 .post(post)
                 .build());
-        post.addLike();
     }
 
 
     /* READ */
-    public boolean check(long memberId, long postId) {
-        return likesRepository.existsByMemberIdAndPostId(memberId, postId);
+    private boolean check(String memberLoginId, long postId) {
+        return likesRepository.existsByMemberLoginIdAndPostId(memberLoginId, postId);
     }
 
 

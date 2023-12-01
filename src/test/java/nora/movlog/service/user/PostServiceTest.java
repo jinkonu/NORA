@@ -1,5 +1,6 @@
 package nora.movlog.service.user;
 
+import nora.movlog.domain.user.Member;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.utils.dto.user.PostCreateRequestDto;
 import nora.movlog.utils.dto.user.PostDto;
@@ -28,6 +29,10 @@ import static nora.movlog.utils.constant.StringConstant.*;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class PostServiceTest {
+
+    private static final String TEST_CASE_MEMBER2_LOGIN_ID = "hello";
+    private static final String TEST_CASE_MEMBER2_PASSWORD = "bye";
+    private static final String TEST_CASE_MEMBER2_NICKNAME = "beachboys";
 
     private static final String TEST_CASE_POST_BODY = "hello world!";
     private static final String TEST_CASE_QUERY = "파고";
@@ -81,6 +86,34 @@ class PostServiceTest {
         assertThat(posts.size()).isEqualTo(10);
         IntStream.range(0, 10)
                 .forEach(i -> assertThat(posts.get(i).getBody()).isEqualTo(TEST_CASE_POST_BODY));
+    }
+
+
+    @DisplayName("회원이 팔로우 하는 게시물들 조회")
+    @Rollback
+    @Test
+    void findHomePosts_회원이_팔로우_하는_게시물들_조회() {
+        generateMember(
+                TEST_CASE_MEMBER2_LOGIN_ID,
+                TEST_CASE_MEMBER2_PASSWORD,
+                TEST_CASE_MEMBER2_NICKNAME);
+
+        Member following = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
+        Member follower = memberService.findByLoginId(TEST_CASE_MEMBER2_LOGIN_ID);
+        memberService.follow(following.getLoginId(), follower.getLoginId());
+
+        int postSize = 10;
+        IntStream.range(0, postSize).forEach(i -> postService.write(
+                PostCreateRequestDto.builder()
+                        .body(TEST_CASE_POST_BODY)
+                        .movieId(TEST_CASE_MOVIE_ID)
+                        .build(), TEST_CASE_MEMBER2_LOGIN_ID));
+
+        List<PostDto> homePosts = postService.findHomePosts(following.getLoginId());
+
+        assertThat(homePosts.size()).isEqualTo(postSize);
+        homePosts.stream()
+                .forEach(post -> assertThat(post.getBody()).contains(TEST_CASE_POST_BODY));
     }
 
 

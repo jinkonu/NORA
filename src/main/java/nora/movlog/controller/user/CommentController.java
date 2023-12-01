@@ -1,9 +1,9 @@
 package nora.movlog.controller.user;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nora.movlog.service.user.CommentService;
+import nora.movlog.utils.MemberFinder;
 import nora.movlog.utils.dto.user.CommentCreateRequestDto;
 import nora.movlog.utils.dto.user.CommentDto;
 import nora.movlog.utils.dto.user.CommentEditDto;
@@ -12,11 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import static nora.movlog.utils.constant.StringConstant.COMMENT_URI;
-import static nora.movlog.utils.constant.StringConstant.LAST_URL;
+import static nora.movlog.utils.constant.StringConstant.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,26 +28,21 @@ public class CommentController {
     @PostMapping("/{postId}")
     public String add(@PathVariable long postId,
                       @ModelAttribute CommentCreateRequestDto dto,
-                      Authentication auth,
-                      HttpServletRequest request) {
+                      Authentication auth) {
         commentService.write(dto, postId, ((UserDetails) auth.getPrincipal()).getUsername());
 
-        return "redirect:" + request.getRequestURI();
+        return "redirect:" + POST_URI + postId;
     }
 
 
     /* READ */
     @GetMapping("/{commentId}")
     public CommentDto read(@PathVariable long commentId,
-                           Authentication auth,             // read()는 자바스크립트 상에서 호출될텐데, 이때도 auth에 회원 인증 정보가 들어있는지는 확인해봐야 한다
-                           HttpServletRequest request) {
+                           Authentication auth) {
         CommentDto comment = commentService.findOne(commentId);
 
-        if (((UserDetails) auth.getPrincipal()).getUsername().equals(comment.getMemberLoginId())) {
-            request.getSession().setAttribute(LAST_URL, request.getRequestURI());
-
+        if (MemberFinder.getUsernameFrom(auth).equals(comment.getMemberLoginId()))
             return comment;
-        }
 
         return null;
     }
@@ -59,26 +50,17 @@ public class CommentController {
 
     /* UPDATE */
     @PostMapping("/{commentId}/edit")
-    public String edit(@PathVariable long commentId,
-                       @ModelAttribute CommentEditDto dto,
-                       Authentication auth,
-                       HttpServletRequest request) {
-        commentService.edit(commentId, dto, ((UserDetails) auth.getPrincipal()).getUsername());
-
-        String lastUrl = (String) request.getSession().getAttribute(LAST_URL);
-        request.getSession().removeAttribute(LAST_URL);
-
-        return "redirect:" + lastUrl;
+    public void edit(@PathVariable long commentId,
+                     @ModelAttribute CommentEditDto dto,
+                     Authentication auth) {
+        commentService.edit(commentId, dto, MemberFinder.getUsernameFrom(auth));
     }
 
 
     /* DELETE */
     @GetMapping("/{commentId}/delete")
-    public String delete(@PathVariable long commentId,
-                         Authentication auth,
-                         HttpServletRequest request) throws URISyntaxException {
+    public void delete(@PathVariable long commentId,
+                       Authentication auth) {
         commentService.delete(commentId, ((UserDetails) auth.getPrincipal()).getUsername());
-
-        return "redirect:" + new URI(request.getHeader("Referer")).getPath();
     }
 }

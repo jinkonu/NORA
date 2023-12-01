@@ -5,12 +5,15 @@ import lombok.Data;
 import nora.movlog.domain.user.Post;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 
 import static nora.movlog.utils.constant.NumberConstant.*;
 
 @Builder
 @Data
-public class PostDto {
+public class PostDto implements Comparable<PostDto> {
+    private static final Comparator<String> COMPARATOR = String.CASE_INSENSITIVE_ORDER.reversed();
+
     /* Post */
     private long id;
     private String body;
@@ -47,5 +50,10 @@ public class PostDto {
                 .createdAt(formatter.format(post.getCreatedAt()))
                 .lastModifiedAt(formatter.format(post.getLastModifiedAt()))
                 .build();
+    }
+
+    @Override
+    public int compareTo(PostDto dto) {
+        return COMPARATOR.compare(this.createdAt, dto.createdAt);
     }
 }

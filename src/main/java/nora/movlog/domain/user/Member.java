@@ -138,13 +138,6 @@ public class Member implements UserDetails {
     public void setVerified() {
         this.isVerified = true;
     }
-
-    public void follows(Member follower) {
-        this.followingCnt++;
-        this.followings.add(follower);
-
-        follower.followerCnt++;
-    }
 }
 
 

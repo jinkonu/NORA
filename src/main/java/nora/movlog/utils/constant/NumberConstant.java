@@ -31,4 +31,9 @@ public class NumberConstant {
 
     // POST
     public static final int DEFAULT_LIKE_CNT = 0;
+    public static final int MIN_LATEST_DAYS = 3;
+
+
+    // NOTIFICATION
+    public static final int BIGGER = 1;
 }

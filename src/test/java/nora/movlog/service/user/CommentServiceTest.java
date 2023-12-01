@@ -1,5 +1,7 @@
 package nora.movlog.service.user;
 
+import nora.movlog.domain.Notification;
+import nora.movlog.repository.NotificationRepository;
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.utils.dto.user.CommentCreateRequestDto;
 import nora.movlog.utils.dto.user.CommentEditDto;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
 
+import static nora.movlog.domain.Notification.Type.COMMENT;
 import static nora.movlog.utils.constant.StringConstant.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -47,6 +50,9 @@ class CommentServiceTest {
 
     @Autowired
     PostService postService;
+
+    @Autowired
+    NotificationRepository notificationRepository;
 
 
     @BeforeEach
@@ -78,6 +84,8 @@ class CommentServiceTest {
             assertThat(comment.getBody()).isEqualTo(TEST_CASE_COMMENT_BODY);
             assertThat(postService.findOne(postId).getCommentCnt()).isEqualTo(10);
         });
+
+        assertThat(notificationRepository.findAllByType(COMMENT).size()).isEqualTo(10);
     }
 
 
@@ -87,7 +95,8 @@ class CommentServiceTest {
     void edit_댓글_수정(String changedBody) {
         long id = commentService.write(CommentCreateRequestDto.builder()
                 .body(TEST_CASE_COMMENT_BODY)
-                .build(), postId, TEST_CASE_MEMBER_LOGIN_ID);
+                .build(), postId, TEST_CASE_MEMBER_LOGIN_ID)
+                .getId();
 
         commentService.edit(id, CommentEditDto.builder()
                 .body(changedBody)
@@ -102,7 +111,8 @@ class CommentServiceTest {
     void delete_댓글_삭제() {
         long id = commentService.write(CommentCreateRequestDto.builder()
                 .body(TEST_CASE_COMMENT_BODY)
-                .build(), postId, TEST_CASE_MEMBER_LOGIN_ID);
+                .build(), postId, TEST_CASE_MEMBER_LOGIN_ID)
+                .getId();
 
         commentService.delete(id, TEST_CASE_MEMBER_LOGIN_ID);
 
