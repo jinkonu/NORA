@@ -6,6 +6,8 @@ import nora.movlog.domain.user.Member;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 
+import static nora.movlog.utils.constant.StringConstant.*;
+
 @Data
 public class MemberJoinRequestDto {
     private String loginId;
@@ -18,8 +20,8 @@ public class MemberJoinRequestDto {
                 .loginId(loginId)
                 .password(encodedPassword)
                 .nickname(nickname)
-                .isVerified(false)
                 .createdAt(LocalDateTime.now())
+                .memberAuth(AUTH_UNVERIFIED)
                 .followings(new HashSet<>())
                 .followers(new HashSet<>())
                 .seenMovies(new HashSet<>())

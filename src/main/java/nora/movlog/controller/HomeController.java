@@ -52,19 +52,19 @@ public class HomeController {
     @PostMapping(JOIN_URI)
     public String joinPage(@Valid @ModelAttribute MemberJoinRequestDto dto,
                            BindingResult bindingResult) {
-        if (memberValidator.validateJoin(dto, bindingResult).hasErrors())
+        if (memberValidator.validateJoin(dto, bindingResult).hasErrors()) {
             return "redirect:" + JOIN_URI;
-
-        memberService.join(dto);
-        authService.sendCodeToEmail(dto.getLoginId());
-        return "redirect:" + JOIN_URI + VERIFY_URI + "/" + dto.getLoginId();
+        }
+        else {
+            memberService.join(dto);
+            return "redirect:" + LOGIN_URI;
+        }
     }
 
     // 로그인
     @GetMapping(LOGIN_URI)
     public String loginPage(Model model) {
         model.addAttribute("memberLoginRequest", new MemberLoginRequestDto());
-
         return "loginPage";
     }
 }
