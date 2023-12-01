@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="로그인"></title>
+    <link rel="stylesheet" href="/css/login.css">
+    <style>
+    </style>
 </head>
 <body>
-<div>
-    <h1>MOVLOG</h1>
+<div class="form-class">
     <form th:method="post" th:action="login" th:object="${memberLoginRequest}">
+        <h1>MOVLOG</h1>
         <div>
             <label th:for="loginId"></label>
             <input type="text" th:field="*{loginId}" placeholder="아이디(이메일:example@example.com)" required/>
@@ -16,21 +19,12 @@
         <br/>
         <div>
             <label th:for="password"></label>
-            <input type="password" th:field="*{password}" placeholder="비밀번호" required/>
+            <input type="password"  th:field="*{password}" placeholder="비밀번호" required/>
         </div>
         <br/>
-        <button type="submit">로그인</button>
-        <button type="button" th:onclick="location.href='/join'">계정 만들기</button>
+        <button type="submit" class="login-button">로그인</button>
+        <button type="button" th:onclick="location.href='/join'" class="join-button">계정 만들기</button>
     </form>
 </div>
 </body>
 </html>
-
-<style>
-.error-class {
-    color: red;
-}
-.error-input {
-    border-color: red;
-}
-</style>
