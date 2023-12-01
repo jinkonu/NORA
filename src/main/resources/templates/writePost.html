@@ -11,12 +11,13 @@
 </head>
 
 <body>
-  <h2 th:text="'Movie ID: ' + ${param.movieId}"></h2>
+  <div th:text="${param.movieTitle}"></div>
   <form method="post" th:action="@{/post}" th:object="${postDto}" enctype="multipart/form-data">
     <label th:for="movieId">Movie ID: </label>
     <label>
       <input type="text" th:field="*{movieId}" required/>
     </label>
+    <br/>
     <label>
       <textarea th:field="*{body}" cols="100" rows="20" required></textarea>
     </label>

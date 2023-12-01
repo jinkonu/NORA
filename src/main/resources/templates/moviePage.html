@@ -253,8 +253,9 @@
         }
 
         var movieId = /*[[${movie.id}]]*/ 'defaultMovieId';
+        var movieTitle = /*[[${movie.titleKo}]]*/ 'defaultMovieId';
         function openModal() {
-            fetch('/post?movieId='+movieId)
+            fetch('/post?movieId=' + movieId + '&movieTitle=' + movieTitle)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('modalBody').innerHTML = data;
