@@ -14,6 +14,17 @@
     border-bottom: 1px solid #000;
 }
 
+#inner_search_header {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+#subject {
+    padding: 12px;
+    border: 1px solid var(--gray-gray-10, #F2F2F2);
+}
+
 .title {
     color: #303337;
     font-family: Inter;
@@ -77,10 +88,13 @@
     display: flex;
 }
 
-.item_nation {
+.item_nations {
     display: flex;
     flex-direction: row;
     gap: 4px;
+}
+
+.item_nation {
     color: #303337;
     font-family: Inter;
     font-size: 18px;

@@ -4,9 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="회원가입"></title>
+    <style>
+    </style>
+    <link rel="stylesheet" href="/css/join.css">
 </head>
 <body>
-<div>
+<div class="form-class">
     <h1>MOVLOG</h1>
     <form th:method="post" th:action="join" th:object="${memberJoinRequest}">
         <div>
@@ -14,19 +17,16 @@
             <input type="text" class="loginId-class" th:field="*{loginId}" th:errorclass="error-input" placeholder="아이디(이메일:example@example.com)" required/>
             <div class="error-class" th:errors="*{loginId}"></div>
         </div>
-        <br/>
         <div>
             <label th:for="password"></label>
             <input type="password" class="password-class" th:field="*{password}" th:errorclass="error-input" placeholder="비밀번호" required/>
             <div class="error-class" th:errors="*{password}"></div>
         </div>
-        <br/>
         <div>
             <label th:for="passwordCheck"></label>
             <input type="password" class="passwordCheck-class" th:field="*{passwordCheck}" th:errorclass="error-input" placeholder="비밀번호 확인" required/>
             <div class="error-class" th:errors="*{passwordCheck}"></div>
         </div>
-        <br/>
         <div>
             <label th:for="nickname"></label>
             <input type="text" class="nickname-class" th:field="*{nickname}" th:errorclass="error-input" placeholder="닉네임" required/>
@@ -35,7 +35,7 @@
         <div class="error-message-class">
         </div>
         <br/>
-        <button type="submit">인증 요청</button>
+        <button type="submit">회원가입</button>
     </form>
 </div>
 <script>
@@ -51,21 +51,25 @@
         var passwordPattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"); // 비밀번호 형식을 정의하는 정규식
     
         if (!emailPattern.test(loginId.value)) {
-            ErrorMessage.textContent = "올바른 이메일 형식이 아닙니다.";
+            ErrorMessage.textContent = "• 올바른 이메일 형식이 아닙니다.";
+            loginId.style.borderColor = "red";
             loginId.value = ""; // loginId 초기화.
             password.value = ""; // password 초기화.
             passwordCheck.value = ""; // passwordCheck 초기화.
             nickname.value = ""; // nickname 초기화.
             event.preventDefault();
         } else if (!passwordPattern.test(password.value)) {
-            ErrorMessage.textContent = "비밀번호는 최소 8자리이며, 대문자, 소문자, 특수문자, 숫자를 포함해야 합니다."; // 에러 메시지
+            ErrorMessage.textContent = "• 비밀번호는 최소 8자리이며, 대문자, 소문자, 특수문자, 숫자를 포함해야 합니다."; // 에러 메시지
+            password.style.borderColor = "red";
             loginId.value = ""; // loginId 초기화.
             password.value = ""; // password 초기화.
             passwordCheck.value = ""; // passwordCheck 초기화.
             nickname.value = ""; // nickname 초기화.
             event.preventDefault(); // form 전송 중지
         } else if (password.value !== passwordCheck.value) {
-            ErrorMessage.textContent = "비밀번호와 비밀번호 확인이 일치하지 않습니다."; // 에러 메시지
+            ErrorMessage.textContent = "• 비밀번호와 비밀번호 확인이 일치하지 않습니다."; // 에러 메시지
+            password.style.borderColor = "red";
+            passwordCheck.style.borderColor = "red";
             loginId.value = ""; // loginId 초기화.
             password.value = ""; // password 초기화.
             passwordCheck.value = ""; // passwordCheck 초기화.
@@ -78,12 +82,3 @@
 </script>
 </body>
 </html>
-
-<style>
-.error-class {
-    color: red;
-}
-.error-input {
-    border-color: red;
-}
-</style>
