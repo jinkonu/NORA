@@ -115,6 +115,9 @@ public class StringConstant {
 
     public static final String AUTH_CODE_PREFIX = "AuthCode ";
 
+    // AUTHORITIES
+    public static final String AUTH_UNVERIFIED = "UNVERIFIED";
+    public static final String AUTH_VERIFIED = "VERIFIED";
 
     // TEST
     public static final String TEST_CASE_MEMBER_LOGIN_ID = "gingNangBoyz";

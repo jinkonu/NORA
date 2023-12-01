@@ -6,13 +6,20 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nora.movlog.domain.movie.Movie;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
+import static nora.movlog.utils.constant.StringConstant.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,7 +35,7 @@ public class Member implements UserDetails {
     private String loginId;
     private String password;
     private String nickname;
-    private boolean isVerified;
+    private String memberAuth;
     private LocalDateTime createdAt;
 
     /* 연관관계 */
@@ -107,7 +114,9 @@ public class Member implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(this.getMemberAuth()));
+        return authorities;
     }
 
     @Override
@@ -135,8 +144,12 @@ public class Member implements UserDetails {
         return true;
     }
 
-    public void setVerified() {
-        this.isVerified = true;
+    public void setVerified(Authentication auth) {
+        this.memberAuth = AUTH_VERIFIED;
+        List<GrantedAuthority> updatedAuthorities = new ArrayList<>();
+        updatedAuthorities.add(new SimpleGrantedAuthority(this.getMemberAuth()));
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
     }
 }
 
