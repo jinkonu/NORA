@@ -6,6 +6,7 @@ import nora.movlog.repository.user.MemberRepository;
 import nora.movlog.service.exception.BusinessLogicException;
 import nora.movlog.service.exception.ExceptionCode;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,14 +51,14 @@ public class AuthService {
         }
     }
 
-    @Transactional
     public boolean verifiedCode(String loginId, String authCode) {
         String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + loginId);
-        boolean verified = redisAuthCode.equals(authCode);
-        if (verified) {
-            Member member = memberRepository.findByLoginId(loginId).get();
-            member.setVerified();
-        }
-        return verified;
+        return redisAuthCode.equals(authCode);
+    }
+
+    @Transactional
+    public void setVerified(String loginId, Authentication auth) {
+        Member member = memberRepository.findByLoginId(loginId).get();
+        member.setVerified(auth);
     }
 }
