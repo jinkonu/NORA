@@ -136,8 +136,11 @@
                                         </div>
                                         
                                     </div>
-                                    <div class ="item_nation" th:each="nation : ${movie.nations}">
-                                        <div th:text="${nation.id}"></div>
+                                    <div class="item_nations">
+                                        <div class="item_nation" th:each="nation : ${movie.nations}">
+                                            <div th:text="${nation.id}"></div>
+                                        </div>
+
                                     </div>
 
                                 </div>
