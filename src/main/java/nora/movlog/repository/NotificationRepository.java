@@ -12,5 +12,5 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 
     Page<Notification> findAllByFromLoginId(String loginId, Pageable pageable);
     List<Notification> findAllByType(Type type);
-
+    void deleteAllByFromLoginId(String loginId);
 }

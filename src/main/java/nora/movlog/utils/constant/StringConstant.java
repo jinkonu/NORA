@@ -111,6 +111,7 @@ public class StringConstant {
     public static final String POST_URI = "/post";
     public static final String LIKE_URI = "/likes";
     public static final String COMMENT_URI = "/comment";
+    public static final String NOTIFICATION_URI = "/notification";
 
     public static final String AUTH_CODE_PREFIX = "AuthCode ";
 
