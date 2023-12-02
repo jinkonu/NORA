@@ -30,7 +30,7 @@ public class AuthService {
 
     public void sendCodeToEmail(String loginId) {
         String title = "MOVLOG 이메일 인증";
-        String authCode = this.createCode();
+        String authCode = "MOVLOG 인증 코드 " + this.createCode() + "를 입력해주세요.";
         mailService.sendEmail(loginId, title, authCode);
 
         // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "AuthCode " + Email / value = AuthCode )
