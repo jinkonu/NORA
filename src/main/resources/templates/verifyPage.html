@@ -8,20 +8,20 @@
     </style>
 </head>
 <body>
-  <form th:method="post" th:action="@{/join/verify/{loginId}}" th:object="${verifyRequest}">
-    <h1>MOVLOG</h1>
-    <h4>
-        회원 가입 시 사용된 이메일로 인증 코드를 발송했습니다.
-        <br/>
-        아래에 인증 코드를 입력해주십시오.
-    </h4>
-      <div>
-          <label th:for="verifyCode"></label>
-          <input type="text" th:field="*{verifyCode}" placeholder="인증 코드" required/>
-      </div>
-      <div>
-          <button type="submit">확인</button>
-      </div>
-  </form>
+    <form th:method="post" th:action="@{/join/verify/{loginId}}" th:object="${verifyRequest}">
+        <h1>MOVLOG</h1>
+        <h4>
+            회원 가입 시 사용된 이메일로 인증 코드를 발송했습니다.
+            <br/>
+            아래에 인증 코드를 입력해주십시오.
+        </h4>
+          <div>
+              <label th:for="verifyCode"></label>
+              <input type="text" th:field="*{verifyCode}" placeholder="인증 코드" required/>
+          </div>
+          <div>
+              <button type="submit">확인</button>
+          </div>
+      </form>
 </body>
 </html>

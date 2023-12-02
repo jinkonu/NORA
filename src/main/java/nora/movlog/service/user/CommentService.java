@@ -29,14 +29,12 @@ public class CommentService {
 
     /* CREATE */
     @Transactional
-    public long write(CommentCreateRequestDto dto, long postId, String memberLoginId) {
+    public Comment write(CommentCreateRequestDto dto, long postId, String memberLoginId) {
         Member member = memberRepository.findByLoginId(memberLoginId).get();
         Post post = postRepository.findById(postId).get();
 
-        Comment comment = commentRepository.save(dto.toEntity(member, post));
         post.addComment();
-
-        return comment.getId();
+        return commentRepository.save(dto.toEntity(member, post));
     }
 
 
