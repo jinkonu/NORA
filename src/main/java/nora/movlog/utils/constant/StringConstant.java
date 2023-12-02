@@ -115,8 +115,6 @@ public class StringConstant {
     public static final String NOTIFICATION_URI = "/notification";
     public static final String BOOKMARK_URI = "/bookmark";
 
-    public static final String AUTH_CODE_PREFIX = "AuthCode ";
-
     // AUTHORITIES
     public static final String AUTH_UNVERIFIED = "UNVERIFIED";
     public static final String AUTH_VERIFIED = "VERIFIED";

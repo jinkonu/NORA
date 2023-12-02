@@ -15,8 +15,6 @@ import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.Random;
 
-import static nora.movlog.utils.constant.StringConstant.*;
-
 @RequiredArgsConstructor
 @Service
 public class AuthService {
@@ -30,11 +28,12 @@ public class AuthService {
 
     public void sendCodeToEmail(String loginId) {
         String title = "MOVLOG 이메일 인증";
-        String authCode = "MOVLOG 인증 코드 " + this.createCode() + "를 입력해주세요.";
-        mailService.sendEmail(loginId, title, authCode);
+        String authCode = this.createCode();
+        String content = "MOVLOG 인증 코드 " + authCode + "를 입력해주세요.";
+        mailService.sendEmail(loginId, title, content);
 
-        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "AuthCode " + Email / value = AuthCode )
-        redisService.setValues(AUTH_CODE_PREFIX + loginId, authCode, Duration.ofMillis(this.authCodeExpirationMillis));
+        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = Email / value = AuthCode )
+        redisService.setValues(loginId, authCode, Duration.ofMillis(this.authCodeExpirationMillis));
     }
 
     private String createCode() {
@@ -52,7 +51,7 @@ public class AuthService {
     }
 
     public boolean verifiedCode(String loginId, String authCode) {
-        String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + loginId);
+        String redisAuthCode = redisService.getValues(loginId);
         return redisAuthCode.equals(authCode);
     }
 
