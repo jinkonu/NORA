@@ -1,5 +1,6 @@
 package nora.movlog.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import static nora.movlog.utils.constant.StringConstant.*;
 
 @Slf4j
@@ -25,7 +29,6 @@ import static nora.movlog.utils.constant.StringConstant.*;
 public class HomeController {
 
     private final MemberService memberService;
-    private final AuthService authService;
     private final PostService postService;
     private final MemberValidator memberValidator;
 
@@ -50,14 +53,23 @@ public class HomeController {
     }
 
     @PostMapping(JOIN_URI)
-    public String joinPage(@Valid @ModelAttribute MemberJoinRequestDto dto,
-                           BindingResult bindingResult) {
+    public void joinPage(@Valid @ModelAttribute MemberJoinRequestDto dto,
+                           BindingResult bindingResult,
+                           HttpServletResponse response) throws IOException {
         if (memberValidator.validateJoin(dto, bindingResult).hasErrors()) {
-            return "redirect:" + JOIN_URI;
+            PrintWriter out = response.getWriter();
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; charset=UTF-8");
+            out.println("<script> alert('이미 가입된 이메일입니다.'); location.href='/join' </script>");
+            out.close();
         }
         else {
             memberService.join(dto);
-            return "redirect:" + LOGIN_URI;
+            PrintWriter out = response.getWriter();
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; charset=UTF-8");
+            out.println("<script> alert('가입되었습니다.'); location.href='/login' </script>");
+            out.close();
         }
     }
 
