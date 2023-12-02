@@ -103,10 +103,10 @@ public class MemberService {
     public void edit(String loginId, MemberEditDto dto) {
         Member member = memberRepository.findByLoginId(loginId).get();
 
-        if (dto.getNewPassword().isBlank())
-            member.edit(member.getPassword(), dto.getNickname());
+        if (dto.getNewPassword() == null)
+            member.edit(member.getPassword(), dto.getNewNickname());
         else
-            member.edit(encoder.encode(dto.getNewPassword()), dto.getNickname());
+            member.edit(encoder.encode(dto.getNewPassword()), member.getNickname());
     }
 
 
