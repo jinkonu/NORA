@@ -114,6 +114,9 @@ public class StringConstant {
     public static final String COMMENT_URI = "/comment";
     public static final String NOTIFICATION_URI = "/notification";
     public static final String BOOKMARK_URI = "/bookmark";
+    public static final String SETTINGS_URI = "/settings";
+    public static final String PASSWORD_URI = "/password";
+    public static final String NICKNAME_URI = "/nickname";
 
     // AUTHORITIES
     public static final String AUTH_UNVERIFIED = "UNVERIFIED";

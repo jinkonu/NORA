@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>설정</title>
+</head>
+<body>
+<div>
+  <h2>닉네임 변경</h2>
+  <form th:method="post" th:action="@{/settings/nickname}" th:object="${editDto}">
+    <div>
+      <label th:for="loginId">이메일 : </label>
+      <label th:text="${loginId}"></label>
+    </div>
+    <br/>
+    <div>
+      <label th:for="nowPassword">현재 비밀번호 : </label>
+      <input type="password" th:field="*{nowPassword}"/>
+    </div>
+    <br/>
+    <div>
+      <label th:for="oldNickname">현재 닉네임 : </label>
+      <label th:text="${oldNickname}"></label>
+    </div>
+    <br/>
+    <div>
+      <label th:for="newNickname">새 닉네임 : </label>
+      <input type="text" th:field="*{newNickname}"/>
+    </div>
+    <br/>
+    <button type="submit">수정</button>
+  </form>
+</div>
+</body>
+</html>
