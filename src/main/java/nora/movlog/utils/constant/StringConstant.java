@@ -85,10 +85,14 @@ public class StringConstant {
     public static final String NO_PASSWORD_ERROR = "비밀번호가 비어있습니다.";
     public static final String NOT_EQUAL_PASSWORD_ERROR = "비밀번호가 일치하지 않습니다.";
 
+    public static final String SAME_PASSWORD_ERROR = "새 비밀번호가 기존 비밀번호와 동일합니다.";
+
     public static final String NO_NICKNAME_ERROR = "닉네임이 비어있습니다.";
     public static final String TOO_LONG_NICKNAME_ERROR = "닉네임 길이가 " + MAX_NICKNAME_LENGTH + "자를 넘습니다.";
 
     public static final String NO_NOW_PASSWORD = "현재 비밀번호가 비어있습니다.";
+    public static final String NO_NEW_PASSWORD = "새 비밀번호가 비어있습니다.";
+    public static final String NO_NEW_PASSWORD_CHECK = "새 비밀번호 확인이 비어있습니다.";
 
     public static final String NO_SUCH_MEMBER = "해당하는 유저를 찾을 수 없습니다.";
 

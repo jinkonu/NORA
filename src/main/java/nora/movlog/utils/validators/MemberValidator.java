@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import static nora.movlog.utils.constant.NumberConstant.*;
 import static nora.movlog.utils.constant.StringConstant.*;
 
 @RequiredArgsConstructor
@@ -40,14 +39,30 @@ public class MemberValidator {
             bindingResult.addError(new FieldError("dto", "nowPassword", NOT_EQUAL_PASSWORD_ERROR));
 
         // newPassword
-        if (!dto.getNewPassword().equals(dto.getNewPasswordCheck()))
+        if(dto.getNewPassword().isEmpty())
+            bindingResult.addError(new FieldError("dto", "newPassword", NO_NEW_PASSWORD));
+        else if (dto.getNewPasswordCheck().isEmpty())
+            bindingResult.addError(new FieldError("dto", "newPasswordCheck", NO_NEW_PASSWORD_CHECK));
+        else if (!dto.getNewPassword().equals(dto.getNewPasswordCheck()))
             bindingResult.addError(new FieldError("dto", "newPasswordCheck", NOT_EQUAL_PASSWORD_ERROR));
+        else if (encoder.matches(dto.getNewPassword(), member.getPassword()))
+            bindingResult.addError(new FieldError("dto", "newPassword", SAME_PASSWORD_ERROR));
+
+        return bindingResult;
+    }
+
+    public BindingResult validateEditNickname(MemberEditDto dto, BindingResult bindingResult, long id) {
+        Member member = memberRepository.findById(id).get();
+
+        // nowPassword
+        if (member.getPassword().isEmpty())
+            bindingResult.addError(new FieldError("dto", "nowPassword", NO_NOW_PASSWORD));
+        else if (!encoder.matches(dto.getNowPassword(), member.getPassword()))
+            bindingResult.addError(new FieldError("dto", "nowPassword", NOT_EQUAL_PASSWORD_ERROR));
 
         // nickname
-        if (dto.getNickname().isEmpty())
+        if (dto.getNewNickname().isEmpty())
             bindingResult.addError(new FieldError("requestDto", "nickname", NO_NICKNAME_ERROR));
-        else if (dto.getNickname().length() < MAX_NICKNAME_LENGTH)
-            bindingResult.addError(new FieldError("requestDto", "nickname", TOO_LONG_NICKNAME_ERROR));
 
         return bindingResult;
     }
