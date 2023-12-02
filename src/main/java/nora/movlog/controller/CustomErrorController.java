@@ -18,8 +18,14 @@ public class CustomErrorController implements ErrorController {
 
     @RequestMapping("/error")
     public String error(Authentication auth) {
-        String authId = MemberFinder.getUsernameFrom(auth);
-        if (memberService.findByLoginId(authId).getMemberAuth().equals(AUTH_UNVERIFIED)) return "redirect:" + VERIFY_URI + "/" + authId;
-        else return "redirect:" + SEARCH_URI;
+        if(auth==null) {
+            return "redirect:" + LOGIN_URI;
+        }
+        else {
+            String authId = MemberFinder.getUsernameFrom(auth);
+            if (memberService.findByLoginId(authId).getMemberAuth().equals(AUTH_UNVERIFIED))
+                return "redirect:" + VERIFY_URI + "/" + authId;
+            else return "redirect:" + SEARCH_URI;
+        }
     }
 }
