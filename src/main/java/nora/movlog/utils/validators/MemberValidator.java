@@ -3,7 +3,7 @@ package nora.movlog.utils.validators;
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.user.Member;
 import nora.movlog.repository.user.MemberRepository;
-import nora.movlog.utils.dto.user.MemberDto;
+import nora.movlog.utils.dto.user.MemberEditDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -30,7 +30,7 @@ public class MemberValidator {
     }
 
     // 회원 정보 수정 요청 DTO 검사
-    public BindingResult validateEdit(MemberDto dto, BindingResult bindingResult, long id) {
+    public BindingResult validateEditPassword(MemberEditDto dto, BindingResult bindingResult, long id) {
         Member member = memberRepository.findById(id).get();
 
         // nowPassword
