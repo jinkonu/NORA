@@ -29,38 +29,27 @@ public class AuthController {
         if (memberService.findByLoginId(authId).getMemberAuth().equals(AUTH_VERIFIED)) return "redirect:" + SEARCH_URI;
         else {
             authService.sendCodeToEmail(authId);
-            return "redirect:" + VERIFY_URI + "/" + authId;
+            return "redirect:" + VERIFY_URI;
         }
     }
 
-    @GetMapping(VERIFY_URI + "/{loginId}")
-    public String verifyPage(@PathVariable String loginId,
-                             Authentication auth,
+    @GetMapping(VERIFY_URI)
+    public String verifyPage(Authentication auth,
                              Model model) {
-        String authId = MemberFinder.getUsernameFrom(auth);
-        if (memberService.findByLoginId(authId).getMemberAuth().equals(AUTH_VERIFIED)) { // 인증된 유저가 접근 시도 시 검색 페이지로
-            return "redirect:" + SEARCH_URI;
-        }
-        else { // 미인증된 유저는 인증 페이지로
-            if (!authId.equals(loginId)) { // loginId가 자신의 아이디와 일치하지 않을 경우 자신의 인증 페이지로
-                return "redirect:" + VERIFY_URI + "/" + authId;
-            }
-            else { // 인증되지 않은 유저에 대한 정상적인 인증 처리
-                model.addAttribute("loginId", loginId);
-                model.addAttribute("verifyRequest", new VerificationRequestDto());
-                return "verifyPage";
-            }
-        }
+        String loginId = MemberFinder.getUsernameFrom(auth);
+        model.addAttribute("loginId", loginId);
+        model.addAttribute("verifyRequest", new VerificationRequestDto());
+        return "verifyPage";
     }
 
-    @PostMapping(VERIFY_URI + "/{loginId}")
-    public String verifyPage(@PathVariable String loginId,
-                             Authentication auth,
+    @PostMapping(VERIFY_URI)
+    public String verifyPage(Authentication auth,
                              @Valid @ModelAttribute VerificationRequestDto dto) {
+        String loginId = MemberFinder.getUsernameFrom(auth);
         if (authService.verifiedCode(loginId, dto.getVerifyCode())) {
             authService.setVerified(loginId, auth);
             return "redirect:" + SEARCH_URI;
         }
-        else return "redirect:" + VERIFY_URI + "/" + loginId;
+        else return "redirect:" + VERIFY_URI;
     }
 }
