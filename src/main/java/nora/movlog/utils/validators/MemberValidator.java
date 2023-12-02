@@ -23,29 +23,8 @@ public class MemberValidator {
 
     // 회원가입 요청 DTO 검사
     public BindingResult validateJoin(MemberJoinRequestDto dto, BindingResult bindingResult) {
-        // loginId
-        if (dto.getLoginId().isEmpty())
-            bindingResult.addError(new FieldError("requestDto", "loginId", NO_LOGIN_ID_ERROR));
-        else if (dto.getLoginId().length() < MIN_LOGIN_LENGTH)
-            bindingResult.addError(new FieldError("requestDto", "loginId", TOO_SHORT_LOGIN_ID_ERROR));
-        else if (dto.getLoginId().length() > MAX_LOGIN_LENGTH)
-            bindingResult.addError(new FieldError("requestDto", "loginId", TOO_LONG_LOGIN_ID_ERROR));
-        else if (memberRepository.existsByLoginId(dto.getLoginId()))
+        if (memberRepository.existsByLoginId(dto.getLoginId()))
             bindingResult.addError(new FieldError("requestDto", "loginId", DUPLICATE_LOGIN_ID_ERROR));
-
-        // password
-        if (dto.getPassword().isEmpty())
-            bindingResult.addError(new FieldError("requestDto", "password", NO_PASSWORD_ERROR));
-
-        // passwordCheck
-        if (!dto.getPassword().equals(dto.getPasswordCheck()))
-            bindingResult.addError(new FieldError("requestDto", "passwordCheck", NOT_EQUAL_PASSWORD_ERROR));
-
-        // nickname
-        if (dto.getNickname().isEmpty())
-            bindingResult.addError(new FieldError("requestDto", "nickname", NO_NICKNAME_ERROR));
-        else if (dto.getNickname().length() > MAX_NICKNAME_LENGTH)
-            bindingResult.addError(new FieldError("requestDto", "nickname", TOO_LONG_NICKNAME_ERROR));
 
         return bindingResult;
     }
