@@ -24,6 +24,8 @@ for (let s of menuEvent) {
         }
         if (current.value == "profile") {
             let urlParam = "member";
+            //let memberId = document.getElementById('user_id').value;
+            //window.open('/' + urlParam + '/' + memberId, '_self');
             window.open('/' + urlParam, '_self');
         }
     });

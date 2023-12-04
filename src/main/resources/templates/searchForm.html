@@ -101,6 +101,8 @@
                     </button>    
                     <!-- 로그아웃 버튼 임시 추가 -->
 
+                    <button id="user_id" th:value="${loginMember.id}"></button>
+
                 </div>
             </div>
         
@@ -168,7 +170,7 @@
         <!-- test -->
     </div>
 
-    <script src="menu_control.js"></script>
+    <script src="menu_control.js" type="text/javascript"></script>
     <script>
         const searchEvent = document.querySelectorAll(".search_input");
         for (let s of searchEvent) {
