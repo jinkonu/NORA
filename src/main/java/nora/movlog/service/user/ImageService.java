@@ -7,7 +7,6 @@ import nora.movlog.repository.user.ImageRepository;
 import nora.movlog.repository.user.PostRepository;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.util.UrlUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -34,7 +32,7 @@ public class ImageService {
 
     /* CREATE */
     @Transactional
-    public Image join(MultipartFile multipartFile, Post post) throws IOException {
+    public Image save(MultipartFile multipartFile, Post post) throws IOException {
         if (multipartFile.isEmpty()) return null;
 
         String originalFileName = multipartFile.getOriginalFilename();

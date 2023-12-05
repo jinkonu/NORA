@@ -2,11 +2,11 @@ package nora.movlog.service.user;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Movie;
+import nora.movlog.domain.user.Image;
 import nora.movlog.domain.user.Member;
 import nora.movlog.domain.user.Post;
 import nora.movlog.utils.dto.user.PostCreateRequestDto;
 import nora.movlog.utils.dto.user.PostDto;
-import nora.movlog.utils.dto.user.PostEditDto;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
 import nora.movlog.repository.user.PostRepository;
 import nora.movlog.repository.user.MemberRepository;
@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -26,17 +27,21 @@ public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
     private final MovieRepository movieRepository;
+    private final ImageService imageService;
 
     private static final LocalDateTime homePostsDate = LocalDateTime.now().minusDays(MIN_LATEST_DAYS);
 
 
     /* CREATE */
     @Transactional
-    public long write(PostCreateRequestDto dto, String userLoginId) {
+    public long write(PostCreateRequestDto dto, String userLoginId) throws IOException {
         Member member = memberRepository.findByLoginId(userLoginId).get();
         Movie movie = movieRepository.findById(dto.getMovieId()).get();
 
         Post post = postRepository.save(dto.toEntity(member, movie));
+        Image image = imageService.save(dto.getImage(), post);
+
+        if (image != null) post.setImage(image);
 
         return post.getId();
     }
@@ -90,12 +95,23 @@ public class PostService {
 
     /* UPDATE */
     @Transactional
-    public Long edit(long postId, PostEditDto dto) {
+    public Long edit(long postId, PostDto dto) throws IOException {
         Optional<Post> optPost = postRepository.findById(postId);
 
         if (optPost.isEmpty()) return null;
 
-        optPost.get().update(dto);
+        Post post = optPost.get();
+
+        if (!dto.getNewImage().isEmpty()) {
+            imageService.delete(post.getImage());
+            post.setImage(null);
+
+            Image image = imageService.save(dto.getNewImage(), post);
+            post.setImage(image);
+
+            post.update(dto);
+        }
+
         return postId;
     }
 
@@ -103,10 +119,13 @@ public class PostService {
 
     /* DELETE */
     @Transactional
-    public Long delete(long postId) {
+    public Long delete(long postId) throws IOException {
         Optional<Post> optPost = postRepository.findById(postId);
 
         if (optPost.isEmpty()) return null;
+
+        if (optPost.get().getImage() != null)
+            imageService.delete(optPost.get().getImage());
 
         postRepository.deleteById(postId);
         return postId;

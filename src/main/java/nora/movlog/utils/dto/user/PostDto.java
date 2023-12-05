@@ -2,7 +2,9 @@ package nora.movlog.utils.dto.user;
 
 import lombok.Builder;
 import lombok.Data;
+import nora.movlog.domain.user.Image;
 import nora.movlog.domain.user.Post;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -34,6 +36,10 @@ public class PostDto implements Comparable<PostDto> {
     /* Comment */
     private int commentCnt;
 
+    /* Image */
+    private Image nowImage;
+    private MultipartFile newImage;
+
     /* Date */
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -49,6 +55,7 @@ public class PostDto implements Comparable<PostDto> {
                 .commentCnt(post.getCommentCnt())
                 .createdAt(formatter.format(post.getCreatedAt()))
                 .lastModifiedAt(formatter.format(post.getLastModifiedAt()))
+                .nowImage(post.getImage())
                 .build();
     }
 

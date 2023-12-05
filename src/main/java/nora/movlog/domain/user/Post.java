@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nora.movlog.domain.movie.Movie;
+import nora.movlog.utils.dto.user.PostDto;
 import nora.movlog.utils.dto.user.PostEditDto;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class Post extends BaseEntity implements Comparable<Post> {
 
 
     /* 메서드 */
-    public void update(PostEditDto dto) {
+    public void update(PostDto dto) {
         this.body = dto.getBody();
     }
 

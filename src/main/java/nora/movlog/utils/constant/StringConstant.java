@@ -121,6 +121,7 @@ public class StringConstant {
     public static final String PASSWORD_URI = "/password";
     public static final String NICKNAME_URI = "/nickname";
     public static final String DELETE_URI = "/delete";
+    public static final String IMAGE_URI = "/image";
 
     // AUTHORITIES
     public static final String AUTH_UNVERIFIED = "UNVERIFIED";
