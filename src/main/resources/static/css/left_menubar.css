@@ -18,9 +18,11 @@
     padding: 16px;
     align-items: center;
     gap: 12px;
+    border-radius: 5px;
     background-color: #fff;
     /* background-color: aquamarine; */
     cursor: pointer; /* 마우스를 버튼 위에 올리면 포인터로 바뀝니다 */
+    transition: background-color 0.3s ease; /* 배경색이 부드럽게 변경됩니다 */
 }
 
 .menu_button:hover {
@@ -50,6 +52,9 @@
 
     background-color: #fff;
     /* background-color: bisque; */
+
+    cursor: pointer; /* 마우스를 버튼 위에 올리면 포인터로 바뀝니다 */
+    transition: background-color 0.3s ease; /* 배경색이 부드럽게 변경됩니다 */
 }
 
 .profile:hover {

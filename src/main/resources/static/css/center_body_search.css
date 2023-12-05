@@ -60,6 +60,8 @@
     height: 100px;
     background-color: #fff;
     border-bottom: 1px solid #000;
+    cursor: pointer; /* 마우스를 버튼 위에 올리면 포인터로 바뀝니다 */
+    transition: background-color 0.3s ease; /* 배경색이 부드럽게 변경됩니다 */
 }
 
 .item:hover {
