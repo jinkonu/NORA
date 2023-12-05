@@ -188,7 +188,7 @@
                                 <!-- 안되면 <form action="post/{postId}" method="get"> 으로도 테스트 -->
                                 <form th:action="post/{postId}">
                                     <div class="post_content_text" th:text="${post.body}"></div>
-                                    <div class="post_content_img"></div>
+                                    <img class="post_content_img" src="${post.image}">
                                 </form>
 
                             </div>
