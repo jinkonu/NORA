@@ -182,11 +182,11 @@
                                 <div class="post_setting">
                                     <img src="/icons/DotsThree.svg" alt="settings">
                                 </div>
-    
+
                             </div>
                             <div class="post_content">
                                 <div class="post_content_text" th:text="${post.body}"></div>
-                                <img class="post_content_img" src="${post.image}">
+                                <img class="post_content_img" th:src="${post.image}">
                             </div>
                             <div class="post_footer">
                                 <div class="post_footer_comments" id="post_comments">
