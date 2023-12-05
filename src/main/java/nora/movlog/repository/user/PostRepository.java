@@ -14,6 +14,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findAllByMemberId(long memberId, Pageable pageable);
     Page<Post> findAllByMemberLoginId(String memberLoginId, Pageable pageable);
     List<Post> findAllByMemberLoginIdAndCreatedAtAfter(String memberLoginId, LocalDateTime fromDate);
-    List<Post> findAllByMovieId(String id);
+    Page<Post> findAllByMovieId(String id, Pageable pageable);
     Long countAllByMovieId(String id);
 }

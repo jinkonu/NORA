@@ -62,6 +62,12 @@ public class PostService {
                 .toList();
     }
 
+    public List<PostDto> findAllFromMovie(String movieId, int page, int size) {
+        return postRepository.findAllByMovieId(movieId, PageRequest.of(page, size)).stream()
+                .map(PostDto::of)
+                .toList();
+    }
+
     public List<PostDto> findHomePosts(String memberLoginId) {
         List<PostDto> homePosts = new ArrayList<>();
 
