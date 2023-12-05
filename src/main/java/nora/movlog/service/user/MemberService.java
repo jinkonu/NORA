@@ -2,8 +2,12 @@ package nora.movlog.service.user;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Movie;
+import nora.movlog.domain.user.Comment;
+import nora.movlog.domain.user.Likes;
 import nora.movlog.domain.user.Member;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
+import nora.movlog.repository.user.CommentRepository;
+import nora.movlog.repository.user.LikesRepository;
 import nora.movlog.utils.dto.user.MemberEditDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.repository.user.MemberRepository;
@@ -25,6 +29,8 @@ import static nora.movlog.utils.constant.StringConstant.FOLLOWING;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MovieRepository movieRepository;
+    private final LikesRepository likesRepository;
+    private final CommentRepository commentRepository;
     private final BCryptPasswordEncoder encoder;
 
     /* CREATE */
@@ -113,15 +119,20 @@ public class MemberService {
 
     /* DELETE */
     @Transactional
-    public boolean delete(String loginId, String nowPassword) {
+    public void delete(String loginId) {
         Member member = memberRepository.findByLoginId(loginId).get();
 
-        if (encoder.matches(nowPassword, member.getPassword())) {
-            memberRepository.delete(member);
-            return true;
+        List<Likes> likes = likesRepository.findAllByMember(member);
+        for (Likes like : likes) {
+            like.getPost().changeLike(like.getPost().getLikeCnt() - 1);
         }
 
-        return false;
+        List<Comment> comments = commentRepository.findAllByMember(member);
+        for (Comment comment : comments) {
+            comment.getPost().changeComment(comment.getPost().getCommentCnt() - 1);
+        }
+
+        memberRepository.delete(member);
     }
 
     @Transactional

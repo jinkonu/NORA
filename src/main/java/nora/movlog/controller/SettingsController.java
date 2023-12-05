@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nora.movlog.service.user.MemberService;
 import nora.movlog.utils.MemberFinder;
+import nora.movlog.utils.dto.user.MemberDeleteDto;
 import nora.movlog.utils.dto.user.MemberEditDto;
 import nora.movlog.utils.validators.MemberValidator;
 import org.springframework.security.core.Authentication;
@@ -82,7 +83,7 @@ public class SettingsController {
                                HttpServletResponse response) throws IOException {
         String loginId = MemberFinder.getUsernameFrom(auth);
         long id = memberService.findByLoginId(loginId).getId();
-        if(memberValidator.validateEditNickname(editDto, bindingResult, id).hasErrors()) {
+        if (memberValidator.validateEditNickname(editDto, bindingResult, id).hasErrors()) {
             PrintWriter out = response.getWriter();
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=UTF-8");
@@ -95,6 +96,39 @@ public class SettingsController {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=UTF-8");
             out.println("<script> alert('성공적으로 변경되었습니다.'); location.href='/settings/nickname' </script>");
+            out.close();
+        }
+    }
+
+    @GetMapping(DELETE_URI)
+    public String deletePage(Authentication auth,
+                             Model model) {
+        String loginId = MemberFinder.getUsernameFrom(auth);
+        model.addAttribute("loginId", loginId);
+        model.addAttribute("deleteDto", new MemberDeleteDto());
+        return "deletePage";
+    }
+
+    @PostMapping(DELETE_URI)
+    public void deletePage(Authentication auth,
+                           @Valid @ModelAttribute MemberDeleteDto dto,
+                           BindingResult bindingResult,
+                           HttpServletResponse response) throws IOException {
+        String loginId = MemberFinder.getUsernameFrom(auth);
+        long id = memberService.findByLoginId(loginId).getId();
+        if (memberValidator.validateDelete(dto, bindingResult, id).hasErrors()) {
+            PrintWriter out = response.getWriter();
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; charset=UTF-8");
+            out.println("<script> alert('탈퇴에 실패하였습니다.'); location.href='/settings/delete' </script>");
+            out.close();
+        }
+        else {
+            memberService.delete(loginId);
+            PrintWriter out = response.getWriter();
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; charset=UTF-8");
+            out.println("<script> alert('성공적으로 탈퇴 처리되었습니다.'); location.href='/logout' </script>");
             out.close();
         }
     }
