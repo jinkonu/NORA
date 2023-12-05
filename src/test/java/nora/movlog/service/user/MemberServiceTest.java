@@ -20,9 +20,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static nora.movlog.utils.constant.StringConstant.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SuppressWarnings("ALL")
 @Transactional
@@ -220,7 +222,10 @@ class MemberServiceTest {
     @DisplayName("id와 현재 비밀번호로부터 회원 삭제")
     @Test
     void delete_id와_현재_비밀번호로부터_회원_삭제() {
-        assertThat(memberService.delete(TEST_CASE_MEMBER_LOGIN_ID, TEST_CASE_MEMBER_PASSWORD)).isTrue();
+        memberService.delete(TEST_CASE_MEMBER_LOGIN_ID);
+        assertThatThrownBy(() ->
+                memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID))
+                .isInstanceOf(NoSuchElementException.class);
     }
 
 
