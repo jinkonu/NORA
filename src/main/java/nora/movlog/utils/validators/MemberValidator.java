@@ -56,7 +56,7 @@ public class MemberValidator {
         Member member = memberRepository.findById(id).get();
 
         // nowPassword
-        if (member.getPassword().isEmpty())
+        if (dto.getNowPassword().isEmpty())
             bindingResult.addError(new FieldError("dto", "nowPassword", NO_NOW_PASSWORD));
         else if (!encoder.matches(dto.getNowPassword(), member.getPassword()))
             bindingResult.addError(new FieldError("dto", "nowPassword", NOT_EQUAL_PASSWORD_ERROR));

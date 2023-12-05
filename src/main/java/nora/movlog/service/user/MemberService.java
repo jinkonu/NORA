@@ -21,8 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static nora.movlog.utils.constant.StringConstant.FOLLOWER;
-import static nora.movlog.utils.constant.StringConstant.FOLLOWING;
+import static nora.movlog.utils.constant.StringConstant.*;
 
 @RequiredArgsConstructor
 @Service
@@ -109,10 +108,10 @@ public class MemberService {
     public void edit(String loginId, MemberEditDto dto) {
         Member member = memberRepository.findByLoginId(loginId).get();
 
-        if (dto.getNewPassword() == null)
+        if (dto.getNewPassword() == null) // 닉네임 수정
             member.edit(member.getPassword(), dto.getNewNickname());
-        else
-            member.edit(encoder.encode(dto.getNewPassword()), dto.getNewNickname());
+        else // 비밀번호 수정
+            member.edit(encoder.encode(dto.getNewPassword()), member.getNickname());
     }
 
 
