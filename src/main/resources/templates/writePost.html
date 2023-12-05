@@ -23,7 +23,7 @@
       <textarea th:field="*{body}" th:placeholder="${param.movieTitle} + '에 대해서 어떻게 생각하시나요?'" required></textarea>
     </label>
     <label>
-      <input type="file" accept="image/*"> <!-- 백엔드로 이미지 전달 위해 th:field="*{image}" 속성 추가 필요. -->
+      <input type="file" accept="image/*" th:field="*{image}"> <!-- 백엔드로 이미지 전달 위해 th:field="*{image}" 속성 추가 필요. -->
     </label>
     <button type="submit">POST</button>
   </form>
