@@ -7,6 +7,16 @@
 <body>
 <div>
   <h2>닉네임 변경</h2>
+
+  <div class="settings-menu">
+    <button class="settings-menu-button" value="home">홈으로</button>
+    <br/>
+    <button class="settings-menu-button" value="password">비밀번호 변경</button>
+    <br/>
+    <button class="settings-menu-button"  value="nickname">닉네임 변경</button>
+    <br/>
+  </div>
+
   <form th:method="post" th:action="@{/settings/nickname}" th:object="${editDto}">
     <div>
       <label th:for="loginId">이메일 : </label>
@@ -31,5 +41,29 @@
     <button type="submit">수정</button>
   </form>
 </div>
+<script>
+  const menuEvent = document.querySelectorAll(".settings-menu-button");
+  for (let s of menuEvent) {
+      s.addEventListener("click", e => {
+          const current = e.currentTarget;
+          if (current.value == "home") {
+            let urlParam = current.value;
+            window.open('/' + urlParam, '_self');
+          }
+          if (current.value == "password") {
+              let urlParam = "settings/password";
+              //let memberId = document.getElementById('user_id').value;
+              //window.open('/' + urlParam + '/' + memberId, '_self');
+              window.open('/' + urlParam, '_self');
+          }
+          if (current.value == "nickname") {
+              let urlParam = "settings/nickname";
+              //let memberId = document.getElementById('user_id').value;
+              //window.open('/' + urlParam + '/' + memberId, '_self');
+              window.open('/' + urlParam, '_self');
+          }
+      });
+  }
+</script>
 </body>
 </html>

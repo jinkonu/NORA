@@ -20,6 +20,7 @@
     gap: 12px;
     background-color: #fff;
     /* background-color: aquamarine; */
+    cursor: pointer; /* 마우스를 버튼 위에 올리면 포인터로 바뀝니다 */
 }
 
 .menu_button:hover {
