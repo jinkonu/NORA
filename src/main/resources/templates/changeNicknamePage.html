@@ -30,7 +30,7 @@
                 <div class="menu_element">
                     <button class="menu_button" id="password_btn" value="password">
                         <div class="menu_icon">
-                            <img src="/icons/Heart.svg" alt="notifications"/>
+                            <img src="/icons/Gear.svg" alt="notifications"/>
                         </div>
                         <div class="menu_button_text">비밀번호 변경</div>
                     </button>
@@ -38,7 +38,7 @@
                 <div class="menu_element">
                     <button class="menu_button" id="nickname_btn" value="nickname">
                         <div class="menu_icon">
-                            <img src="/icons/MagnifyingGlass.svg" alt="Search"/>
+                            <img src="/icons/Gear.svg" alt="Search"/>
                         </div>
                         <div class="menu_button_text">닉네임 변경</div>
                     </button>
@@ -57,8 +57,8 @@
               </div>
               <br/>
               <div>
-                <label th:for="nowPassword">현재 비밀번호 : </label>
-                <input type="password" th:field="*{nowPassword}"/>
+                <label th:for="nowPassword"></label>
+                <input type="password" th:field="*{nowPassword}" placeholder="현재 비밀번호" required/>
               </div>
               <br/>
               <div>
@@ -67,8 +67,8 @@
               </div>
               <br/>
               <div>
-                <label th:for="newNickname">새 닉네임 : </label>
-                <input type="text" th:field="*{newNickname}"/>
+                <label th:for="newNickname"></label>
+                <input type="text" th:field="*{newNickname}" placeholder="새 닉네임" required/>
               </div>
               <br/>
               <button type="submit">수정</button>
