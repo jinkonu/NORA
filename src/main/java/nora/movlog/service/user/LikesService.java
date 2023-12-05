@@ -36,7 +36,7 @@ public class LikesService {
 
 
     /* READ */
-    private boolean check(String memberLoginId, long postId) {
+    public boolean check(String memberLoginId, long postId) {
         return likesRepository.existsByMemberLoginIdAndPostId(memberLoginId, postId);
     }
 

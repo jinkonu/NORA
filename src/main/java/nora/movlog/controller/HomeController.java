@@ -5,7 +5,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nora.movlog.domain.user.Member;
-import nora.movlog.service.auth.AuthService;
 import nora.movlog.service.user.MemberService;
 import nora.movlog.service.user.PostService;
 import nora.movlog.utils.MemberFinder;
@@ -36,7 +35,7 @@ public class HomeController {
     @GetMapping(value={NOTHING_URI, HOME_URI})
     public String home(Authentication auth,
                        Model model) {
-        Member member = memberService.findByLoginId(MemberFinder.getUsernameFrom(auth));
+        Member member = memberService.findByLoginId(MemberFinder.getLoginId(auth));
 
         model.addAttribute("loginMember", member);
         model.addAttribute("posts", postService.findHomePosts(member.getLoginId()));

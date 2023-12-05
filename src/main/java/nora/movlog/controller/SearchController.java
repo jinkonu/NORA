@@ -45,7 +45,7 @@ public class SearchController {
         if (memberQuery != null)
             model.addAttribute("members", memberService.findAllByNickname(movieQuery, page, size));
 
-        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getUsernameFrom(auth)));
+        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getLoginId(auth)));
 
         return "searchForm";
     }

@@ -26,7 +26,7 @@ public class NotificationController {
                                     @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
                                     Model model,
                                     Authentication auth) {
-        String loginId = MemberFinder.getUsernameFrom(auth);
+        String loginId = MemberFinder.getLoginId(auth);
         model.addAttribute("notifications", notificationService.findAll(loginId, page, size));
 
         return "notificationPage";
