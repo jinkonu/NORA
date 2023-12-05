@@ -30,7 +30,7 @@ public class AuthController {
     @RequestMapping(CHECK_VERIFY_URI)
     public String checkVerify(Authentication auth) {
         String authId = MemberFinder.getUsernameFrom(auth);
-        if (memberService.findByLoginId(authId).getMemberAuth().equals(AUTH_VERIFIED)) return "redirect:" + SEARCH_URI;
+        if (memberService.findByLoginId(authId).getMemberAuth().equals(AUTH_VERIFIED)) return "redirect:" + HOME_URI;
         else {
             authService.sendCodeToEmail(authId);
             return "redirect:" + VERIFY_URI;
@@ -56,7 +56,7 @@ public class AuthController {
             PrintWriter out = response.getWriter();
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=UTF-8");
-            out.println("<script> alert('인증되었습니다.'); location.href='/search' </script>");
+            out.println("<script> alert('인증되었습니다.'); location.href='/' </script>");
             out.close();
         }
         else {
