@@ -1,11 +1,11 @@
-package nora.movlog.service;
+package nora.movlog.service.user;
 
 import lombok.RequiredArgsConstructor;
-import nora.movlog.domain.Notification;
+import nora.movlog.domain.user.Notification;
 import nora.movlog.domain.user.Comment;
 import nora.movlog.domain.user.Likes;
 import nora.movlog.domain.user.Member;
-import nora.movlog.repository.NotificationRepository;
+import nora.movlog.repository.user.NotificationRepository;
 import nora.movlog.utils.dto.NotificationDto;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,11 +13,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static nora.movlog.domain.Notification.Type.*;
+import static nora.movlog.domain.user.Notification.Type.*;
 import static nora.movlog.utils.constant.StringConstant.FOLLOWER;
 import static nora.movlog.utils.constant.StringConstant.FOLLOWING;
 

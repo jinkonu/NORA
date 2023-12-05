@@ -1,7 +1,6 @@
 package nora.movlog.service.user;
 
-import nora.movlog.domain.Notification;
-import nora.movlog.repository.NotificationRepository;
+import nora.movlog.repository.user.NotificationRepository;
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.utils.dto.user.CommentCreateRequestDto;
 import nora.movlog.utils.dto.user.CommentEditDto;
@@ -21,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
 
-import static nora.movlog.domain.Notification.Type.COMMENT;
+import static nora.movlog.domain.user.Notification.Type.COMMENT;
 import static nora.movlog.utils.constant.StringConstant.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

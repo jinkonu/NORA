@@ -1,4 +1,4 @@
-package nora.movlog.controller;
+package nora.movlog.controller.auth;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.service.user.MemberService;

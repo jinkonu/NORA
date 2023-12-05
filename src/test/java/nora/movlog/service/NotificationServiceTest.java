@@ -3,6 +3,7 @@ package nora.movlog.service;
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.service.user.CommentService;
 import nora.movlog.service.user.MemberService;
+import nora.movlog.service.user.NotificationService;
 import nora.movlog.service.user.PostService;
 import nora.movlog.utils.dto.NotificationDto;
 import nora.movlog.utils.dto.user.CommentCreateRequestDto;

@@ -1,7 +1,7 @@
 package nora.movlog.controller;
 
 import lombok.RequiredArgsConstructor;
-import nora.movlog.service.NotificationService;
+import nora.movlog.service.user.NotificationService;
 import nora.movlog.utils.MemberFinder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;

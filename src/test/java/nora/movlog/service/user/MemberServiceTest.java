@@ -1,8 +1,8 @@
 package nora.movlog.service.user;
 
-import nora.movlog.domain.Notification;
+import nora.movlog.domain.user.Notification;
 import nora.movlog.domain.user.Member;
-import nora.movlog.repository.NotificationRepository;
+import nora.movlog.repository.user.NotificationRepository;
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.utils.dto.user.MemberEditDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
@@ -203,8 +203,7 @@ class MemberServiceTest {
         String newPassword = input;
 
         MemberEditDto dto = MemberEditDto.builder()
-                .loginId(TEST_CASE_MEMBER_LOGIN_ID)
-                .nickname(input)
+                .newNickname(input)
                 .nowPassword(TEST_CASE_MEMBER_PASSWORD)
                 .newPassword(newPassword)
                 .newPasswordCheck(newPassword)
