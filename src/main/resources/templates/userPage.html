@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/right_trending.css">
     <link rel="stylesheet" href="/css/center_body_user.css">
     <link rel="stylesheet" href="/css/useful.css">
+    <link rel="stylesheet" href="/css/post_layout.css">
 
     <title>UserPage</title>
 </head>
@@ -155,7 +156,7 @@
                     </div>
                     <div class="horizontal_line"></div>
                     <div class="user_posts">
-                        <div class="user_post" th:each="post : ${posts}">
+                        <div class="movie_post" th:each="post : ${posts}">
                             <div class="post_header_container">
                                 <div class="post_header">
                                     <div class="post_member_img">
@@ -187,13 +188,13 @@
                                 <div class="post_content_img"></div>
                             </div>
                             <div class="post_footer">
-                                <div class="post_footer_content" id="post_comments">
+                                <div class="post_footer_comments" id="post_comments">
                                     <img src="/icons/ChatTeardropDots.svg" width="32" alt="comments"/>
                                     <div th:text="${post.commentCnt}"></div>
                                 </div>
-                                <div class="post_footer_content" id="post_likes">
+                                <div class="post_footer_likes" id="post_likes">
                                     <img src="/icons/Likes.svg" width="32" alt="likes"/>
-                                    <div th:text="${post.likeCnt}"></div>
+                                    <span th:text="${post.likeCnt}"></span>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +226,30 @@
     <script src="menu_control.js"></script>
     <script>
         /* view_control */
+
+        /* likes_control */
+        const likeEvent = document.querySelectorAll(".post_footer_likes");
+        for (let s of likeEvent) {
+            s.addEventListener("click", e => {
+                const current = e.currentTarget;
+                var imgElement = current.querySelector('img');
+                var likesElement = current.querySelector('span');
+                likes_cnt = parseInt(likesElement.innerText);
+                if (imgElement.alt == "likes") {
+                    imgElement.src = "/icons/Likes_Filled.svg";
+                    imgElement.alt = "likes_filled";
+                    likes_cnt = likes_cnt + 1;
+                }
+                else if (imgElement.alt == "likes_filled") {
+                    imgElement.src = "/icons/Likes.svg";
+                    imgElement.alt = "likes";
+                    likes_cnt = likes_cnt - 1;
+                }
+                likesElement.innerText = likes_cnt;
+            });
+        }
         
+        /* right : search */
         const searchEvent = document.querySelectorAll(".search_input");
         for (let s of searchEvent) {
             s.addEventListener('keyup', e => {
@@ -250,6 +274,7 @@
                 }
             });
         }
+
     </script>
 </body>
 
