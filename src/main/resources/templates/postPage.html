@@ -192,6 +192,7 @@
                     <div class="reply_profile_img">
                         <img src="/img/example_profile_img.svg" alt="img"/>
                     </div>
+                    <!-- 댓글 폼 처리 방식을 결정해야 함(창이나 페이지로 만들지, 백으로 내용 전달 방식) -->
                     <form name="reply_form">
                         <input type="text" placeholder="댓글을 작성하여 주세요.">
                         <input type="submit" placeholder="게시">
@@ -209,7 +210,7 @@
                                     <div class="reply_member_id" th:text="${post.memberLoginId}"></div>
                                     <div class="reply_time" th:text="${post.createdAt}"></div>
                             </div>
-                            <!-- 게시글처럼 댓글도 삭제? -->
+                            <!-- 자신의 댓글만 삭제 옵션 만들기-->
                             <div class="reply_setting">
                                 <img src="/icons/DotsThree.svg" alt="settings">
                             </div>
