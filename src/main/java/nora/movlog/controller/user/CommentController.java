@@ -41,7 +41,7 @@ public class CommentController {
                            Authentication auth) {
         CommentDto comment = commentService.findOne(commentId);
 
-        if (MemberFinder.getUsernameFrom(auth).equals(comment.getMemberLoginId()))
+        if (MemberFinder.getLoginId(auth).equals(comment.getMemberLoginId()))
             return comment;
 
         return null;
@@ -53,7 +53,7 @@ public class CommentController {
     public void edit(@PathVariable long commentId,
                      @ModelAttribute CommentEditDto dto,
                      Authentication auth) {
-        commentService.edit(commentId, dto, MemberFinder.getUsernameFrom(auth));
+        commentService.edit(commentId, dto, MemberFinder.getLoginId(auth));
     }
 
 

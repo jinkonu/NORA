@@ -61,7 +61,7 @@ public class PostController {
     public String writePost(@ModelAttribute PostCreateRequestDto dto,
                             @RequestParam String movieId,
                             Authentication auth) throws IOException {
-        postService.write(dto, MemberFinder.getUsernameFrom(auth));
+        postService.write(dto, MemberFinder.getLoginId(auth));
 
         if (!movieId.isBlank())
             return "redirect:" + MOVIE_URI + "/" + movieId;
