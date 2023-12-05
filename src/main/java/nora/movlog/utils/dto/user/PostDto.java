@@ -9,8 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
-import static nora.movlog.utils.constant.NumberConstant.*;
-
 @Builder
 @Data
 public class PostDto implements Comparable<PostDto> {

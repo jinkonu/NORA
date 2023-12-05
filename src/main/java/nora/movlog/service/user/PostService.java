@@ -58,18 +58,21 @@ public class PostService {
     public List<PostDto> findAllFromMember(long memberId, int page, int size) {
         return postRepository.findAllByMemberId(memberId, PageRequest.of(page, size)).stream()
                 .map(PostDto::of)
+                .sorted(PostDto::compareTo)
                 .toList();
     }
 
     public List<PostDto> findAllFromMemberLoginId(String memberLoginId, int page, int size) {
         return postRepository.findAllByMemberLoginId(memberLoginId, PageRequest.of(page, size)).stream()
                 .map(PostDto::of)
+                .sorted(PostDto::compareTo)
                 .toList();
     }
 
     public List<PostDto> findAllFromMovie(String movieId, int page, int size) {
         return postRepository.findAllByMovieId(movieId, PageRequest.of(page, size)).stream()
                 .map(PostDto::of)
+                .sorted(PostDto::compareTo)
                 .toList();
     }
 
