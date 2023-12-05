@@ -45,7 +45,8 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher(LOGIN_URI),
                                          new AntPathRequestMatcher(JOIN_URI)).anonymous() // 로그인, 회원가입 페이지는 로그인하지 않은 회원에게만 보이게
                         .requestMatchers(new AntPathRequestMatcher(CHECK_VERIFY_URI)).hasAnyAuthority(AUTH_UNVERIFIED, AUTH_VERIFIED)
-                        .requestMatchers(new AntPathRequestMatcher(VERIFY_URI)).hasAuthority(AUTH_UNVERIFIED)
+                        .requestMatchers(new AntPathRequestMatcher(VERIFY_URI),
+                                         new AntPathRequestMatcher(VERIFY_URI + RESEND_URI)).hasAuthority(AUTH_UNVERIFIED)
                         .anyRequest().hasAuthority(AUTH_VERIFIED) // 그 외 페이지는 로그인한 회원에게만 보이게
                 )
                 .formLogin(login -> login

@@ -52,4 +52,11 @@ public class AuthController {
         }
         else return "redirect:" + VERIFY_URI;
     }
+
+    @GetMapping(VERIFY_URI + RESEND_URI)
+    public String resendCode(Authentication auth) {
+        String loginId = MemberFinder.getUsernameFrom(auth);
+        authService.sendCodeToEmail(loginId);
+        return "redirect:" + VERIFY_URI;
+    }
 }
