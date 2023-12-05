@@ -96,6 +96,7 @@ public class PostService {
 
 
     /* DELETE */
+    @Transactional
     public Long delete(long postId) {
         Optional<Post> optPost = postRepository.findById(postId);
 

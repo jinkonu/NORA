@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>삭제</title>
+</head>
+<body>
+<div>
+  <h2>계정 삭제</h2>
+  <form th:method="post" th:action="@{/settings/delete}" th:object="${deleteDto}">
+    <div>
+      <label th:for="loginId">이메일 : </label>
+      <label th:text="${loginId}"></label>
+    </div>
+    <br/>
+    <div>
+      <label th:for="password">비밀번호 : </label>
+      <input type="password" th:field="*{password}"/>
+    </div>
+    <br/>
+    <div>
+      <label th:for="passwordCheck">비밀번호 확인 : </label>
+      <input type="password" th:field="*{passwordCheck}"/>
+    </div>
+    <br/>
+    <button type="submit">삭제</button>
+  </form>
+</div>
+</body>
+</html>

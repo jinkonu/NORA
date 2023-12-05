@@ -49,12 +49,12 @@ public class Post extends BaseEntity implements Comparable<Post> {
         this.body = dto.getBody();
     }
 
-    public void addComment() {
-        ++commentCnt;
+    public void changeComment(int commentCnt) {
+        this.commentCnt = commentCnt;
     }
 
-    public void addLike() {
-        ++likeCnt;
+    public void changeLike(int likeCnt) {
+        this.likeCnt = likeCnt;
     }
 
     public void setImage(Image image) {
