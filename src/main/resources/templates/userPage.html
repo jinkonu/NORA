@@ -185,6 +185,7 @@
     
                             </div>
                             <div class="post_content">
+                                <div class="post_content_text" th:text="${post.body}"></div>
                                 <!-- 안되면 <form action="post/{postId}" method="get"> 으로도 테스트 -->
 <!--                                <form th:action="post/{postId}">-->
 <!--                                    <div class="post_content_text" th:text="${post.body}"></div>-->
@@ -233,6 +234,34 @@
     <script src="menu_control.js"></script>
     <script>
         /* view_control */
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const likeElements = document.querySelectorAll(".post_footer_likes");
+
+            // 선택된 요소들에 대해 반복문 실행
+            likeElements.forEach(function(likeElement) {
+                const postId = likeElement.querySelector('#post_id').innerText;
+                const apiURL = 'likes/' + postId + '/check';
+
+                fetch(apiURL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                    console.log("서버 응답: ", data);
+                })
+                .catch(error => {
+                    console.log("에러: ", error);
+                });
+            });
+        });
+
 
         /* likes_control */
         const likeEvent = document.querySelectorAll(".post_footer_likes");
@@ -302,6 +331,7 @@
                     window.open(new_path + '?' + new_urlParam, '_self');
                 }
             });
+
         }
 
     </script>
