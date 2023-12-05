@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/center_body_user.css">
     <link rel="stylesheet" href="/css/useful.css">
     <link rel="stylesheet" href="/css/post_layout.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
     <title>UserPage</title>
 </head>
@@ -194,7 +195,10 @@
                                 </div>
                                 <div class="post_footer_likes" id="post_likes">
                                     <img src="/icons/Likes.svg" width="32" alt="likes"/>
-                                    <span th:text="${post.likeCnt}"></span>
+                                    <span id="post_like" th:text="${post.likeCnt}"></span>
+                                    <span id="post_id" th:text="${post.id}"></span>
+                                    <div th:text="${post.likeCnt}"></div>
+
                                 </div>
                             </div>
                         </div>
@@ -233,19 +237,41 @@
             s.addEventListener("click", e => {
                 const current = e.currentTarget;
                 var imgElement = current.querySelector('img');
-                var likesElement = current.querySelector('span');
+                var likesElement = current.querySelector('#post_like');
+                var postId = current.querySelector('#post_id').innerText;
+
                 likes_cnt = parseInt(likesElement.innerText);
                 if (imgElement.alt == "likes") {
                     imgElement.src = "/icons/Likes_Filled.svg";
                     imgElement.alt = "likes_filled";
                     likes_cnt = likes_cnt + 1;
+                    var apiURL = 'likes/' + postId + '/add';
                 }
                 else if (imgElement.alt == "likes_filled") {
                     imgElement.src = "/icons/Likes.svg";
                     imgElement.alt = "likes";
                     likes_cnt = likes_cnt - 1;
+                    var apiURL = 'likes/' + postId + '/delete';
                 }
                 likesElement.innerText = likes_cnt;
+
+                fetch (apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                    console.log("Server response: ", data);
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                });
             });
         }
         
