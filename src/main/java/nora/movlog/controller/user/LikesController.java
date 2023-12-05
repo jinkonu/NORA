@@ -3,8 +3,8 @@ package nora.movlog.controller.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nora.movlog.service.user.LikesService;
+import nora.movlog.utils.MemberFinder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import static nora.movlog.utils.constant.StringConstant.*;
@@ -23,7 +23,7 @@ public class LikesController {
     @PostMapping("/{postId}/add")
     public void add(@PathVariable long postId,
                       Authentication auth) {
-        likesService.add(((UserDetails) auth.getPrincipal()).getUsername(), postId);
+        likesService.add(MemberFinder.getUsernameFrom(auth), postId);
     }
 
 
@@ -31,6 +31,6 @@ public class LikesController {
     @PostMapping("/{postId}/delete")
     public void delete(@PathVariable long postId,
                          Authentication auth) {
-        likesService.delete(((UserDetails) auth.getPrincipal()).getUsername(), postId);
+        likesService.delete(MemberFinder.getUsernameFrom(auth), postId);
     }
  }

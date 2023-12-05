@@ -1,12 +1,10 @@
-package nora.movlog.domain;
+package nora.movlog.domain.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import nora.movlog.domain.user.BaseEntity;
-import nora.movlog.domain.user.Member;
 
 import static nora.movlog.utils.constant.NumberConstant.BIGGER;
 import static nora.movlog.utils.constant.StringConstant.*;

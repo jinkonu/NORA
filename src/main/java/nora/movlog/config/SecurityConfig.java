@@ -44,8 +44,8 @@ public class SecurityConfig {
                                          new AntPathRequestMatcher("/css/**")).permitAll() // 웹페이지 표시를 위한 리소스는 전체 공개
                         .requestMatchers(new AntPathRequestMatcher(LOGIN_URI),
                                          new AntPathRequestMatcher(JOIN_URI)).anonymous() // 로그인, 회원가입 페이지는 로그인하지 않은 회원에게만 보이게
-                        .requestMatchers(new AntPathRequestMatcher(CHECK_VERIFY_URI),
-                                         new AntPathRequestMatcher(VERIFY_URI + ALL_URI)).hasAnyAuthority(AUTH_UNVERIFIED, AUTH_VERIFIED)
+                        .requestMatchers(new AntPathRequestMatcher(CHECK_VERIFY_URI)).hasAnyAuthority(AUTH_UNVERIFIED, AUTH_VERIFIED)
+                        .requestMatchers(new AntPathRequestMatcher(VERIFY_URI)).hasAuthority(AUTH_UNVERIFIED)
                         .anyRequest().hasAuthority(AUTH_VERIFIED) // 그 외 페이지는 로그인한 회원에게만 보이게
                 )
                 .formLogin(login -> login

@@ -45,7 +45,7 @@ public class PostDto implements Comparable<PostDto> {
                 .movieTitle(post.getMovie().getTitleKo())
                 .memberLoginId(post.getMember().getLoginId())
                 .memberNickname(post.getMember().getNickname())
-                .likeCnt(DEFAULT_LIKE_CNT)
+                .likeCnt(post.getLikeCnt())
                 .commentCnt(post.getCommentCnt())
                 .createdAt(formatter.format(post.getCreatedAt()))
                 .lastModifiedAt(formatter.format(post.getLastModifiedAt()))

@@ -2,7 +2,7 @@ package nora.movlog.utils.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import nora.movlog.domain.Notification;
+import nora.movlog.domain.user.Notification;
 
 import java.time.format.DateTimeFormatter;
 

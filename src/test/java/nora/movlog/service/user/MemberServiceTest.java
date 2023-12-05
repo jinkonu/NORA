@@ -1,10 +1,10 @@
 package nora.movlog.service.user;
 
-import nora.movlog.domain.Notification;
+import nora.movlog.domain.user.Notification;
 import nora.movlog.domain.user.Member;
-import nora.movlog.repository.NotificationRepository;
+import nora.movlog.repository.user.NotificationRepository;
 import nora.movlog.service.movie.MovieService;
-import nora.movlog.utils.dto.user.MemberDto;
+import nora.movlog.utils.dto.user.MemberEditDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -202,9 +202,8 @@ class MemberServiceTest {
     void edit_MemberDto와_id로부터_회원_수정(String input) {
         String newPassword = input;
 
-        MemberDto dto = MemberDto.builder()
-                .loginId(TEST_CASE_MEMBER_LOGIN_ID)
-                .nickname(input)
+        MemberEditDto dto = MemberEditDto.builder()
+                .newNickname(input)
                 .nowPassword(TEST_CASE_MEMBER_PASSWORD)
                 .newPassword(newPassword)
                 .newPasswordCheck(newPassword)

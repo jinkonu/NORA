@@ -1,7 +1,7 @@
-package nora.movlog.repository;
+package nora.movlog.repository.user;
 
-import nora.movlog.domain.Notification;
-import nora.movlog.domain.Notification.Type;
+import nora.movlog.domain.user.Notification;
+import nora.movlog.domain.user.Notification.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

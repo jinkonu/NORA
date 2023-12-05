@@ -10,12 +10,14 @@ import nora.movlog.utils.dto.user.PostEditDto;
 
 import java.util.List;
 
+import static nora.movlog.utils.constant.NumberConstant.BIGGER;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Entity
-public class Post extends BaseEntity {
+public class Post extends BaseEntity implements Comparable<Post> {
     /* DB id */
     @Id @GeneratedValue
     private Long id;
@@ -51,5 +53,14 @@ public class Post extends BaseEntity {
 
     public void addLike() {
         ++likeCnt;
+    }
+
+
+    @Override
+    public int compareTo(Post other) {
+        if (other == null)
+            return BIGGER;
+
+        return this.getCreatedAt().compareTo(other.getCreatedAt());
     }
 }
