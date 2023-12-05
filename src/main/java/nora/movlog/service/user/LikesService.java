@@ -27,6 +27,7 @@ public class LikesService {
         Post post = postRepository.findById(postId).get();
 
         post.addLike();
+
         return likesRepository.save(Likes.builder()
                 .member(member)
                 .post(post)
