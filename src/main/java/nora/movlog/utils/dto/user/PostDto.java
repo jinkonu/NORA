@@ -68,7 +68,7 @@ public class PostDto implements Comparable<PostDto> {
     private static Resource toResource(Image image) {
         try {
             return new UrlResource("file:" + getFullPath(image.getSavedFileName())) ;
-        } catch (IOException e) {
+        } catch (Exception e) {
             return null;
         }
     }
