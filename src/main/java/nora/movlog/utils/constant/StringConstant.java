@@ -107,6 +107,7 @@ public class StringConstant {
     public static final String LOGOUT_URI = "/logout";
     public static final String JOIN_URI = "/join";
     public static final String VERIFY_URI = "/verify";
+    public static final String RESEND_URI = "/resend";
     public static final String CHECK_VERIFY_URI = "/check-verify";
     public static final String SEARCH_URI = "/search";
     public static final String ID_URI = "/{id}";

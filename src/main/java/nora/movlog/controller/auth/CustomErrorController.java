@@ -24,8 +24,8 @@ public class CustomErrorController implements ErrorController {
         else {
             String authId = MemberFinder.getUsernameFrom(auth);
             if (memberService.findByLoginId(authId).getMemberAuth().equals(AUTH_UNVERIFIED))
-                return "redirect:" + VERIFY_URI + "/" + authId;
-            else return "redirect:" + SEARCH_URI;
+                return "redirect:" + VERIFY_URI;
+            else return "redirect:" + HOME_URI;
         }
     }
 }
