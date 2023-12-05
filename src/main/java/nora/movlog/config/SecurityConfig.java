@@ -1,6 +1,7 @@
 package nora.movlog.config;
 
 import lombok.RequiredArgsConstructor;
+import nora.movlog.handler.LoginFailureHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,6 +56,7 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .defaultSuccessUrl(CHECK_VERIFY_URI, true) // 이후 수정
                         .failureUrl(LOGIN_URI)
+                        .failureHandler(new LoginFailureHandler())
                 )
                 .logout(logout -> logout
                         .logoutUrl(LOGOUT_URI)
