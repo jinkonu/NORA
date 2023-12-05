@@ -56,14 +56,14 @@ public class AuthController {
             PrintWriter out = response.getWriter();
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=UTF-8");
-            out.println("<script> alert('인증되었습니다.'); location.href='/' </script>");
+            out.println("<script> alert('인증되었습니다.'); location.href='" + HOME_URI + "' </script>");
             out.close();
         }
         else {
             PrintWriter out = response.getWriter();
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=UTF-8");
-            out.println("<script> alert('인증번호가 일치하지 않습니다.'); location.href='/verify' </script>");
+            out.println("<script> alert('인증번호가 일치하지 않습니다.'); location.href='" + VERIFY_URI + "' </script>");
             out.close();
         }
     }
