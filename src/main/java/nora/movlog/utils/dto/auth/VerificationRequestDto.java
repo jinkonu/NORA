@@ -1,4 +1,4 @@
-package nora.movlog.utils.dto.user;
+package nora.movlog.utils.dto.auth;
 
 import lombok.Data;
 

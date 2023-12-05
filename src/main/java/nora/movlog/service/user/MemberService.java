@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Movie;
 import nora.movlog.domain.user.Member;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
-import nora.movlog.utils.dto.user.MemberDto;
+import nora.movlog.utils.dto.user.MemberEditDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.repository.user.MemberRepository;
 import org.springframework.data.domain.PageRequest;
@@ -100,13 +100,13 @@ public class MemberService {
 
     /* UPDATE */
     @Transactional
-    public void edit(String loginId, MemberDto dto) {
+    public void edit(String loginId, MemberEditDto dto) {
         Member member = memberRepository.findByLoginId(loginId).get();
 
-        if (dto.getNewPassword().isBlank())
-            member.edit(member.getPassword(), dto.getNickname());
+        if (dto.getNewPassword() == null)
+            member.edit(member.getPassword(), dto.getNewNickname());
         else
-            member.edit(encoder.encode(dto.getNewPassword()), dto.getNickname());
+            member.edit(encoder.encode(dto.getNewPassword()), member.getNickname());
     }
 
 

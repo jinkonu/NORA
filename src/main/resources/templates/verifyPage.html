@@ -8,7 +8,7 @@
     </style>
 </head>
 <body>
-    <form th:method="post" th:action="@{/join/verify/{loginId}}" th:object="${verifyRequest}">
+    <form th:method="post" th:action="@{/verify}" th:object="${verifyRequest}">
         <h1>MOVLOG</h1>
         <h4>
             회원 가입 시 사용된 이메일로 인증 코드를 발송했습니다.

@@ -1,4 +1,4 @@
-package nora.movlog.service.user;
+package nora.movlog.service.auth;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.user.Member;
@@ -6,6 +6,7 @@ import nora.movlog.repository.user.MemberRepository;
 import nora.movlog.service.exception.BusinessLogicException;
 import nora.movlog.service.exception.ExceptionCode;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,8 +14,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.Random;
-
-import static nora.movlog.utils.constant.StringConstant.*;
 
 @RequiredArgsConstructor
 @Service
@@ -30,10 +29,11 @@ public class AuthService {
     public void sendCodeToEmail(String loginId) {
         String title = "MOVLOG 이메일 인증";
         String authCode = this.createCode();
-        mailService.sendEmail(loginId, title, authCode);
+        String content = "MOVLOG 인증 코드 " + authCode + "를 입력해주세요.";
+        mailService.sendEmail(loginId, title, content);
 
-        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "AuthCode " + Email / value = AuthCode )
-        redisService.setValues(AUTH_CODE_PREFIX + loginId, authCode, Duration.ofMillis(this.authCodeExpirationMillis));
+        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = Email / value = AuthCode )
+        redisService.setValues(loginId, authCode, Duration.ofMillis(this.authCodeExpirationMillis));
     }
 
     private String createCode() {
@@ -50,14 +50,14 @@ public class AuthService {
         }
     }
 
-    @Transactional
     public boolean verifiedCode(String loginId, String authCode) {
-        String redisAuthCode = redisService.getValues(AUTH_CODE_PREFIX + loginId);
-        boolean verified = redisAuthCode.equals(authCode);
-        if (verified) {
-            Member member = memberRepository.findByLoginId(loginId).get();
-            member.setVerified();
-        }
-        return verified;
+        String redisAuthCode = redisService.getValues(loginId);
+        return redisAuthCode.equals(authCode);
+    }
+
+    @Transactional
+    public void setVerified(String loginId, Authentication auth) {
+        Member member = memberRepository.findByLoginId(loginId).get();
+        member.setVerified(auth);
     }
 }
