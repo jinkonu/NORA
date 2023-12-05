@@ -28,7 +28,7 @@ public class LikesController {
 
 
     /* READ */
-    @GetMapping("/{postId/check")
+    @GetMapping("/{postId}/check")
     public boolean check(@PathVariable long postId,
                          Authentication auth) {
         return likesService.check(MemberFinder.getLoginId(auth), postId);
