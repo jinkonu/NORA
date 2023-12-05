@@ -18,7 +18,7 @@ import static nora.movlog.utils.constant.NumberConstant.BIGGER;
 @Builder
 @Getter
 @Entity
-public class Post extends BaseEntity implements Comparable<Post> {
+public class Post extends BaseEntity {
     /* DB id */
     @Id @GeneratedValue
     private Long id;
@@ -60,13 +60,5 @@ public class Post extends BaseEntity implements Comparable<Post> {
 
     public void setImage(Image image) {
         this.image = image;
-    }
-
-    @Override
-    public int compareTo(Post other) {
-        if (other == null)
-            return BIGGER;
-
-        return this.getCreatedAt().compareTo(other.getCreatedAt());
     }
 }
