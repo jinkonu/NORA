@@ -5,7 +5,7 @@ import org.springframework.security.core.Authentication;
 
 public final class MemberFinder {
 
-    public static String getUsernameFrom(Authentication auth) {
+    public static String getLoginId(Authentication auth) {
         PrincipalDetails loginMember = (PrincipalDetails) auth.getPrincipal();
 
         return loginMember.getUsername();

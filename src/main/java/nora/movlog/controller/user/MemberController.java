@@ -30,7 +30,7 @@ public class MemberController {
                                   @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
                                   Model model,
                                   Authentication auth) {
-        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getUsernameFrom(auth)));
+        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getLoginId(auth)));
         model.addAttribute("profileMember", memberService.profile(id));
         model.addAttribute("posts", postService.findAllFromMember(id, page, size));
 
@@ -44,7 +44,7 @@ public class MemberController {
                                   @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
                                   @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
                                   Model model) {
-        Member loginMember = memberService.findByLoginId(MemberFinder.getUsernameFrom(auth));
+        Member loginMember = memberService.findByLoginId(MemberFinder.getLoginId(auth));
 
         model.addAttribute("loginMember", loginMember);
         model.addAttribute("profileMember", loginMember);

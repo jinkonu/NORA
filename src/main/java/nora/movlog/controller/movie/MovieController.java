@@ -36,7 +36,7 @@ public class MovieController {
                                Authentication auth,
                                Model model) {
         model.addAttribute("movie", movieService.findOne(id));
-        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getUsernameFrom(auth)));
+        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getLoginId(auth)));
         model.addAttribute("posts", postService.findAllFromMovie(id, page, size));
 
         return "moviePage";

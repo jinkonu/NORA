@@ -29,7 +29,7 @@ public class AuthController {
     // 이메일 인증
     @RequestMapping(CHECK_VERIFY_URI)
     public String checkVerify(Authentication auth) {
-        String authId = MemberFinder.getUsernameFrom(auth);
+        String authId = MemberFinder.getLoginId(auth);
         if (memberService.findByLoginId(authId).getMemberAuth().equals(AUTH_VERIFIED)) return "redirect:" + HOME_URI;
         else {
             authService.sendCodeToEmail(authId);
@@ -40,7 +40,7 @@ public class AuthController {
     @GetMapping(VERIFY_URI)
     public String verifyPage(Authentication auth,
                              Model model) {
-        String loginId = MemberFinder.getUsernameFrom(auth);
+        String loginId = MemberFinder.getLoginId(auth);
         model.addAttribute("loginId", loginId);
         model.addAttribute("verifyRequest", new VerificationRequestDto());
         return "verifyPage";
@@ -50,7 +50,7 @@ public class AuthController {
     public void verifyPage(Authentication auth,
                              @Valid @ModelAttribute VerificationRequestDto dto,
                              HttpServletResponse response) throws IOException {
-        String loginId = MemberFinder.getUsernameFrom(auth);
+        String loginId = MemberFinder.getLoginId(auth);
         if (authService.verifiedCode(loginId, dto.getVerifyCode())) {
             authService.setVerified(loginId, auth);
             PrintWriter out = response.getWriter();
@@ -70,7 +70,7 @@ public class AuthController {
 
     @GetMapping(VERIFY_URI + RESEND_URI)
     public String resendCode(Authentication auth) {
-        String loginId = MemberFinder.getUsernameFrom(auth);
+        String loginId = MemberFinder.getLoginId(auth);
         authService.sendCodeToEmail(loginId);
         return "redirect:" + VERIFY_URI;
     }
