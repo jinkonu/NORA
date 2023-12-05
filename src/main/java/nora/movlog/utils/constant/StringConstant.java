@@ -121,7 +121,6 @@ public class StringConstant {
     public static final String SETTINGS_URI = "/settings";
     public static final String PASSWORD_URI = "/password";
     public static final String NICKNAME_URI = "/nickname";
-    public static final String SESSION_URI = "/session";
 
     // AUTHORITIES
     public static final String AUTH_UNVERIFIED = "UNVERIFIED";
