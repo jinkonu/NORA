@@ -43,7 +43,7 @@ public class SearchController {
             model.addAttribute("movies", movieService.search(movieQuery, page, size));
 
         if (memberQuery != null)
-            model.addAttribute("members", memberService.findAllByNickname(movieQuery, page, size));
+            model.addAttribute("members", memberService.findAllByNickname(memberQuery, page, size));
 
         model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getLoginId(auth)));
 
