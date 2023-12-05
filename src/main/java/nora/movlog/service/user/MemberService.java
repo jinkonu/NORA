@@ -106,7 +106,7 @@ public class MemberService {
         if (dto.getNewPassword() == null)
             member.edit(member.getPassword(), dto.getNewNickname());
         else
-            member.edit(encoder.encode(dto.getNewPassword()), member.getNickname());
+            member.edit(encoder.encode(dto.getNewPassword()), dto.getNewNickname());
     }
 
 

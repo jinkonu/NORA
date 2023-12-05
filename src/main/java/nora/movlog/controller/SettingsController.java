@@ -34,7 +34,7 @@ public class SettingsController {
                                  Model model) {
         String loginId = MemberFinder.getUsernameFrom(auth);
         model.addAttribute("loginId", loginId);
-        model.addAttribute("editDto", new MemberEditDto());
+        model.addAttribute("editDto", MemberEditDto.builder().build());
         return "changePasswordPage";
     }
 
@@ -69,7 +69,7 @@ public class SettingsController {
         String nickname = memberService.findByLoginId(loginId).getNickname();
         model.addAttribute("loginId", loginId);
         model.addAttribute("oldNickname", nickname);
-        model.addAttribute("editDto", new MemberEditDto());
+        model.addAttribute("editDto", MemberEditDto.builder().build());
         return "changeNicknamePage";
     }
 

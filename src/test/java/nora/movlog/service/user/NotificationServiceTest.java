@@ -1,4 +1,4 @@
-package nora.movlog.service;
+package nora.movlog.service.user;
 
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.service.user.CommentService;
