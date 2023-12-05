@@ -4,7 +4,6 @@ import nora.movlog.domain.user.Member;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import nora.movlog.utils.dto.user.PostCreateRequestDto;
 import nora.movlog.utils.dto.user.PostDto;
-import nora.movlog.utils.dto.user.PostEditDto;
 import nora.movlog.service.movie.MovieService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +17,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -60,7 +60,7 @@ class PostServiceTest {
     @DisplayName("게시물 작성 및 조회")
     @Rollback
     @Test
-    void write_and_findOne_게시물_작성_및_조회() {
+    void write_and_findOne_게시물_작성_및_조회() throws IOException {
         long postId = postService.write(PostCreateRequestDto.builder()
                 .body(TEST_CASE_POST_BODY)
                 .movieId(TEST_CASE_MOVIE_ID)
@@ -75,11 +75,17 @@ class PostServiceTest {
     @Test
     void write_and_findAllFromMember() {
         IntStream.range(0, 10)
-                .forEach(i -> postService.write(
-                        PostCreateRequestDto.builder()
-                                .body(TEST_CASE_POST_BODY)
-                                .movieId(TEST_CASE_MOVIE_ID)
-                                .build(), TEST_CASE_MEMBER_LOGIN_ID));
+                .forEach(i -> {
+                    try {
+                        postService.write(
+                                PostCreateRequestDto.builder()
+                                        .body(TEST_CASE_POST_BODY)
+                                        .movieId(TEST_CASE_MOVIE_ID)
+                                        .build(), TEST_CASE_MEMBER_LOGIN_ID);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
 
         List<PostDto> posts = postService.findAllFromMemberLoginId(TEST_CASE_MEMBER_LOGIN_ID, 0, 10);
 
@@ -92,7 +98,7 @@ class PostServiceTest {
     @DisplayName("회원이 팔로우 하는 게시물들 조회")
     @Rollback
     @Test
-    void findHomePosts_회원이_팔로우_하는_게시물들_조회() {
+    void findHomePosts_회원이_팔로우_하는_게시물들_조회() throws IOException {
         generateMember(
                 TEST_CASE_MEMBER2_LOGIN_ID,
                 TEST_CASE_MEMBER2_PASSWORD,
@@ -103,11 +109,17 @@ class PostServiceTest {
         memberService.follow(following.getLoginId(), follower.getLoginId());
 
         int postSize = 10;
-        IntStream.range(0, postSize).forEach(i -> postService.write(
-                PostCreateRequestDto.builder()
-                        .body(TEST_CASE_POST_BODY)
-                        .movieId(TEST_CASE_MOVIE_ID)
-                        .build(), TEST_CASE_MEMBER2_LOGIN_ID));
+        IntStream.range(0, postSize).forEach(i -> {
+            try {
+                postService.write(
+                        PostCreateRequestDto.builder()
+                                .body(TEST_CASE_POST_BODY)
+                                .movieId(TEST_CASE_MOVIE_ID)
+                                .build(), TEST_CASE_MEMBER2_LOGIN_ID);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         List<PostDto> homePosts = postService.findHomePosts(following.getLoginId());
 
@@ -120,13 +132,13 @@ class PostServiceTest {
     @DisplayName("게시물 수정")
     @ValueSource(strings = "bye world")
     @ParameterizedTest
-    void edit_게시물_수정(String changedBody) {
+    void edit_게시물_수정(String changedBody) throws IOException {
         long postId = postService.write(PostCreateRequestDto.builder()
                 .body(TEST_CASE_POST_BODY)
                 .movieId(TEST_CASE_MOVIE_ID)
                 .build(), TEST_CASE_MEMBER_LOGIN_ID);
 
-        long editedPostId = postService.edit(postId, PostEditDto.builder().body(changedBody).build());
+        long editedPostId = postService.edit(postId, PostDto.builder().body(changedBody).build());
 
         assertThat(postId).isEqualTo(editedPostId);
         assertThat(postService.findOne(editedPostId).getBody()).isEqualTo(changedBody);
@@ -135,7 +147,7 @@ class PostServiceTest {
 
     @DisplayName("게시물 삭제")
     @Test
-    void delete_게시물_삭제() {
+    void delete_게시물_삭제() throws IOException {
         long postId = postService.write(PostCreateRequestDto.builder()
                 .body(TEST_CASE_POST_BODY)
                 .movieId(TEST_CASE_MOVIE_ID)

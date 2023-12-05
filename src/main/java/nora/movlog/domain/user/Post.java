@@ -6,9 +6,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nora.movlog.domain.movie.Movie;
+import nora.movlog.utils.dto.user.PostDto;
 import nora.movlog.utils.dto.user.PostEditDto;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+
+import static nora.movlog.utils.constant.NumberConstant.BIGGER;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,18 +43,26 @@ public class Post extends BaseEntity {
     private List<Likes> likes;
     private int likeCnt;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private Image image;
+    private final String rootPath = System.getProperty("user.dir");
+    private final String fileDirection = rootPath + "/src/main/resources/static/img/";
 
 
     /* 메서드 */
-    public void update(PostEditDto dto) {
+    public void update(PostDto dto) {
         this.body = dto.getBody();
     }
 
-    public void addComment() {
-        ++commentCnt;
+    public void changeComment(int commentCnt) {
+        this.commentCnt = commentCnt;
     }
 
-    public void addLike() {
-        ++likeCnt;
+    public void changeLike(int likeCnt) {
+        this.likeCnt = likeCnt;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 }

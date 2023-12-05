@@ -1,8 +1,9 @@
-package nora.movlog.service;
+package nora.movlog.service.user;
 
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.service.user.CommentService;
 import nora.movlog.service.user.MemberService;
+import nora.movlog.service.user.NotificationService;
 import nora.movlog.service.user.PostService;
 import nora.movlog.utils.dto.NotificationDto;
 import nora.movlog.utils.dto.user.CommentCreateRequestDto;
@@ -17,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -56,7 +58,7 @@ class NotificationServiceTest {
 
 
     @BeforeEach
-    void init() {
+    void init() throws IOException {
         generateMember(
                 TEST_CASE_MEMBER_LOGIN_ID,
                 TEST_CASE_MEMBER_PASSWORD,
@@ -121,7 +123,7 @@ class NotificationServiceTest {
     }
 
 
-    private long generatePost(String body, String query, String movieId, String memberLoginId) {
+    private long generatePost(String body, String query, String movieId, String memberLoginId) throws IOException {
         movieService.findAndJoinFromTmdb(query, 0);
 
         return postService.write(PostCreateRequestDto.builder()

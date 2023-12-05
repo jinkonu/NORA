@@ -26,7 +26,8 @@ public class LikesService {
         Member member = memberRepository.findByLoginId(memberLoginId).get();
         Post post = postRepository.findById(postId).get();
 
-        post.addLike();
+        post.changeLike(post.getLikeCnt() + 1);
+
         return likesRepository.save(Likes.builder()
                 .member(member)
                 .post(post)
