@@ -3,52 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <title>설정</title>
+  <link rel="stylesheet" href="/css/main_frame.css">
+  <link rel="stylesheet" href="/css/left_menubar.css">
+  <link rel="stylesheet" href="/css/right_trending.css">
+  <link rel="stylesheet" href="/css/settings.css">
+  <link rel="stylesheet" href="/css/useful.css">
+  <link rel="stylesheet" href="/css/post_layout.css">
 </head>
 <body>
-<div>
-  <h2>닉네임 변경</h2>
-
-  <div class="settings-menu">
-    <button class="settings-menu-button" value="home">홈으로</button>
-    <br/>
-    <button class="settings-menu-button" value="password">비밀번호 변경</button>
-    <br/>
-    <button class="settings-menu-button"  value="nickname">닉네임 변경</button>
-    <br/>
-  </div>
-
-  <form th:method="post" th:action="@{/settings/nickname}" th:object="${editDto}">
-    <div>
-      <label th:for="loginId">이메일 : </label>
-      <label th:text="${loginId}"></label>
+  <div class="frame">
+    <div class="inner_frame">
+        <!-- left menu bar -->
+        <div class="left_menubar">
+            <div class="logo_main">
+                <img src="/icons/logo(main).svg" alt="movlog"/>
+            </div>
+            <div class="menu">
+                <div class="menu_element">
+                    <button class="menu_button" id="home_btn" value="home">
+                        <div class="menu_icon">
+                            <img src="/icons/House.svg" alt="home"/>
+                        </div>
+                        <div class="menu_button_text">홈</div>
+                    </button>
+                </div>
+                <div class="menu_element">
+                    <button class="menu_button" id="password_btn" value="password">
+                        <div class="menu_icon">
+                            <img src="/icons/Gear.svg" alt="notifications"/>
+                        </div>
+                        <div class="menu_button_text">비밀번호 변경</div>
+                    </button>
+                </div>
+                <div class="menu_element">
+                    <button class="menu_button" id="nickname_btn" value="nickname">
+                        <div class="menu_icon">
+                            <img src="/icons/Gear.svg" alt="Search"/>
+                        </div>
+                        <div class="menu_button_text">닉네임 변경</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    
+        <!-- center body -->
+        <div class="center_body">
+          <div class="form-class">
+            <h2>닉네임 변경</h2>
+            <form th:method="post" th:action="@{/settings/nickname}" th:object="${editDto}">
+              <div>
+                <label th:for="loginId">이메일 : </label>
+                <label th:text="${loginId}"></label>
+              </div>
+              <br/>
+              <div>
+                <label th:for="nowPassword"></label>
+                <input type="password" th:field="*{nowPassword}" placeholder="현재 비밀번호" required/>
+              </div>
+              <br/>
+              <div>
+                <label th:for="oldNickname">현재 닉네임 : </label>
+                <label th:text="${oldNickname}"></label>
+              </div>
+              <br/>
+              <div>
+                <label th:for="newNickname"></label>
+                <input type="text" th:field="*{newNickname}" placeholder="새 닉네임" required/>
+              </div>
+              <br/>
+              <button type="submit">수정</button>
+            </form>
+          </div>
+        </div>
+    
+        <!-- right trending -->
+        <div class="right_trending">
+            <div class="right_trending_content">
+                <div id="inner_search_header">
+                    <select id="subject">
+                        <option value="movieQuery">Movie</option>
+                        <option value="userQuery">User</option>
+                    </select>
+                    <div class="right_search">
+                        <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
+                        <input type="text" class="search_input" placeholder="검색">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <br/>
-    <div>
-      <label th:for="nowPassword">현재 비밀번호 : </label>
-      <input type="password" th:field="*{nowPassword}"/>
-    </div>
-    <br/>
-    <div>
-      <label th:for="oldNickname">현재 닉네임 : </label>
-      <label th:text="${oldNickname}"></label>
-    </div>
-    <br/>
-    <div>
-      <label th:for="newNickname">새 닉네임 : </label>
-      <input type="text" th:field="*{newNickname}"/>
-    </div>
-    <br/>
-    <button type="submit">수정</button>
-  </form>
 </div>
+
 <script>
-  const menuEvent = document.querySelectorAll(".settings-menu-button");
+  const menuEvent = document.querySelectorAll(".menu_button");
   for (let s of menuEvent) {
       s.addEventListener("click", e => {
           const current = e.currentTarget;
           if (current.value == "home") {
             let urlParam = current.value;
-            window.open('/' + urlParam, '_self');
+            window.open('/', '_self');
           }
           if (current.value == "password") {
               let urlParam = "settings/password";

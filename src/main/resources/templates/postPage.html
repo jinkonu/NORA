@@ -10,11 +10,9 @@
     <link rel="stylesheet" href="/css/center_body_user.css">
     <link rel="stylesheet" href="/css/useful.css">
     <link rel="stylesheet" href="/css/post_layout.css">
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
-    <title>UserPage</title>
+    <title>postPage</title>
 </head>
-
 <body>
     <div class="frame">
 
@@ -108,7 +106,7 @@
                     <!-- 로그아웃 버튼 임시 추가 -->
                     <button class="logout_button" th:onclick="location.href='/logout'">
                         <div class="menu_button_text">로그아웃</div>
-                    </button>    
+                    </button>
                     <!-- 로그아웃 버튼 임시 추가 -->
                 </div>
             </div>
@@ -141,23 +139,9 @@
                     </div>
                 </div>
                 <div id="user_body">
-                    <div class="view_controller">
-                        <div class="view_box">
-                            <div class="view_box_contents" id="stack_view">
-                                <img src="/icons/Stack.svg" width="40" alt="stack"/>
-                                <div class="view_block" id="stack_block"></div>
-                            </div>
-                        </div>
-                        <div class="view_box">
-                            <div class="view_box_contents" id="grid_view">
-                                <img src="/icons/Grid.svg" width="40" alt="grid"/>
-                                <div class="view_block" id="grid_block"></div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="horizontal_line"></div>
-                    <div class="user_posts">
-                        <div class="movie_post" th:each="post : ${posts}">
+                    <div class="current_post">
+                        <div class="movie_post" th:object="${post}">
                             <div class="post_header_container">
                                 <div class="post_header">
                                     <div class="post_member_img">
@@ -165,49 +149,77 @@
                                     </div>
                                     <div class="post_infos">
                                         <div class="post_info">
-                                            <div class="post_member" th:text="${post.memberNickname}"></div>
-                                            <div class="post_member_id" th:text="${post.memberLoginId}"></div>
-                                            <div class="post_time" th:text="${post.createdAt}"></div>
-        
+                                            <div class="post_member" th:field="${memberNickname}"></div>
+                                            <div class="post_member_id" th:field="${memberLoginId}"></div>
+                                            <div class="post_time" th:field="${createdAt}"></div>
+
                                         </div>
                                         <div class="post_info">
                                             <div class="post_etc">on</div>
-                                            <div class="post_movie" th:text="${post.movieTitle}"></div>
+                                            <div class="post_movie" th:field="${movieTitle}"></div>
                                         </div>
                                     </div>
-        
+
                                 </div>
-        
+
                                 <!-- 게시글 삭제와 같은 기능 이용할 수 있는 아이콘 -->
                                 <div class="post_setting">
                                     <img src="/icons/DotsThree.svg" alt="settings">
                                 </div>
-    
+
                             </div>
                             <div class="post_content">
-                                <!-- 안되면 <form action="post/{postId}" method="get"> 으로도 테스트 -->
-                                <form th:action="post/{postId}">
-                                    <div class="post_content_text" th:text="${post.body}"></div>
-                                    <div class="post_content_img"></div>
+                                <form action="post/{postId}" method="get">
+                                    <div class="post_content_text" th:field="${body}"></div>
                                 </form>
-
+                                <div class="post_content_img"></div>
                             </div>
                             <div class="post_footer">
                                 <div class="post_footer_comments" id="post_comments">
                                     <img src="/icons/ChatTeardropDots.svg" width="32" alt="comments"/>
-                                    <div th:text="${post.commentCnt}"></div>
+                                    <div th:field="${commentCnt}"></div>
                                 </div>
                                 <div class="post_footer_likes" id="post_likes">
                                     <img src="/icons/Likes.svg" width="32" alt="likes"/>
-                                    <span id="post_like" th:text="${post.likeCnt}"></span>
-                                    <span id="post_id" th:text="${post.id}"></span>
-                                    <div th:text="${post.likeCnt}"></div>
-
+                                    <span th:field="${likeCnt}"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="horizontal_line"></div>
+                <div id="post_reply">
+                    <div class="reply_profile_img">
+                        <img src="/img/example_profile_img.svg" alt="img"/>
+                    </div>
+                    <!-- 댓글 폼 처리 방식을 결정해야 함(창이나 페이지로 만들지, 백으로 내용 전달 방식) -->
+                    <form name="reply_form">
+                        <input type="text" placeholder="댓글을 작성하여 주세요.">
+                        <input type="submit" placeholder="게시">
+                    </form>
+                </div>
+                <div class="horizontal_line"></div>
+                <div id="post_replies">
+                    <div class="replies" th:each="comment : ${comments}">
+                        <div class="reply_header">
+                            <div class="reply_member_img">
+                                <img src="/img/example_profile_img.svg" alt="img">
+                            </div>
+                            <div class="reply_info">
+                                    <div class="reply_member" th:text="${post.memberNickname}"></div>
+                                    <div class="reply_member_id" th:text="${post.memberLoginId}"></div>
+                                    <div class="reply_time" th:text="${post.createdAt}"></div>
+                            </div>
+                            <!-- 자신의 댓글만 삭제 옵션 만들기-->
+                            <div class="reply_setting">
+                                <img src="/icons/DotsThree.svg" alt="settings">
+                            </div>
 
+                        </div>
+                        <div class="reply_content">
+                            <div class="reply_content_text" th:text="${post.body}"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -233,79 +245,57 @@
     </div>
     <script src="menu_control.js"></script>
     <script>
-        /* view_control */
+            /* view_control */
 
-        /* likes_control */
-        const likeEvent = document.querySelectorAll(".post_footer_likes");
-        for (let s of likeEvent) {
-            s.addEventListener("click", e => {
-                const current = e.currentTarget;
-                var imgElement = current.querySelector('img');
-                var likesElement = current.querySelector('#post_like');
-                var postId = current.querySelector('#post_id').innerText;
-
-                likes_cnt = parseInt(likesElement.innerText);
-                if (imgElement.alt == "likes") {
-                    imgElement.src = "/icons/Likes_Filled.svg";
-                    imgElement.alt = "likes_filled";
-                    likes_cnt = likes_cnt + 1;
-                    var apiURL = 'likes/' + postId + '/add';
-                }
-                else if (imgElement.alt == "likes_filled") {
-                    imgElement.src = "/icons/Likes.svg";
-                    imgElement.alt = "likes";
-                    likes_cnt = likes_cnt - 1;
-                    var apiURL = 'likes/' + postId + '/delete';
-                }
-                likesElement.innerText = likes_cnt;
-
-                fetch (apiURL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        //'Cookie': document.cookie
-                    },
-
-                })
-                .then(response => {
-                    console.log(response);
-                })
-                .then(data => {
-                    console.log("Server response: ", data);
-                })
-                .catch(error => {
-                    console.log("Error: ", error);
-                });
-            });
-        }
-        
-        /* right : search */
-        const searchEvent = document.querySelectorAll(".search_input");
-        for (let s of searchEvent) {
-            s.addEventListener('keyup', e => {
-                if (e.keyCode == 13) {
-                    // querySelectorAll시 다시 객체 불러와야됨
+            /* likes_control */
+            const likeEvent = document.querySelectorAll(".post_footer_likes");
+            for (let s of likeEvent) {
+                s.addEventListener("click", e => {
                     const current = e.currentTarget;
-                    //let urlParam = new URLSearchParams(location.search);
-                    let urlParam = new URLSearchParams();
-
-                    const dropdown = document.querySelector("#subject");
-                    const choose = dropdown.selectedIndex;
-                    if (choose == 1) {
-                        urlParam.set("userQuery", current.value);
+                    var imgElement = current.querySelector('img');
+                    var likesElement = current.querySelector('span');
+                    likes_cnt = parseInt(likesElement.innerText);
+                    if (imgElement.alt == "likes") {
+                        imgElement.src = "/icons/Likes_Filled.svg";
+                        imgElement.alt = "likes_filled";
+                        likes_cnt = likes_cnt + 1;
                     }
-                    else {
-                        urlParam.set("movieQuery", current.value);
+                    else if (imgElement.alt == "likes_filled") {
+                        imgElement.src = "/icons/Likes.svg";
+                        imgElement.alt = "likes";
+                        likes_cnt = likes_cnt - 1;
                     }
+                    likesElement.innerText = likes_cnt;
+                });
+            }
 
-                    let new_urlParam = urlParam.toString();
-                    let new_path = '/search';
-                    window.open(new_path + '?' + new_urlParam, '_self');
-                }
-            });
-        }
+            /* right : search */
+            const searchEvent = document.querySelectorAll(".search_input");
+            for (let s of searchEvent) {
+                s.addEventListener('keyup', e => {
+                    if (e.keyCode == 13) {
+                        // querySelectorAll시 다시 객체 불러와야됨
+                        const current = e.currentTarget;
+                        //let urlParam = new URLSearchParams(location.search);
+                        let urlParam = new URLSearchParams();
 
-    </script>
+                        const dropdown = document.querySelector("#subject");
+                        const choose = dropdown.selectedIndex;
+                        if (choose == 1) {
+                            urlParam.set("userQuery", current.value);
+                        }
+                        else {
+                            urlParam.set("movieQuery", current.value);
+                        }
+
+                        let new_urlParam = urlParam.toString();
+                        let new_path = '/search';
+                        window.open(new_path + '?' + new_urlParam, '_self');
+                    }
+                });
+            }
+
+        </script>
 </body>
 
 </html>
