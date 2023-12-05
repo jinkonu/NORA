@@ -206,9 +206,9 @@
                                 <img src="/img/example_profile_img.svg" alt="img">
                             </div>
                             <div class="reply_info">
-                                    <div class="reply_member" th:text="${post.memberNickname}"></div>
-                                    <div class="reply_member_id" th:text="${post.memberLoginId}"></div>
-                                    <div class="reply_time" th:text="${post.createdAt}"></div>
+                                    <div class="reply_member" th:text="${comment.memberNickname}"></div>
+                                    <div class="reply_member_id" th:text="${comment.memberLoginId}"></div>
+                                    <div class="reply_time" th:text="${comment.createdAt}"></div>
                             </div>
                             <!-- 자신의 댓글만 삭제 옵션 만들기-->
                             <div class="reply_setting">
@@ -217,7 +217,7 @@
 
                         </div>
                         <div class="reply_content">
-                            <div class="reply_content_text" th:text="${post.body}"></div>
+                            <div class="reply_content_text" th:text="${comment.body}"></div>
                         </div>
                     </div>
                 </div>
