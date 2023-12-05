@@ -18,15 +18,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+import static nora.movlog.utils.FileUtility.getFullPath;
+
 @RequiredArgsConstructor
 @Service
 public class ImageService {
 
     private final ImageRepository imageRepository;
     private final PostRepository postRepository;
-
-    private final String rootPath = System.getProperty("user.dir");
-    private final String fileDirection = rootPath + "/src/main/resources/static/img/";
 
 
 
@@ -53,10 +52,6 @@ public class ImageService {
 
 
     /* READ */
-    public String getFullPath(String fileName) {
-        return fileDirection + fileName;
-    }
-
     public ResponseEntity<UrlResource> download(long postId) throws MalformedURLException {
         Post post = postRepository.findById(postId).get();
         if (post.getImage() == null) return null;

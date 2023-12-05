@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import static nora.movlog.utils.FileUtility.getFullPath;
 import static nora.movlog.utils.constant.StringConstant.*;
 
 @Slf4j
@@ -73,7 +74,7 @@ public class PostController {
     @ResponseBody
     @GetMapping(IMAGE_URI + "/{fileName}")
     public Resource readImage(@PathVariable String fileName) throws MalformedURLException {
-        return new UrlResource("file:" + imageService.getFullPath(fileName));
+        return new UrlResource("file:" + getFullPath(fileName));
     }
 
 

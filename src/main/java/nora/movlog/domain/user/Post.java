@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import nora.movlog.domain.movie.Movie;
 import nora.movlog.utils.dto.user.PostDto;
 import nora.movlog.utils.dto.user.PostEditDto;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -43,6 +45,8 @@ public class Post extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Image image;
+    private final String rootPath = System.getProperty("user.dir");
+    private final String fileDirection = rootPath + "/src/main/resources/static/img/";
 
 
     /* 메서드 */
