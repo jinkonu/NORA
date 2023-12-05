@@ -131,6 +131,14 @@
                 </div>
                 <!-- 검색결과 띄우는 창 -->
                 <div id="search_body">
+                    <th:block th:if="${members != null}">
+                        <div id="items">
+                            <div th:each="member : ${members}">
+                                <button type="button" class="item" th:value="${member.id}">
+                                </button>
+                            </div>
+                        </div>
+                    </th:block>
                     <th:block th:if="${movies != null}">
                         <div id="items">
                           <div th:each="movie : ${movies}">
