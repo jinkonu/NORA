@@ -92,3 +92,15 @@
     font-weight: 600;
     line-height: 140%; /* 22.4px */
 }
+
+.logout_button {
+    margin: 22px 0px 0px 0px;
+    width: 260px;
+    border-radius: 10px;
+    background-color: #F9F9F9;
+}
+
+.logout_button:hover {
+    background-color: #EAEAEA;
+
+}

@@ -8,19 +8,23 @@
 
   <style>
   </style>
+  <link rel="stylesheet" href="/css/post_body.css">
 </head>
 
 <body>
-  <h2 th:text="'Movie ID: ' + ${param.movieId}"></h2>
   <form method="post" th:action="@{/post}" th:object="${postDto}" enctype="multipart/form-data">
-    <label th:for="movieId">Movie ID: </label>
+    <!-- <div class="movie-title" th:text="${param.movieTitle} + '에 대한 제 생각은요..'"></div> -->
+    <label th:for="movieId"></label>
     <label>
-      <input type="text" th:field="*{movieId}" required/>
+      <input type="hidden" th:field="*{movieId}" required/>
+    </label>
+    <br/>
+    <label>
+      <textarea th:field="*{body}" th:placeholder="${param.movieTitle} + '에 대해서 어떻게 생각하시나요?'" required></textarea>
     </label>
     <label>
-      <textarea th:field="*{body}" cols="100" rows="20" required></textarea>
+      <input type="file" accept="image/*"> <!-- 백엔드로 이미지 전달 위해 th:field="*{image}" 속성 추가 필요. -->
     </label>
-  
     <button type="submit">POST</button>
   </form>
 </body>
