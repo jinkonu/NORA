@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,13 +24,14 @@ import static nora.movlog.utils.constant.StringConstant.*;
 
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping(SETTINGS_URI)
 @Controller
 public class SettingsController {
 
     private final MemberService memberService;
     private final MemberValidator memberValidator;
 
-    @GetMapping(SETTINGS_URI + PASSWORD_URI)
+    @GetMapping(PASSWORD_URI)
     public String changePassword(Authentication auth,
                                  Model model) {
         String loginId = MemberFinder.getUsernameFrom(auth);
@@ -38,7 +40,7 @@ public class SettingsController {
         return "changePasswordPage";
     }
 
-    @PostMapping(SETTINGS_URI + PASSWORD_URI)
+    @PostMapping(PASSWORD_URI)
     public void changePassword(Authentication auth,
                                @Valid @ModelAttribute MemberEditDto editDto,
                                BindingResult bindingResult,
@@ -62,7 +64,7 @@ public class SettingsController {
         }
     }
 
-    @GetMapping(SETTINGS_URI + NICKNAME_URI)
+    @GetMapping(NICKNAME_URI)
     public String changeNickname(Authentication auth,
                                  Model model) {
         String loginId = MemberFinder.getUsernameFrom(auth);
@@ -73,11 +75,11 @@ public class SettingsController {
         return "changeNicknamePage";
     }
 
-    @PostMapping(SETTINGS_URI + NICKNAME_URI)
+    @PostMapping(NICKNAME_URI)
     public void changeNickname(Authentication auth,
-                                 @Valid @ModelAttribute MemberEditDto editDto,
-                                 BindingResult bindingResult,
-                                 HttpServletResponse response) throws IOException {
+                               @Valid @ModelAttribute MemberEditDto editDto,
+                               BindingResult bindingResult,
+                               HttpServletResponse response) throws IOException {
         String loginId = MemberFinder.getUsernameFrom(auth);
         long id = memberService.findByLoginId(loginId).getId();
         if(memberValidator.validateEditNickname(editDto, bindingResult, id).hasErrors()) {
