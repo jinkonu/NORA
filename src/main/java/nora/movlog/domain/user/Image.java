@@ -22,6 +22,6 @@ public class Image {
     private String savedFileName;
 
     /* 연관관계 */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "image")
     private Post post;
 }

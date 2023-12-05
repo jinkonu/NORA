@@ -40,6 +40,8 @@ public class Post extends BaseEntity implements Comparable<Post> {
     private List<Likes> likes;
     private int likeCnt;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private Image image;
 
 
     /* 메서드 */
@@ -55,6 +57,9 @@ public class Post extends BaseEntity implements Comparable<Post> {
         ++likeCnt;
     }
 
+    public void setImage(Image image) {
+        this.image = image;
+    }
 
     @Override
     public int compareTo(Post other) {
