@@ -155,14 +155,12 @@
                                 <div class="btn_content">
                                     <img class="btn_icon" src="/icons/EyeOpened.svg" alt="WatchList"/>
                                     <div class="btn_txt">봤습니다:)</div>
-
                                 </div>
                             </div>
-                            <div class="list_btn" id="wishlist_btn">
+                            <div class="list_btn" id="wishlist_btn" onclick="addToSee()">
                                 <div class="btn_content">
                                     <!-- <img class="btn_icon" src="/icons/EyeClosed.svg" alt="WatchList"/> -->
                                     <div class="btn_txt">보고싶은 영화에 담기</div>
-
                                 </div>
                             </div>
                             <div class="list_btn" id="write_btn" onclick="openModal()">
@@ -256,6 +254,29 @@
                 document.getElementById('modalBody').innerHTML = '';
             }
         });
+
+        function addToSee() {
+            fetch(`/bookmark/${movieId}/toSee/add`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // 성공적으로 요청이 처리되면 수행할 로직
+                    console.log('요청이 성공적으로 처리되었습니다.', data);
+                })
+                .catch(error => {
+                    // 요청이 실패하면 수행할 로직
+                    console.error('에러 발생', error);
+                });
+        }
         /*]]>*/
     </script>
 </body>

@@ -15,7 +15,7 @@ import static nora.movlog.utils.constant.StringConstant.BOOKMARK_URI;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping(BOOKMARK_URI)
-@Controller
+@RestController
 public class BookmarkController {
 
     private final MemberService memberService;
@@ -32,6 +32,7 @@ public class BookmarkController {
     @PostMapping("/{movieId}/toSee/add")
     public void addToSeeMovie(@PathVariable String movieId,
                               Authentication auth) {
+        log.info("{} IS ADDED !", movieId);
         memberService.addToSeeMovie(MemberFinder.getUsernameFrom(auth), movieId);
     }
 
