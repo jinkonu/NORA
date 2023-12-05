@@ -33,7 +33,7 @@ public class CommentService {
         Member member = memberRepository.findByLoginId(memberLoginId).get();
         Post post = postRepository.findById(postId).get();
 
-        post.addComment();
+        post.changeComment(post.getCommentCnt() + 1);
         return commentRepository.save(dto.toEntity(member, post));
     }
 
