@@ -188,7 +188,7 @@
                                 <form th:method="get" th:action="@{/post/{postId}}" th:object="${post}">
                                     <div class="post_content_text" th:text="${post.body}"></div>
                                 </form>
-                                <img class="post_content_img" src="${post.image}">
+                                <img class="post_content_img" th:src="${post.image}">
 
                             </div>
                             <div class="post_footer">
@@ -200,7 +200,6 @@
                                     <img src="/icons/Likes.svg" width="32" alt="likes"/>
                                     <span id="post_like" th:text="${post.likeCnt}"></span>
                                     <span id="post_id" th:text="${post.id}"></span>
-                                    <div th:text="${post.likeCnt}"></div>
 
                                 </div>
                             </div>
