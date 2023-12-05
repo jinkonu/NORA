@@ -185,10 +185,11 @@
     
                             </div>
                             <div class="post_content">
-                                <form th:method="get" th:action="@{/post/{postId}" th:object="${post}">
+                                <form th:method="get" th:action="@{/post/{postId}}" th:object="${post}">
                                     <div class="post_content_text" th:text="${post.body}"></div>
                                 </form>
                                 <img class="post_content_img" src="${post.image}">
+
                             </div>
                             <div class="post_footer">
                                 <div class="post_footer_comments" id="post_comments">
@@ -232,6 +233,34 @@
     <script src="menu_control.js"></script>
     <script>
         /* view_control */
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const likeElements = document.querySelectorAll(".post_footer_likes");
+
+            // 선택된 요소들에 대해 반복문 실행
+            likeElements.forEach(function(likeElement) {
+                const postId = likeElement.querySelector('#post_id').innerText;
+                const apiURL = 'likes/' + postId + '/check';
+
+                fetch(apiURL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                    console.log("서버 응답: ", data);
+                })
+                .catch(error => {
+                    console.log("에러: ", error);
+                });
+            });
+        });
+
 
         /* likes_control */
         const likeEvent = document.querySelectorAll(".post_footer_likes");
@@ -301,6 +330,7 @@
                     window.open(new_path + '?' + new_urlParam, '_self');
                 }
             });
+
         }
 
     </script>
