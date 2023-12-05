@@ -1,31 +1,24 @@
 package nora.movlog.controller.auth;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import nora.movlog.service.user.MemberService;
-import nora.movlog.utils.MemberFinder;
 import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import static nora.movlog.utils.constant.StringConstant.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @RequiredArgsConstructor
 @Controller
 public class CustomErrorController implements ErrorController {
 
-    private final MemberService memberService;
-
     @RequestMapping("/error")
-    public String error(Authentication auth) {
-        if(auth==null) {
-            return "redirect:" + LOGIN_URI;
-        }
-        else {
-            String authId = MemberFinder.getUsernameFrom(auth);
-            if (memberService.findByLoginId(authId).getMemberAuth().equals(AUTH_UNVERIFIED))
-                return "redirect:" + VERIFY_URI;
-            else return "redirect:" + HOME_URI;
-        }
+    public void error(HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        out.println("<script> alert('존재하지 않는 페이지입니다.'); history.go(-1); </script>");
+        out.close();
     }
 }
