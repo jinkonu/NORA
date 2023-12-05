@@ -2,6 +2,9 @@ package nora.movlog.config;
 
 import lombok.RequiredArgsConstructor;
 import nora.movlog.handler.LoginFailureHandler;
+import nora.movlog.handler.MyAccessDeniedHandler;
+import nora.movlog.handler.MyAuthenticationEntryPoint;
+import nora.movlog.repository.user.MemberRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +27,9 @@ import static nora.movlog.utils.constant.StringConstant.*;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+
+    private final MemberRepository memberRepository;
+
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
@@ -49,6 +55,10 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher(VERIFY_URI),
                                          new AntPathRequestMatcher(VERIFY_URI + RESEND_URI)).hasAuthority(AUTH_UNVERIFIED)
                         .anyRequest().hasAuthority(AUTH_VERIFIED) // 그 외 페이지는 로그인한 회원에게만 보이게
+                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(new MyAuthenticationEntryPoint())
+                        .accessDeniedHandler(new MyAccessDeniedHandler(memberRepository))
                 )
                 .formLogin(login -> login
                         .loginPage(LOGIN_URI)
