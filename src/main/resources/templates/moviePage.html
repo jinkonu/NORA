@@ -76,6 +76,14 @@
                             <div class="menu_button_text">프로필</div>
                         </button>
                     </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="settings_btn" value="settings">
+                            <div class="menu_icon">
+                                <img src="/icons/Gear.svg" alt="profile"/>
+                            </div>
+                            <div class="menu_button_text">설정</div>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="left_footer">
@@ -197,9 +205,15 @@
             <!-- right trending -->
             <div class="right_trending" id="right">
                 <div class="right_trending_content">
-                    <div class="right_search">
-                        <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
-                        <input type="text" class="search_input" placeholder="검색">
+                    <div id="inner_search_header">
+                        <select id="subject">
+                            <option value="movieQuery">Movie</option>
+                            <option value="userQuery">User</option>
+                        </select>
+                        <div class="right_search">
+                            <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
+                            <input type="text" class="search_input" placeholder="검색">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -217,13 +231,22 @@
                 if (e.keyCode == 13) {
                     // querySelectorAll시 다시 객체 불러와야됨
                     const current = e.currentTarget;
-                    let urlParam = new URLSearchParams(location.search);
-                    urlParam.set("query", current.value);
+                    //let urlParam = new URLSearchParams(location.search);
+                    let urlParam = new URLSearchParams();
+
+                    const dropdown = document.querySelector("#subject");
+                    const choose = dropdown.selectedIndex;
+                    if (choose == 1) {
+                        urlParam.set("userQuery", current.value);
+                    }
+                    else {
+                        urlParam.set("movieQuery", current.value);
+                    }
+
                     let new_urlParam = urlParam.toString();
-                    window.open(location.pathname + '?' + new_urlParam, '_self');
-
+                    let new_path = '/search';
+                    window.open(new_path + '?' + new_urlParam, '_self');
                 }
-
             });
         }
 

@@ -77,12 +77,18 @@
     width: 370px;
     height: 50px;
     border-radius: 10px;
-    background: var(--primary, #2194F3);
+    background: var(--primary, #9E00FF);
     color: #FFFDFD;
 
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer; /* 마우스를 버튼 위에 올리면 포인터로 바뀝니다 */
+    transition: background-color 0.3s ease; /* 배경색이 부드럽게 변경됩니다 */
+}
+
+.list_btn:hover {
+    background-color: #590091; /* 마우스를 버튼 위에 올리면 배경색이 변경됩니다 */
 }
 
 #watchedlist_btn {
