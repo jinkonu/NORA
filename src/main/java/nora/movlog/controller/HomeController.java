@@ -60,7 +60,7 @@ public class HomeController {
             PrintWriter out = response.getWriter();
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=UTF-8");
-            out.println("<script> alert('이미 가입된 이메일입니다.'); location.href='/join' </script>");
+            out.println("<script> alert('이미 가입된 이메일입니다.'); location.href='" + JOIN_URI + "' </script>");
             out.close();
         }
         else {
@@ -68,7 +68,7 @@ public class HomeController {
             PrintWriter out = response.getWriter();
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html; charset=UTF-8");
-            out.println("<script> alert('가입되었습니다.'); location.href='/login' </script>");
+            out.println("<script> alert('가입되었습니다.'); location.href='" + LOGIN_URI + "' </script>");
             out.close();
         }
     }

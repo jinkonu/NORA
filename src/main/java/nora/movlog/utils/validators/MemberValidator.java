@@ -3,6 +3,7 @@ package nora.movlog.utils.validators;
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.user.Member;
 import nora.movlog.repository.user.MemberRepository;
+import nora.movlog.utils.dto.user.MemberDeleteDto;
 import nora.movlog.utils.dto.user.MemberEditDto;
 import nora.movlog.utils.dto.user.MemberJoinRequestDto;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,7 +56,7 @@ public class MemberValidator {
         Member member = memberRepository.findById(id).get();
 
         // nowPassword
-        if (member.getPassword().isEmpty())
+        if (dto.getNowPassword().isEmpty())
             bindingResult.addError(new FieldError("dto", "nowPassword", NO_NOW_PASSWORD));
         else if (!encoder.matches(dto.getNowPassword(), member.getPassword()))
             bindingResult.addError(new FieldError("dto", "nowPassword", NOT_EQUAL_PASSWORD_ERROR));
@@ -63,6 +64,21 @@ public class MemberValidator {
         // nickname
         if (dto.getNewNickname().isEmpty())
             bindingResult.addError(new FieldError("requestDto", "nickname", NO_NICKNAME_ERROR));
+
+        return bindingResult;
+    }
+
+    public BindingResult validateDelete(MemberDeleteDto dto, BindingResult bindingResult, long id) {
+        Member member = memberRepository.findById(id).get();
+
+        if (dto.getPassword().isEmpty())
+            bindingResult.addError(new FieldError("dto", "password", NO_PASSWORD_ERROR));
+        else if (dto.getPasswordCheck().isEmpty())
+            bindingResult.addError(new FieldError("dto", "passwordCheck", NO_PASSWORD_CHECK_ERROR));
+        else if (!dto.getPassword().equals(dto.getPasswordCheck()))
+            bindingResult.addError(new FieldError("dto", "passwordCheck", NOT_SAME_PASSWORD_CHECK_ERROR));
+        else if (!encoder.matches(dto.getPassword(), member.getPassword()))
+            bindingResult.addError(new FieldError("dto", "password", NOT_EQUAL_PASSWORD_ERROR));
 
         return bindingResult;
     }

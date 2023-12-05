@@ -1,7 +1,6 @@
 package nora.movlog.service.user;
 
-import nora.movlog.domain.Notification;
-import nora.movlog.repository.NotificationRepository;
+import nora.movlog.repository.user.NotificationRepository;
 import nora.movlog.service.movie.MovieService;
 import nora.movlog.utils.dto.user.CommentCreateRequestDto;
 import nora.movlog.utils.dto.user.CommentEditDto;
@@ -18,10 +17,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
 
-import static nora.movlog.domain.Notification.Type.COMMENT;
+import static nora.movlog.domain.user.Notification.Type.COMMENT;
 import static nora.movlog.utils.constant.StringConstant.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -56,7 +56,7 @@ class CommentServiceTest {
 
 
     @BeforeEach
-    void init() {
+    void init() throws IOException {
         generateMember(
                 TEST_CASE_MEMBER_LOGIN_ID,
                 TEST_CASE_MEMBER_PASSWORD,
@@ -135,7 +135,7 @@ class CommentServiceTest {
     }
 
 
-    private long generatePost(String body, String query, String movieId, String memberLoginId) {
+    private long generatePost(String body, String query, String movieId, String memberLoginId) throws IOException {
         movieService.findAndJoinFromTmdb(query, 0);
 
         return postService.write(PostCreateRequestDto.builder()

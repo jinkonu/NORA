@@ -79,16 +79,15 @@ public class StringConstant {
     // USER
     public static final String NO_LOGIN_ID_ERROR = "아이디가 비어있습니다.";
     public static final String DUPLICATE_LOGIN_ID_ERROR = "아이디가 중복됩니다.";
-    public static final String TOO_SHORT_LOGIN_ID_ERROR = "아이디 길이가 " + MIN_LOGIN_LENGTH + "자 이상이어야 합니다.";
-    public static final String TOO_LONG_LOGIN_ID_ERROR = "아이디 길이가 " + MAX_LOGIN_LENGTH + "자를 넘습니다.";
 
     public static final String NO_PASSWORD_ERROR = "비밀번호가 비어있습니다.";
+    public static final String NO_PASSWORD_CHECK_ERROR = "비밀번호가 비어있습니다.";
+    public static final String NOT_SAME_PASSWORD_CHECK_ERROR = "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
     public static final String NOT_EQUAL_PASSWORD_ERROR = "비밀번호가 일치하지 않습니다.";
 
     public static final String SAME_PASSWORD_ERROR = "새 비밀번호가 기존 비밀번호와 동일합니다.";
 
     public static final String NO_NICKNAME_ERROR = "닉네임이 비어있습니다.";
-    public static final String TOO_LONG_NICKNAME_ERROR = "닉네임 길이가 " + MAX_NICKNAME_LENGTH + "자를 넘습니다.";
 
     public static final String NO_NOW_PASSWORD = "현재 비밀번호가 비어있습니다.";
     public static final String NO_NEW_PASSWORD = "새 비밀번호가 비어있습니다.";
@@ -108,6 +107,7 @@ public class StringConstant {
     public static final String LOGOUT_URI = "/logout";
     public static final String JOIN_URI = "/join";
     public static final String VERIFY_URI = "/verify";
+    public static final String RESEND_URI = "/resend";
     public static final String CHECK_VERIFY_URI = "/check-verify";
     public static final String SEARCH_URI = "/search";
     public static final String ID_URI = "/{id}";
@@ -121,6 +121,8 @@ public class StringConstant {
     public static final String SETTINGS_URI = "/settings";
     public static final String PASSWORD_URI = "/password";
     public static final String NICKNAME_URI = "/nickname";
+    public static final String DELETE_URI = "/delete";
+    public static final String IMAGE_URI = "/image";
 
     // AUTHORITIES
     public static final String AUTH_UNVERIFIED = "UNVERIFIED";
