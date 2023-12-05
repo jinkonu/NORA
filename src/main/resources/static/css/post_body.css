@@ -12,7 +12,7 @@ body {
   form {
     width: 500px;
     background-color: #fff;
-    border: 1px solid #e6ecf0;
+    border: 2px solid #9E00FF;
     border-radius: 5px;
     padding: 20px;
     display: flex;
@@ -39,6 +39,10 @@ body {
     height: 200px;
     resize: vertical;
   }
+  textarea:focus {
+    border-color: #9E00FF;
+    outline: none;
+  }
 
   button {
     background-color: #9E00FF;
@@ -47,6 +51,7 @@ body {
     border-radius: 20px;
     padding: 10px;
     font-size: 14px;
+    font-weight: bold;
     cursor: pointer;
   }
 
@@ -55,9 +60,8 @@ body {
   }
 
   .movie-title {
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 18px;
     color: #230038;
-    text-align: center;
+    text-align: left;
     margin-bottom: 20px;
   }

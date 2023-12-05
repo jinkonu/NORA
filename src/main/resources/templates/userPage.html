@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/center_body_user.css">
     <link rel="stylesheet" href="/css/useful.css">
 
-    <title>User Page</title>
+    <title>UserPage</title>
 </head>
 
 <body>
@@ -104,91 +104,6 @@
             </div>
 
             <!-- center body -->
-                <!-- <div id="user_banner">
-                    <div class="userpage_profile">
-                        <div class="userpage_profile">
-                            <div class="account">
-                                <div class="profile_img">
-                                    <img src="/img/example_profile_img.svg" alt="img"/>
-                                </div>
-                                <div class="user_info">
-                                    <div class="user_info_name" th:text="${profileMember.nickname}"></div>
-                                    <div class="user_info_account" th:text="${profileMember.loginId}"></div>
-                                </div>
-                            </div>
-                        <div>
-                    </div>
-                    <div class="user_userpage_info">
-                        <div id="post_count">
-                            <div>게시물</div>
-                            <div class="user_post_count" th:text="${#lists.size(posts)}"></div>
-                        </div>
-                        <div id="follower_count">
-                            <div>팔로워</div>
-                            <div class="user_follower_count" th:text="${profileMember.followerCnt}"></div>
-                        </div>
-                        <div id="following_count">
-                            <div>팔로우</div>
-                            <div class="user_following_count" th:text="${profileMember.followingCnt}"></div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="user_content_icons"></div>
-                <div class="">
-                    <img src="" alt=""/>
-                    <div class="user_posts">
-                        <div id="user_post">
-                            <div th:each="post : ${posts}">
-                                <div id="post_member">
-                                    <div th:text="${post.memberNickname}"></div>
-                                </div>
-                                <div id="post_member_id">
-                                    <div th:text="${post.memberLoginId}"></div>
-                                </div>
-                                <div id="post_time">
-                                    <div th:text="${post.createdAt}"></div>
-                                </div>
-
-                                <div id="post_title">
-                                    <span class="movie_on">on </span>
-                                  
-                                    <div id="post_movie">
-                                        <div th:text="${post.movieTitle}"></div>
-                                    </div>
-                                </div>
-
-                                <div id="post_body">
-                                    <div th:text="${post.body}"></div>
-                                </div>
-
-                                <div id="post_likes">
-                                    <div th:text="${post.likeCnt}"></div>
-                                </div>
-
-                                <div id="post_memberLoginId">
-                                    <div th:text="${post.memberLoginId}"></div>
-                                </div>
-
-                                <div id="post_memberNickname">
-                                    <div th:text="${post.memberNickname}"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="user_pictures">
-                        <div id="user_picture">
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-            </div> -->
-
             <div class="center_body">
                 <div class="user_banner">
                     <div class="user_profile">
@@ -215,37 +130,67 @@
                         </div>
                     </div>
                 </div>
-                <div class="user_content_view"></div>
-                <div class="horizontal_line"></div>
-                <div class="user_posts">
-                    <div class="user_post" th:each="post : ${posts}">
-                        <div class="post_header">
-                            <div class="post_member_img">
-                                <img src="/img/example_profile_img.svg" alt="img">
+                <div id="user_body">
+                    <div class="view_controller">
+                        <div class="view_box">
+                            <div class="view_box_contents" id="stack_view">
+                                <img src="/icons/Stack.svg" width="40" alt="stack"/>
+                                <div class="view_block" id="stack_block"></div>
                             </div>
-                            <div class="post_infos">
-                                <div class="post_info">
-                                    <div class="post_member" th:text="${post.memberNickname}"></div>
-                                    <div class="post_member_id" th:text="${post.memberLoginId}"></div>
-                                    <div class="post_time" th:text="${post.createdAt}"></div>
-
-                                </div>
-                                <div class="post_info">
-                                    <div class="post_etc">on</div>
-                                    <div class="post_movie" th:text="${post.movieTitle}"></div>
-                                </div>
+                        </div>
+                        <div class="view_box">
+                            <div class="view_box_contents" id="grid_view">
+                                <img src="/icons/Grid.svg" width="40" alt="grid"/>
+                                <div class="view_block" id="grid_block"></div>
                             </div>
-
-                        </div>
-                        <div class="post_content">
-                            <div class="post_content_text" th:text="${post.body}"></div>
-                            <div class="post_content_img"></div>
-                        </div>
-                        <div class="post_footer">
-                            <div class="post_comments"></div>
-                            <div class="post_likes"></div>
                         </div>
                     </div>
+                    <div class="horizontal_line"></div>
+                    <div class="user_posts">
+                        <div class="user_post" th:each="post : ${posts}">
+                            <div class="post_header_container">
+                                <div class="post_header">
+                                    <div class="post_member_img">
+                                        <img src="/img/example_profile_img.svg" alt="img">
+                                    </div>
+                                    <div class="post_infos">
+                                        <div class="post_info">
+                                            <div class="post_member" th:text="${post.memberNickname}"></div>
+                                            <div class="post_member_id" th:text="${post.memberLoginId}"></div>
+                                            <div class="post_time" th:text="${post.createdAt}"></div>
+        
+                                        </div>
+                                        <div class="post_info">
+                                            <div class="post_etc">on</div>
+                                            <div class="post_movie" th:text="${post.movieTitle}"></div>
+                                        </div>
+                                    </div>
+        
+                                </div>
+        
+                                <!-- 게시글 삭제와 같은 기능 이용할 수 있는 아이콘 -->
+                                <div class="post_setting">
+                                    <img src="/icons/DotsThree.svg" alt="settings">
+                                </div>
+    
+                            </div>
+                            <div class="post_content">
+                                <div class="post_content_text" th:text="${post.body}"></div>
+                                <div class="post_content_img"></div>
+                            </div>
+                            <div class="post_footer">
+                                <div class="post_footer_content" id="post_comments">
+                                    <img src="/icons/ChatTeardropDots.svg" width="32" alt="comments"/>
+                                    <div>0</div>
+                                </div>
+                                <div class="post_footer_content" id="post_likes">
+                                    <img src="/icons/Likes.svg" width="32" alt="likes"/>
+                                    <div th:text="${post.likeCnt}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -265,6 +210,8 @@
     </div>
     <script src="menu_control.js"></script>
     <script>
+        /* view_control */
+        
     </script>
 </body>
 

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/main_frame.css">
+  <link rel="stylesheet" href="/css/left_menubar.css">
+  <link rel="stylesheet" href="/css/right_trending.css">
+  <link rel="stylesheet" href="/css/center_body_user.css">
+  <link rel="stylesheet" href="/css/useful.css">
+
+  <title>Home</title>
+</head>
+
+<body>
+    <div class="frame">
+
+      <div class="inner_frame">
+
+        <!-- left menu bar -->
+        <div class="left_menubar">
+          <div class="logo_main">
+            <img src="/icons/logo(main).svg" alt="movlog"/>
+          </div>
+
+          <div class="menu">
+            <div class="menu_element">
+              <button class="menu_button" id="home_btn" value="home">
+                <div class="menu_icon">
+                  <img src="/icons/House.svg" alt="home"/>
+                </div>
+                <div class="menu_button_text">홈</div>
+              </button>
+            </div>
+            <div class="menu_element">
+              <button class="menu_button" id="notification_btn" value="notifications">
+                <div class="menu_icon">
+                  <img src="/icons/Heart.svg" alt="notifications"/>
+                </div>
+                <div class="menu_button_text">알림</div>
+              </button>
+            </div>
+            <div class="menu_element">
+              <button class="menu_button" id="search_btn" value="search">
+                <div class="menu_icon">
+                  <img src="/icons/MagnifyingGlass.svg" alt="Search"/>
+                </div>
+                <div class="menu_button_text">검색</div>
+              </button>
+            </div>
+            <div class="menu_element">
+              <button class="menu_button" id="watchedlsit_btn" value="watched">
+                <div class="menu_icon">
+                  <img src="/icons/EyeOpened.svg" alt="WatchList"/>
+                </div>
+                <div class="menu_button_text">내가 본 영화</div>
+              </button>
+            </div>
+            <div class="menu_element">
+              <button class="menu_button" id="watchlist_btn" value="towatch">
+                <div class="menu_icon">
+                  <img src="/icons/EyeClosed.svg" alt="towatchlist"/>
+                </div>
+                <div class="menu_button_text">보고싶은 영화</div>
+              </button>
+            </div>
+            <div class="menu_element">
+              <button class="menu_button" id="profile_btn" value="profile">
+                <div class="menu_icon">
+                  <img src="/icons/UserCircle.svg" alt="profile"/>
+                </div>
+                <div class="menu_button_text">프로필</div>
+              </button>
+            </div>
+          </div>
+
+          <div class="left_footer">
+            <button class="profile">
+              <div class="account">
+                <div class="profile_img">
+                  <img src="/img/example_profile_img.svg" alt="img"/>
+                </div>
+                <div class="user_info">
+                  <div class="user_info_name" th:text="${loginMember.nickname}">
+                    김익명
+                  </div>
+                  <div class="user_info_account" th:text="${loginMember.loginId}">
+                    @anonymouskim123
+                  </div>
+                </div>
+              </div>
+              <div class="more">
+                <img src="/icons/DotsThree.svg" alt="more"/>
+              </div>
+            </button>
+
+            <!-- 로그아웃 버튼 임시 추가 -->
+            <button class="logout_button" th:onclick="location.href='/logout'">
+              <div class="menu_button_text">로그아웃</div>
+            </button>
+            <!-- 로그아웃 버튼 임시 추가 -->
+          </div>
+        </div>
+
+        <!-- center body -->
+        <div class="center_body">
+          <div id="home_body">
+            <div class="view_controller">
+              <div class="view_box">
+                <div class="view_box_contents" id="discover">
+                  <span id="discover_text">탐색</span>
+                  <div class="view_block" id="discover_block"></div>
+                </div>
+              </div>
+              <div class="view_box">
+                <div class="view_box_contents" id="follow">
+                  <span id="follow_text">팔로우</span>
+                  <div class="view_block" id="follow_block"></div>
+                </div>
+              </div>
+            </div>
+            <div class="horizontal_line"></div>
+            <div class="user_posts">
+              <div class="user_post" th:each="post : ${posts}">
+                <div class="post_header_container">
+                  <div class="post_header">
+                    <div class="post_member_img">
+                      <img src="/img/example_profile_img.svg" alt="img">
+                    </div>
+                    <div class="post_infos">
+                      <div class="post_info">
+                        <div class="post_member" th:text="${post.memberNickname}"></div>
+                        <div class="post_member_id" th:text="${post.memberLoginId}"></div>
+                        <div class="post_time" th:text="${post.createdAt}"></div>
+
+                      </div>
+                      <div class="post_info">
+                        <div class="post_etc">on</div>
+                        <div class="post_movie" th:text="${post.movieTitle}"></div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="post_content">
+                  <div class="post_content_text" th:text="${post.body}"></div>
+                  <div class="post_content_img"></div>
+                </div>
+                <div class="post_footer">
+                  <div class="post_footer_content" id="post_comments">
+                    <img src="/icons/ChatTeardropDots.svg" width="32" alt="comments"/>
+                    <div>0</div>
+                  </div>
+                  <div class="post_footer_content" id="post_likes">
+                    <img src="/icons/Likes.svg" width="32" alt="likes"/>
+                    <div th:text="${post.likeCnt}"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- right trending -->
+        <div class="right_trending" id="right">
+          <div class="right_trending_content">
+            <div class="right_search">
+              <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
+              <input type="text" class="search_input" placeholder="검색">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <script src="menu_control.js"></script>
+    <script>
+            /* view_control */
+
+        </script>
+</body>
+</html>
