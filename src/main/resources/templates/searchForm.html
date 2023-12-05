@@ -158,9 +158,15 @@
             <!-- right trending -->
             <div class="right_trending">
                 <div class="right_trending_content">
-                    <div class="right_search">
-                        <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
-                        <input type="text" class="search_input" placeholder="검색">
+                    <div id="inner_search_header">
+                        <select id="subject">
+                            <option value="movieQuery">Movie</option>
+                            <option value="userQuery">User</option>
+                        </select>
+                        <div class="right_search">
+                            <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
+                            <input type="text" class="search_input" placeholder="검색">
+                        </div>
                     </div>
                 </div>
             </div>
