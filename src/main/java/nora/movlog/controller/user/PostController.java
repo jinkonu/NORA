@@ -64,7 +64,7 @@ public class PostController {
         postService.write(dto, MemberFinder.getUsernameFrom(auth));
 
         if (!movieId.isBlank())
-            return "redirect:" + MOVIE_URI + movieId;
+            return "redirect:" + MOVIE_URI + "/" + movieId;
 
         return "redirect:" + SEARCH_URI;
     }
