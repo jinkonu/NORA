@@ -39,6 +39,10 @@
     color: rgba(0, 0, 0, 0.50);
 }
 
+.user_profile_info_id {
+    display: none;
+}
+
 .user_profile_img {
     width: 56px;
     height: 56px;
@@ -75,6 +79,48 @@
 
 .user_count_data {
     font-weight: 700;
+}
+
+/* follow button */
+
+.follow_btn {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0px 0px 10px 388px;
+    /* gap: 12px; */
+}
+
+.list_btn {
+    width: 380px;
+    height: 50px;
+    border-radius: 10px;
+    background: var(--primary, #9E00FF);
+    color: #FFFDFD;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; /* 마우스를 버튼 위에 올리면 포인터로 바뀝니다 */
+    transition: background-color 0.3s ease; /* 배경색이 부드럽게 변경됩니다 */
+}
+
+.list_btn:hover {
+    background-color: #590091; /* 마우스를 버튼 위에 올리면 배경색이 변경됩니다 */
+}
+
+.btn_content {
+    display: flex;
+    gap: 12px;
+}
+
+.btn_txt {
+    text-align: center;
+    font-family: Inter;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px; /* 189.474% */
+    letter-spacing: 0.1px;
 }
 
 /* USER BODY */
