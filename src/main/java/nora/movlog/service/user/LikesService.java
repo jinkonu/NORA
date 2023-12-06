@@ -44,6 +44,9 @@ public class LikesService {
     /* DELETE */
     @Transactional
     public void delete(String memberLoginId, long postId) {
+        Post post = postRepository.findById(postId).get();
+        post.changeLike(post.getLikeCnt() - 1);
+
         likesRepository.deleteByMemberLoginIdAndPostId(memberLoginId, postId);
     }
 }
