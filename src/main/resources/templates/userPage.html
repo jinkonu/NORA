@@ -188,7 +188,7 @@
                                 <form th:method="get" th:action="@{/post/{postId}}" th:object="${post}">
                                     <div class="post_content_text" th:text="${post.body}"></div>
                                 </form>
-                                <img class="post_content_img" src="${post.image}">
+                                <img class="post_content_img" th:src="${post.image}">
 
                             </div>
                             <div class="post_footer">
@@ -200,7 +200,6 @@
                                     <img src="/icons/Likes.svg" width="32" alt="likes"/>
                                     <span id="post_like" th:text="${post.likeCnt}"></span>
                                     <span id="post_id" th:text="${post.id}"></span>
-                                    <div th:text="${post.likeCnt}"></div>
 
                                 </div>
                             </div>
@@ -251,9 +250,14 @@
                 })
                 .then(response => {
                     console.log(response);
+                    return response.json();
                 })
                 .then(data => {
-                    console.log("서버 응답: ", data);
+                    if(data == true){
+                        var imgElement = likeElement.querySelector('img');
+                        imgElement.src = "/icons/Likes_Filled.svg";
+                        imgElement.alt = "likes_filled";
+                    }
                 })
                 .catch(error => {
                     console.log("에러: ", error);
