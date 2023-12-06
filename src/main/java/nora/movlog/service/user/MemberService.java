@@ -16,10 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static nora.movlog.utils.constant.StringConstant.*;
 
@@ -100,6 +97,13 @@ public class MemberService {
     public Set<Movie> findAllToSeeMovies(String loginId) {
         return memberRepository.findByLoginId(loginId).get()
                 .getToSeeMovies();
+    }
+
+    public boolean isFollowing(String followingLoginId, String followerLoginId) {
+        Member follower = memberRepository.findByLoginId(followerLoginId).get();
+        Member following = memberRepository.findByLoginId(followingLoginId).get();
+
+        return following.getFollowings().contains(follower);
     }
 
 

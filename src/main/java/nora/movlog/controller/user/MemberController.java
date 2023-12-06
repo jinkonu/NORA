@@ -61,4 +61,38 @@ public class MemberController {
                           Authentication auth) {
         return memberService.profile(id).equals(memberService.findByLoginId(MemberFinder.getLoginId(auth)));
     }
+
+
+    // 팔로우 신청
+    @PostMapping(ID_URI + "/follow")
+    public void follow(@PathVariable(name = "id") long followerId,
+                       Authentication auth) {
+        String followerLoginId = memberService.profile(followerId).getLoginId();
+        String followingLoginId = MemberFinder.getLoginId(auth);
+
+        memberService.follow(followingLoginId, followerLoginId);
+    }
+
+
+    // 팔로우 여부 조회
+    @ResponseBody
+    @GetMapping(ID_URI + "/isFollowing")
+    public boolean isFollowing(@PathVariable(name = "id") long followerId,
+                               Authentication auth) {
+        String followerLoginId = memberService.profile(followerId).getLoginId();
+        String followingLoginId = MemberFinder.getLoginId(auth);
+
+        return memberService.isFollowing(followingLoginId, followerLoginId);
+    }
+
+
+    // 팔로우 취소
+    @PostMapping(ID_URI + "/unfollow")
+    public void unfollow(@PathVariable(name = "id") long followerId,
+                         Authentication auth) {
+        String followerLoginId = memberService.profile(followerId).getLoginId();
+        String followingLoginId = MemberFinder.getLoginId(auth);
+
+        memberService.unfollow(followingLoginId, followerLoginId);
+    }
 }
