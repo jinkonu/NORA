@@ -45,8 +45,6 @@ public class Post extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Image image;
-    private final String rootPath = System.getProperty("user.dir");
-    private final String fileDirection = rootPath + "/src/main/resources/static/img/";
 
 
     /* 메서드 */
