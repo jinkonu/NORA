@@ -50,7 +50,7 @@ public class MovieController {
 
     // 북마크 보고 싶은 영화 확인
     @ResponseBody
-    @GetMapping(ID_URI + "/isSeen")
+    @GetMapping(ID_URI + "/isToSee")
     public boolean isToSee(@PathVariable String id,
                           Authentication auth) {
         return movieService.isToSeeFrom(id, MemberFinder.getLoginId(auth));
