@@ -43,6 +43,7 @@ public class BookmarkController {
     public String readSeenMovie(Model model,
                                 Authentication auth) {
         model.addAttribute("movies", movieService.findAllSeenFrom(MemberFinder.getLoginId(auth)));
+        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getLoginId(auth)));
 
         return "seenMoviesPage";
     }
@@ -51,6 +52,7 @@ public class BookmarkController {
     public String readToSeeMovies(Model model,
                                   Authentication auth) {
         model.addAttribute("movies", movieService.findAllToSeeFrom(MemberFinder.getLoginId(auth)));
+        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getLoginId(auth)));
 
         return "toSeeMoviesPage";
     }

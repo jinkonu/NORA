@@ -90,4 +90,20 @@ public class MovieService {
         return memberRepository.findByLoginId(loginId).get()
                 .getToSeeMovies();
     }
+
+    // 북마크 이미 본 영화 확인
+    public boolean isSeenFrom(String movieId, String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
+                .getSeenMovies().stream()
+                .map(Movie::getId)
+                .anyMatch(id -> id.equals(movieId));
+    }
+
+    // 북마크 보고 싶은 영화 확인
+    public boolean isToSeeFrom(String movieId, String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
+                .getToSeeMovies().stream()
+                .map(Movie::getId)
+                .anyMatch(id -> id.equals(movieId));
+    }
 }
