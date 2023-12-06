@@ -10,6 +10,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URI;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
@@ -43,7 +44,7 @@ public class PostDto implements Comparable<PostDto> {
     /* Image */
     private Image nowImage;
     private MultipartFile newImage;
-    private Resource image;
+    private URI image;
 
     /* Date */
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -65,9 +66,12 @@ public class PostDto implements Comparable<PostDto> {
                 .build();
     }
 
-    private static Resource toResource(Image image) {
+    private static URI toResource(Image image) {
         try {
-            return new UrlResource("file:" + getFullPath(image.getSavedFileName())) ;
+            URI uri = new UrlResource("file:" + getFullPath(image.getSavedFileName())).getURI();
+            System.out.println("image = " + uri);
+
+            return uri;
         } catch (Exception e) {
             return null;
         }

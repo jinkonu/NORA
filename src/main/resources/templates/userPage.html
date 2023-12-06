@@ -246,10 +246,10 @@
     <script>
         /* view_control */
 
-        
+
         /* 자신의 페이지인지 여부 확인 */
         document.addEventListener("DOMContentLoaded", function() {
-            
+
             const memberId = document.querySelector('.user_profile_info_id').innerText;
             let apiURL = '/member/' + memberId + '/isSelf';
 
@@ -290,11 +290,11 @@
 
                                 let follow_btn = followEvent.querySelector('#follow_btn');
                                 let follow_txt = followEvent.querySelector('#follow_txt');
-                                
+
                                 follow_btn.style.background = '#EDEFF0';
                                 follow_btn.style.color = '#000000';
                                 follow_txt.innerText = "팔로우중";
-                                
+
                             }
                             else {
                                 //console.log("following 중이지 않습니다!");
@@ -388,7 +388,7 @@
                 //console.log("follow button clicked!");
                 /* 팔로우 요청 */
                 let apiURL = '/member/' + memberId + '/follow';
-                
+
                 follow_btn.style.background = '#EDEFF0';
                 follow_btn.style.color = '#000000';
                 follow_txt.innerText = "팔로우중";
