@@ -119,7 +119,7 @@
                     <div id="inner_search_header">
                         <select id="subject">
                             <option value="movieQuery">Movie</option>
-                            <option value="userQuery">User</option>
+                            <option value="memberQuery">User</option>
                         </select>
                         <div class="right_search">
                             <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
@@ -135,6 +135,14 @@
                         <div id="items">
                             <div th:each="member : ${members}">
                                 <button type="button" class="item" th:value="${member.id}">
+                                    <div class="item_contents">
+                                        <div class="item_main">
+                                            <div th:text="${member.nickname}"></div>
+                                        </div>
+                                        <div class="item_nations">
+                                            <div class="item_nation" th:text="${member.loginId}"></div>
+                                        </div>
+                                    </div>
                                 </button>
                             </div>
                         </div>
@@ -205,7 +213,7 @@
                     const dropdown = document.querySelector("#subject");
                     const choose = dropdown.selectedIndex;
                     if (choose == 1) {
-                        urlParam.set("userQuery", current.value);
+                        urlParam.set("memberQuery", current.value);
                     }
                     else {
                         urlParam.set("movieQuery", current.value);
@@ -223,9 +231,20 @@
         for (let s of movieSelect) {
             s.addEventListener("click", e => {
               const current = e.currentTarget;
-              let urlParam = current.value;
-              console.log(urlParam);
-              window.open('/movie' + '/' + urlParam, '_self');
+              let Param = new URLSearchParams(location.search);
+              if (Param.get('movieQuery')) {
+                let urlParam = current.value;
+                console.log(urlParam);
+                console.log('/movie' + '/' + urlParam);
+                window.open('/movie' + '/' + urlParam, '_self');
+
+              }
+              else if (Param.get('memberQuery')) {
+                let urlParam = current.value;
+                console.log(urlParam);
+                console.log('/member' + '/' + urlParam);
+                window.open('/member' + '/' + urlParam, '_self');
+              }
             });
         }
         
