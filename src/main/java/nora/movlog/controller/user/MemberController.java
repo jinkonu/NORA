@@ -64,6 +64,7 @@ public class MemberController {
 
 
     // 팔로우 신청
+    @ResponseBody
     @PostMapping(ID_URI + "/follow")
     public void follow(@PathVariable(name = "id") long followerId,
                        Authentication auth) {
@@ -87,6 +88,7 @@ public class MemberController {
 
 
     // 팔로우 취소
+    @ResponseBody
     @PostMapping(ID_URI + "/unfollow")
     public void unfollow(@PathVariable(name = "id") long followerId,
                          Authentication auth) {
