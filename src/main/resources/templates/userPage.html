@@ -110,6 +110,9 @@
                         <div class="menu_button_text">로그아웃</div>
                     </button>    
                     <!-- 로그아웃 버튼 임시 추가 -->
+
+                    <!-- 유저 아이디 저장용 태그 -->
+                    <button id="user_id" th:value="${loginMember.id}"></button>
                 </div>
             </div>
 
@@ -229,7 +232,7 @@
         </div>
 
     </div>
-    <script src="menu_control.js"></script>
+    <script src="../menu_control.js"></script>
     <script>
         /* view_control */
 
@@ -239,7 +242,7 @@
             // 선택된 요소들에 대해 반복문 실행
             likeElements.forEach(function(likeElement) {
                 const postId = likeElement.querySelector('#post_id').innerText;
-                const apiURL = 'likes/' + postId + '/check';
+                const apiURL = '/likes/' + postId + '/check';
 
                 fetch(apiURL, {
                     method: 'GET',
@@ -280,13 +283,13 @@
                     imgElement.src = "/icons/Likes_Filled.svg";
                     imgElement.alt = "likes_filled";
                     likes_cnt = likes_cnt + 1;
-                    var apiURL = 'likes/' + postId + '/add';
+                    var apiURL = '/likes/' + postId + '/add';
                 }
                 else if (imgElement.alt == "likes_filled") {
                     imgElement.src = "/icons/Likes.svg";
                     imgElement.alt = "likes";
                     likes_cnt = likes_cnt - 1;
-                    var apiURL = 'likes/' + postId + '/delete';
+                    var apiURL = '/likes/' + postId + '/delete';
                 }
                 likesElement.innerText = likes_cnt;
 
