@@ -36,6 +36,7 @@ public class CommentController {
 
 
     /* READ */
+    @ResponseBody
     @GetMapping("/{commentId}")
     public CommentDto read(@PathVariable long commentId,
                            Authentication auth) {
@@ -49,6 +50,7 @@ public class CommentController {
 
 
     /* UPDATE */
+    @ResponseBody
     @PostMapping("/{commentId}/edit")
     public void edit(@PathVariable long commentId,
                      @ModelAttribute CommentEditDto dto,
@@ -58,6 +60,7 @@ public class CommentController {
 
 
     /* DELETE */
+    @ResponseBody
     @GetMapping("/{commentId}/delete")
     public void delete(@PathVariable long commentId,
                        Authentication auth) {
