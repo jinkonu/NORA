@@ -11,6 +11,7 @@ import nora.movlog.repository.movie.interfaces.MovieRepository;
 import nora.movlog.repository.user.PostRepository;
 import nora.movlog.repository.user.MemberRepository;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class PostService {
     private final ImageService imageService;
 
     private static final LocalDateTime homePostsDate = LocalDateTime.now().minusDays(MIN_LATEST_DAYS);
+    public static final Sort sort = Sort.by(Sort.Order.desc("lastModifiedAt"));
 
 
     /* CREATE */
@@ -58,21 +60,21 @@ public class PostService {
     }
 
     public List<PostDto> findAllFromMemberId(long memberId, int page, int size) {
-        return postRepository.findAllByMemberId(memberId, PageRequest.of(page, size)).stream()
+        return postRepository.findAllByMemberId(memberId, PageRequest.of(page, size, sort)).stream()
                 .map(PostDto::of)
                 .sorted(PostDto::compareTo)
                 .toList();
     }
 
     public List<PostDto> findAllFromMemberLoginId(String memberLoginId, int page, int size) {
-        return postRepository.findAllByMemberLoginId(memberLoginId, PageRequest.of(page, size)).stream()
+        return postRepository.findAllByMemberLoginId(memberLoginId, PageRequest.of(page, size, sort)).stream()
                 .map(PostDto::of)
                 .sorted(PostDto::compareTo)
                 .toList();
     }
 
     public List<PostDto> findAllFromMovie(String movieId, int page, int size) {
-        return postRepository.findAllByMovieId(movieId, PageRequest.of(page, size)).stream()
+        return postRepository.findAllByMovieId(movieId, PageRequest.of(page, size, sort)).stream()
                 .map(PostDto::of)
                 .sorted(PostDto::compareTo)
                 .toList();

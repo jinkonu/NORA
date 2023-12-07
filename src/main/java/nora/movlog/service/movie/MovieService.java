@@ -7,6 +7,7 @@ import nora.movlog.utils.dto.movie.MovieTmdbDto;
 import nora.movlog.repository.movie.MovieTmdbApiRepository;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,8 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieTmdbApiRepository movieTmdbApiRepository;
     private final MemberRepository memberRepository;
+
+    public static final Sort sort = Sort.by(Sort.Order.desc("popularity"));
 
 
 
@@ -63,7 +66,7 @@ public class MovieService {
     // 문자열 기반 검색
     @Transactional
     public List<Movie> search(String query, int pageNumber, int pageSize) {
-        List<Movie> movies = new ArrayList<>(movieRepository.findAllByTitleKoContains(query, PageRequest.of(pageNumber, pageSize))
+        List<Movie> movies = new ArrayList<>(movieRepository.findAllByTitleKoContains(query, PageRequest.of(pageNumber, pageSize, sort))
                 .stream().toList());
 
         if (movies.size() < MIN_SEARCH_LIST_SIZE)
