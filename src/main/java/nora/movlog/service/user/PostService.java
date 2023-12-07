@@ -57,7 +57,7 @@ public class PostService {
                 .orElseGet(() -> null);
     }
 
-    public List<PostDto> findAllFromMember(long memberId, int page, int size) {
+    public List<PostDto> findAllFromMemberId(long memberId, int page, int size) {
         return postRepository.findAllByMemberId(memberId, PageRequest.of(page, size)).stream()
                 .map(PostDto::of)
                 .sorted(PostDto::compareTo)

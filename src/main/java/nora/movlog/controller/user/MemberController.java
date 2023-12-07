@@ -2,7 +2,6 @@ package nora.movlog.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nora.movlog.domain.user.Member;
 import nora.movlog.service.user.MemberService;
 import nora.movlog.service.user.PostService;
 import nora.movlog.utils.MemberFinder;
@@ -32,23 +31,7 @@ public class MemberController {
                                   Authentication auth) {
         model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getLoginId(auth)));
         model.addAttribute("profileMember", memberService.profile(id));
-        model.addAttribute("posts", postService.findAllFromMember(id, page, size));
-
-        return "userPage";
-    }
-
-
-    // 세션 기반 프로필
-    @GetMapping
-    public String profilePageFrom(@RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
-                                  @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
-                                  Authentication auth,
-                                  Model model) {
-        Member loginMember = memberService.findByLoginId(MemberFinder.getLoginId(auth));
-
-        model.addAttribute("loginMember", loginMember);
-        model.addAttribute("profileMember", loginMember);
-        model.addAttribute("posts", postService.findAllFromMember(loginMember.getId(), page, size));
+        model.addAttribute("posts", postService.findAllFromMemberId(id, page, size));
 
         return "userPage";
     }
