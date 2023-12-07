@@ -2,8 +2,10 @@ package nora.movlog.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nora.movlog.domain.user.Member;
 import nora.movlog.service.user.CommentService;
 import nora.movlog.service.user.ImageService;
+import nora.movlog.service.user.MemberService;
 import nora.movlog.service.user.PostService;
 import nora.movlog.utils.MemberFinder;
 import nora.movlog.utils.dto.user.PostCreateRequestDto;
@@ -27,6 +29,7 @@ public class PostController {
     private final PostService postService;
     private final CommentService commentService;
     private final ImageService imageService;
+    private final MemberService memberService;
 
 
 
@@ -35,7 +38,11 @@ public class PostController {
     public String readPost(@PathVariable long postId,
                            @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
                            @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
+                           Authentication auth,
                            Model model) {
+        Member member = memberService.findByLoginId(MemberFinder.getLoginId(auth));
+
+        model.addAttribute("loginMember", member);
         model.addAttribute("post", postService.findOne(postId));
         model.addAttribute("comments", commentService.findAllFromPost(postId, page, size));
 
