@@ -123,6 +123,7 @@ public class StringConstant {
     public static final String NICKNAME_URI = "/nickname";
     public static final String DELETE_URI = "/delete";
     public static final String IMAGE_URI = "/image";
+    public static final String NATION_URI = "/nation";
 
     // AUTHORITIES
     public static final String AUTH_UNVERIFIED = "UNVERIFIED";
