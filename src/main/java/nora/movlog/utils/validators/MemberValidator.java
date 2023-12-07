@@ -34,19 +34,11 @@ public class MemberValidator {
         Member member = memberRepository.findById(id).get();
 
         // nowPassword
-        if (dto.getNowPassword().isEmpty())
-            bindingResult.addError(new FieldError("dto", "nowPassword", NO_NOW_PASSWORD));
-        else if (!encoder.matches(dto.getNowPassword(), member.getPassword()))
+        if (!encoder.matches(dto.getNowPassword(), member.getPassword())) // 현재 비밀번호 불일치
             bindingResult.addError(new FieldError("dto", "nowPassword", NOT_EQUAL_PASSWORD_ERROR));
 
         // newPassword
-        if(dto.getNewPassword().isEmpty())
-            bindingResult.addError(new FieldError("dto", "newPassword", NO_NEW_PASSWORD));
-        else if (dto.getNewPasswordCheck().isEmpty())
-            bindingResult.addError(new FieldError("dto", "newPasswordCheck", NO_NEW_PASSWORD_CHECK));
-        else if (!dto.getNewPassword().equals(dto.getNewPasswordCheck()))
-            bindingResult.addError(new FieldError("dto", "newPasswordCheck", NOT_EQUAL_PASSWORD_ERROR));
-        else if (encoder.matches(dto.getNewPassword(), member.getPassword()))
+        if (encoder.matches(dto.getNewPassword(), member.getPassword())) // 새 비밀번호가 현재 비밀번호와 같음
             bindingResult.addError(new FieldError("dto", "newPassword", SAME_PASSWORD_ERROR));
 
         return bindingResult;
@@ -56,14 +48,8 @@ public class MemberValidator {
         Member member = memberRepository.findById(id).get();
 
         // nowPassword
-        if (dto.getNowPassword().isEmpty())
-            bindingResult.addError(new FieldError("dto", "nowPassword", NO_NOW_PASSWORD));
-        else if (!encoder.matches(dto.getNowPassword(), member.getPassword()))
+        if (!encoder.matches(dto.getNowPassword(), member.getPassword()))
             bindingResult.addError(new FieldError("dto", "nowPassword", NOT_EQUAL_PASSWORD_ERROR));
-
-        // nickname
-        if (dto.getNewNickname().isEmpty())
-            bindingResult.addError(new FieldError("requestDto", "nickname", NO_NICKNAME_ERROR));
 
         return bindingResult;
     }
@@ -71,13 +57,7 @@ public class MemberValidator {
     public BindingResult validateDelete(MemberDeleteDto dto, BindingResult bindingResult, long id) {
         Member member = memberRepository.findById(id).get();
 
-        if (dto.getPassword().isEmpty())
-            bindingResult.addError(new FieldError("dto", "password", NO_PASSWORD_ERROR));
-        else if (dto.getPasswordCheck().isEmpty())
-            bindingResult.addError(new FieldError("dto", "passwordCheck", NO_PASSWORD_CHECK_ERROR));
-        else if (!dto.getPassword().equals(dto.getPasswordCheck()))
-            bindingResult.addError(new FieldError("dto", "passwordCheck", NOT_SAME_PASSWORD_CHECK_ERROR));
-        else if (!encoder.matches(dto.getPassword(), member.getPassword()))
+        if (!encoder.matches(dto.getPassword(), member.getPassword()))
             bindingResult.addError(new FieldError("dto", "password", NOT_EQUAL_PASSWORD_ERROR));
 
         return bindingResult;
