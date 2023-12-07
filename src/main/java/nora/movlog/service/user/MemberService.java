@@ -114,7 +114,7 @@ public class MemberService {
 
         if (dto.getNewPassword() == null) // 닉네임 수정
             member.edit(member.getPassword(), dto.getNewNickname());
-        else // 비밀번호 수정
+        else                              // 비밀번호 수정
             member.edit(encoder.encode(dto.getNewPassword()), member.getNickname());
     }
 

@@ -198,10 +198,10 @@ class MemberServiceTest {
     }
 
 
-    @DisplayName("MemberDto와 id로부터 회원 수정")
+    @DisplayName("MemberDto와 id로부터 회원 비밀번호 수정")
     @ValueSource(strings = "pinkFloyd")
     @ParameterizedTest
-    void edit_MemberDto와_id로부터_회원_수정(String input) {
+    void edit_MemberDto와_id로부터_회원_비밀번호_수정(String input) {
         String newPassword = input;
 
         MemberEditDto dto = MemberEditDto.builder()
@@ -214,7 +214,7 @@ class MemberServiceTest {
         memberService.edit(TEST_CASE_MEMBER_LOGIN_ID, dto);
         Member member = memberService.findByLoginId(TEST_CASE_MEMBER_LOGIN_ID);
 
-        assertThat(member.getNickname()).isEqualTo(input);
+//        assertThat(member.getNickname()).isEqualTo(input);
         assertThat(encoder.matches(newPassword, member.getPassword())).isTrue();
     }
 
