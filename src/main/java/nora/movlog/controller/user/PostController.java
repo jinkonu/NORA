@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import static nora.movlog.utils.constant.StringConstant.*;
 
@@ -68,17 +67,10 @@ public class PostController {
     }
 
 
-    // 이미지 읽기
-    @ResponseBody
-    @GetMapping(IMAGE_URI + "/{fileName}")
-    public String readImage(@PathVariable String fileName) throws MalformedURLException {
-        return imageService.getImageUrl(fileName);
-    }
-
-
     // 이미지 다운로드
-    @GetMapping(IMAGE_URI + "/download/{postId}")
-    public ResponseEntity<UrlResource> downloadImage(@PathVariable long postId) throws MalformedURLException {
+    @ResponseBody
+    @GetMapping(ID_URI + IMAGE_URI)
+    public ResponseEntity<UrlResource> downloadImage(@PathVariable(name = "id") long postId) {
         return imageService.download(postId);
     }
 }
