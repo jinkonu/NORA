@@ -113,31 +113,6 @@
 
             <!-- center body -->
             <div class="center_body">
-                <div class="user_banner">
-                    <div class="user_profile">
-                        <div class="user_profile_img">
-                            <img src="/img/example_profile_img.svg" alt="img"/>
-                        </div>
-                        <div class="user_profile_info">
-                            <div class="user_profile_info_name" th:text="${profileMember.nickname}"></div>
-                            <div class="user_profile_info_account" th:text="${profileMember.loginId}"></div>
-                        </div>
-                    </div>
-                    <div class="user_data">
-                        <div class="user_count" id="post_count">
-                            <div>게시물</div>
-                            <div class="user_count_data" th:text="${#lists.size(posts)}"></div>
-                        </div>
-                        <div class="user_count" id="follower_count">
-                            <div>팔로워</div>
-                            <div class="user_count_data" th:text="${profileMember.followerCnt}"></div>
-                        </div>
-                        <div class="user_count" id="following_count">
-                            <div>팔로우</div>
-                            <div class="user_count_data" th:text="${profileMember.followingCnt}"></div>
-                        </div>
-                    </div>
-                </div>
                 <div id="user_body">
                     <div class="horizontal_line"></div>
                     <div class="current_post">
