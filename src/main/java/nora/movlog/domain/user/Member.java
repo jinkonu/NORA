@@ -48,6 +48,9 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<Likes> likes;
 
+    @OneToMany(mappedBy = "to", orphanRemoval = true)
+    private List<Notification> notifications;
+
 
     @ManyToMany
     @JoinTable(
