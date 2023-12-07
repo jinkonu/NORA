@@ -43,6 +43,14 @@
                         <div class="menu_button_text">닉네임 변경</div>
                     </button>
                 </div>
+                <div class="menu_element">
+                    <button class="menu_button" id="delete_btn" value="delete">
+                        <div class="menu_icon">
+                            <img src="/icons/Gear.svg" alt="Search"/>
+                        </div>
+                        <div class="menu_button_text">계정 삭제</div>
+                    </button>
+                </div>
             </div>
         </div>
     
@@ -114,6 +122,12 @@
               //let memberId = document.getElementById('user_id').value;
               //window.open('/' + urlParam + '/' + memberId, '_self');
               window.open('/' + urlParam, '_self');
+          }
+          if (current.value == "delete") {
+            let urlParam = "settings/delete";
+            //let memberId = document.getElementById('user_id').value;
+            //window.open('/' + urlParam + '/' + memberId, '_self');
+            window.open('/' + urlParam, '_self');
           }
       });
   }
