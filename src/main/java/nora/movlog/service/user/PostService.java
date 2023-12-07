@@ -42,7 +42,7 @@ public class PostService {
 
         if (dto.getImage() != null) {
             Image image = imageService.save(dto.getImage(), post);
-            post.setImage(image);
+            post.setImage(image, imageService.getImageUrl(image.getOriginalFileName()));
         }
 
         return post.getId();
@@ -110,10 +110,10 @@ public class PostService {
 
         if (dto.getNewImage() != null) {
             imageService.delete(post.getImage());
-            post.setImage(null);
+            post.setImage(null, null);
 
             Image image = imageService.save(dto.getNewImage(), post);
-            post.setImage(image);
+            post.setImage(image, imageService.getImageUrl(image.getOriginalFileName()));
         }
 
         return postId;

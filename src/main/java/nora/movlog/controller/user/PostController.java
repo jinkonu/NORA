@@ -7,7 +7,6 @@ import nora.movlog.service.user.ImageService;
 import nora.movlog.service.user.PostService;
 import nora.movlog.utils.MemberFinder;
 import nora.movlog.utils.dto.user.PostCreateRequestDto;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import static nora.movlog.utils.FileUtility.getFullPath;
 import static nora.movlog.utils.constant.StringConstant.*;
 
 @Slf4j
@@ -73,8 +71,8 @@ public class PostController {
     // 이미지 읽기
     @ResponseBody
     @GetMapping(IMAGE_URI + "/{fileName}")
-    public Resource readImage(@PathVariable String fileName) throws MalformedURLException {
-        return new UrlResource("file:" + getFullPath(fileName));
+    public String readImage(@PathVariable String fileName) throws MalformedURLException {
+        return imageService.getImageUrl(fileName);
     }
 
 

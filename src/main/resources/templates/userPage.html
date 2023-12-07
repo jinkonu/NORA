@@ -201,7 +201,7 @@
                                 <form th:method="get" th:action="@{/post/{postId}}" th:object="${post}">
                                     <div class="post_content_text" th:text="${post.body}"></div>
                                 </form>
-                                <img class="post_content_img" th:src="${post.image}">
+                                <img class="post_content_img" th:src="${post.imageUrl}">
 
                             </div>
                             <div class="post_footer">

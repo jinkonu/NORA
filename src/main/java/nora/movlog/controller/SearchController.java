@@ -35,10 +35,10 @@ public class SearchController {
     @GetMapping()
     public String search(@RequestParam(value = "movieQuery", required = false) String movieQuery,
                          @RequestParam(value = "memberQuery", required = false) String memberQuery,
-                         Authentication auth,
-                         Model model,
                          @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
-                         @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size) {
+                         @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
+                         Authentication auth,
+                         Model model) {
         if (movieQuery != null)
             model.addAttribute("movies", movieService.search(movieQuery, page, size));
 

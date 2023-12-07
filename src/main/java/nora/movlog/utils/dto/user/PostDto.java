@@ -4,17 +4,10 @@ import lombok.Builder;
 import lombok.Data;
 import nora.movlog.domain.user.Image;
 import nora.movlog.domain.user.Post;
-import nora.movlog.utils.FileUtility;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.net.URI;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
-
-import static nora.movlog.utils.FileUtility.getFullPath;
 
 @Builder
 @Data
@@ -44,7 +37,7 @@ public class PostDto implements Comparable<PostDto> {
     /* Image */
     private Image nowImage;
     private MultipartFile newImage;
-    private URI image;
+    private String imageUrl;
 
     /* Date */
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -61,20 +54,8 @@ public class PostDto implements Comparable<PostDto> {
                 .commentCnt(post.getCommentCnt())
                 .createdAt(formatter.format(post.getCreatedAt()))
                 .lastModifiedAt(formatter.format(post.getLastModifiedAt()))
-                .nowImage(post.getImage())
-                .image(toResource(post.getImage()))
+                .imageUrl(post.getImageUrl())
                 .build();
-    }
-
-    private static URI toResource(Image image) {
-        try {
-            URI uri = new UrlResource("file:" + getFullPath(image.getSavedFileName())).getURI();
-            System.out.println("image = " + uri);
-
-            return uri;
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     @Override

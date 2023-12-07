@@ -45,6 +45,7 @@ public class Post extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Image image;
+    private String imageUrl;
 
 
     /* 메서드 */
@@ -60,7 +61,8 @@ public class Post extends BaseEntity {
         this.likeCnt = likeCnt;
     }
 
-    public void setImage(Image image) {
+    public void setImage(Image image, String imageUrl) {
         this.image = image;
+        this.imageUrl = imageUrl;
     }
 }

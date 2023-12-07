@@ -172,7 +172,7 @@
                                 <form action="post/{postId}" method="get">
                                     <div class="post_content_text" th:field="${body}"></div>
                                 </form>
-                                <img class="post_content_img" src="${post.image}">
+                                <img class="post_content_img" th:src="${imageUrl}">
                             </div>
                             <div class="post_footer">
                                 <div class="post_footer_comments" id="post_comments">
