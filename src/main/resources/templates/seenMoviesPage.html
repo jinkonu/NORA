@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="/css/main_frame.css">
     <link rel="stylesheet" href="/css/left_menubar.css">
     <link rel="stylesheet" href="/css/right_trending.css">
-    <link rel="stylesheet" href="/css/center_body_search.css">
+    <link rel="stylesheet" href="/css/center_bookmark.css">
+    <link rel="stylesheet" href="/css/useful.css">
     <title>seenMoviesPage</title>
 
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -116,6 +117,7 @@
         
             <!-- center body -->
             <div class="center_body">
+                <div class="seen_header">내가 본 영화 리스트</div>
                 <div class="horizontal_line"></div>
                 <!-- 검색결과 띄우는 창 -->
                 <div id="search_body">
@@ -173,6 +175,18 @@
 
     <script src="../menu_control.js" type="text/javascript"></script>
     <script>
+
+        const movieSelect = document.querySelectorAll(".item");
+        for (let s of movieSelect) {
+            s.addEventListener("click", e => {
+                const current = e.currentTarget;
+                let urlParam = current.value;
+                console.log(urlParam);
+                console.log('/movie' + '/' + urlParam);
+                window.open('/movie' + '/' + urlParam, '_self');
+            });
+        }
+
         const searchEvent = document.querySelectorAll(".search_input");
         for (let s of searchEvent) {
             s.addEventListener('keyup', e => {
