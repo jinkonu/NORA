@@ -21,20 +21,20 @@ li {list-style: none;}
 
 .left_menubar {
     width: 300px;
-    height: 984px;
+    height: 1090px;
     border-right: 1px solid #000;
     /* background-color: aqua; */
 }
 
 .center_body {
     width: 796px;
-    height: 984px;
+    height: 1090px;
     /* background-color: blueviolet; */
 }
 
 .right_trending {
     width: 466px;
-    height: 984px;
+    height: 1090px;
     border-left: 1px solid #000;
     /* background-color: brown; */
 }
