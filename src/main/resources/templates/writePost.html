@@ -12,7 +12,11 @@
 </head>
 
 <body>
-  <input type="text" id="tag" name="tag">
+  <input type="text" id="tag1" name="tag" class="tag-input" placeholder="태그 입력" maxlength="6"> <!-- 최대 글자 수 6개 -->
+  <input type="text" id="tag2" name="tag" class="tag-input" maxlength="6">
+  <input type="text" id="tag3" name="tag" class="tag-input" maxlength="6">
+  <input type="text" id="tag4" name="tag" class="tag-input" maxlength="6">
+  <input type="text" id="tag5" name="tag" class="tag-input" maxlength="6">
   <button type="button" id="sendTag">Send Tag</button>
 
   <form method="post" th:action="@{/post}" th:object="${postDto}" enctype="multipart/form-data">
