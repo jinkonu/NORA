@@ -272,24 +272,24 @@
                     document.getElementById('sendTag').addEventListener('click', function() {
                         var tag = document.getElementById('tag').value;
                         alert('태그 : ' + tag); // 태그를 제대로 받았는지 확인.
-                      
+                    
                         fetch('/post/chatgpt', {
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/json',
-                          },
-                          body: JSON.stringify({
-                            movieId: movieId,
-                            keywords: [tag]
-                          }),
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                movieId: movieId,
+                                keywords: [tag]
+                            }),
                         })
-                        .then(response => response.json())
+                        .then(response => response.text())  // Change response.json() to response.text()
                         .then(data => {
-                          // Update the textarea with the server's response
-                          document.querySelector('.Posttextarea').value = data;
+                            // Update the textarea with the server's response
+                            document.querySelector('.Posttextarea').value = data;
                         })
                         .catch(error => console.error('Error:', error));
-                    });   
+                    });                    
                 });
         }
         
