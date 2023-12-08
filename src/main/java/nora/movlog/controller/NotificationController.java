@@ -1,6 +1,7 @@
 package nora.movlog.controller;
 
 import lombok.RequiredArgsConstructor;
+import nora.movlog.service.user.MemberService;
 import nora.movlog.service.user.NotificationService;
 import nora.movlog.utils.MemberFinder;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import static nora.movlog.utils.constant.StringConstant.*;
 public class NotificationController {
 
     private final NotificationService notificationService;
+    private final MemberService memberService;
 
 
 
@@ -27,7 +29,9 @@ public class NotificationController {
                                     Model model,
                                     Authentication auth) {
         String loginId = MemberFinder.getLoginId(auth);
+
         model.addAttribute("notifications", notificationService.findAll(loginId, page, size));
+        model.addAttribute("loginMember", memberService.findByLoginId(loginId));
 
         return "notificationPage";
     }

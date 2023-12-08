@@ -42,7 +42,7 @@ public class PostService {
 
         Post post = postRepository.save(dto.toEntity(member, movie));
 
-        if (dto.getImage() != null) {
+        if (!dto.getImage().isEmpty()) {
             Image image = imageService.save(dto.getImage(), post);
             post.setImage(image, imageService.getImageUrl(image.getOriginalFileName()));
         }

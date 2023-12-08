@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/left_menubar.css">
     <link rel="stylesheet" href="/css/right_trending.css">
     <link rel="stylesheet" href="/css/center_body_search.css">
-    <title>Search</title>
+    <title>notificationPage</title>
 
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -33,9 +33,9 @@
                         </button>
                     </div>
                     <div class="menu_element">
-                        <button class="menu_button" id="notification_btn" value="notification">
+                        <button class="menu_button" id="notification_btn" value="notifications">
                             <div class="menu_icon">
-                                <img src="/icons/Heart.svg" alt="notification"/>
+                                <img src="/icons/Heart.svg" alt="notifications"/>
                             </div>
                             <div class="menu_button_text">알림</div>
                         </button>
@@ -88,14 +88,14 @@
                             <div class="profile_img">
                                 <img src="/img/example_profile_img.svg" alt="img"/>
                             </div>
-                            <div class="user_info">
+                            <!-- <div class="user_info">
                                 <div class="user_info_name" th:text="${loginMember.nickname}">
                                     김익명
                                 </div>
                                 <div class="user_info_account" th:text="${loginMember.loginId}">
                                     @anonymouskim123
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="more">
                             <img src="/icons/DotsThree.svg" alt="more"/>
@@ -109,71 +109,37 @@
                     <!-- 로그아웃 버튼 임시 추가 -->
 
                     <!-- 유저 아이디 저장용 태그 -->
-                    <button id="user_id" th:value="${loginMember.id}"></button>
+                    <!-- <button id="user_id" th:value="${loginMember.id}"></button> -->
 
                 </div>
             </div>
         
             <!-- center body -->
             <div class="center_body">
-                <div id="search_header">
-                    <div id="inner_search_header">
-                        <select id="subject">
-                            <option value="movieQuery">Movie</option>
-                            <option value="memberQuery">User</option>
-                        </select>
-                        <div class="right_search">
-                            <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
-                            <input type="text" class="search_input" placeholder="검색">
-                        </div>
-
-                    </div>
-                    <div class="title">검색결과</div>
-                </div>
+                <div class="horizontal_line"></div>
                 <!-- 검색결과 띄우는 창 -->
                 <div id="search_body">
-                    <th:block th:if="${members != null}">
+                    <th:block th:if="${notifications != null}">
                         <div id="items">
-                            <div th:each="member : ${members}">
-                                <button type="button" class="item" th:value="${member.id}">
+                            <div th:each="notification : ${notifications}">
+                                <button type="button" class="item" th:value="${notification.type}">
                                     <div class="item_contents">
-                                        <div class="item_main">
-                                            <div th:text="${member.nickname}"></div>
+                                        <div class="item_nation">
+                                            <div th:text="${notification.fromMemberNickname}"></div>
                                         </div>
-                                        <div class="item_nations">
-                                            <div class="item_nation" th:text="${member.loginId}"></div>
+                                        <div class="item_nation">
+                                            <div th:text="${notification.type}"></div>
                                         </div>
+                                        <div class="item_nation">
+                                            <div th:text="${notification.createdAt}"></div>
+                                        </div>
+                                        <!-- <div class="item_nations">
+                                            <div class="item_nation" th:text="${notification.to}"></div>
+                                        </div> -->
                                     </div>
                                 </button>
                             </div>
                         </div>
-                    </th:block>
-                    <th:block th:if="${movies != null}">
-                        <div id="items">
-                          <div th:each="movie : ${movies}">
-                            <button type="button" class="item" th:value="${movie.id}">
-                                <div class="item_contents">
-                                    <div class="item_main">
-                                        <div th:text="${movie.titleKo}"></div>
-                                        <div class="item_Year">
-                                            (
-                                            <div th:text="${movie.prdtYear}"></div>
-                                            )
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="item_nations">
-                                        <div class="item_nation" th:each="nation : ${movie.nations}">
-                                            <div th:text="${nation.id}"></div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                              </button>
-                          </div>
-                        </div>
-    
                     </th:block>
 
                 </div>
@@ -227,29 +193,6 @@
 
             });
         }
-
-        const movieSelect = document.querySelectorAll(".item");
-        for (let s of movieSelect) {
-            s.addEventListener("click", e => {
-              const current = e.currentTarget;
-              let Param = new URLSearchParams(location.search);
-              if (Param.get('movieQuery')) {
-                let urlParam = current.value;
-                console.log(urlParam);
-                console.log('/movie' + '/' + urlParam);
-                window.open('/movie' + '/' + urlParam, '_self');
-
-              }
-              else if (Param.get('memberQuery')) {
-                let urlParam = current.value;
-                console.log(urlParam);
-                console.log('/member' + '/' + urlParam);
-                window.open('/member' + '/' + urlParam, '_self');
-              }
-            });
-        }
-        
-
     </script>
 </body>
 </html>
