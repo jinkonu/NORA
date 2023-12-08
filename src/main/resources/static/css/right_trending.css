@@ -9,6 +9,17 @@
     padding: 32px 0px 0px 15px;
 }
 
+#inner_search_header {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+#subject {
+    padding: 12px;
+    border: 1px solid var(--gray-gray-10, #F2F2F2);
+}
+
 .right_search {
     display:flex;
     width: 424px;
