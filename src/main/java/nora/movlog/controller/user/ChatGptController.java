@@ -21,13 +21,6 @@ public class ChatGptController {
 
     @PostMapping
     public String sendQuestion(@RequestBody ChatGptQuestionDto requestDto) {
-        System.out.println("Waiting for chatgpt response...");
-        System.out.println(requestDto.getMovieId());
-        List<String> keywords = requestDto.getKeywords();
-        for(String keyword : keywords) {
-            System.out.println("keyword: " + keyword);
-        }
-        return "ChatGPT response";
-        // return chatGptService.askQuestion(requestDto).getChoices().get(0).getText();
+        return chatGptService.askQuestion(requestDto).getChoices().get(0).getText();
     }
 }
