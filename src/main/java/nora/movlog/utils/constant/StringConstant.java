@@ -124,6 +124,7 @@ public class StringConstant {
     public static final String DELETE_URI = "/delete";
     public static final String IMAGE_URI = "/image";
     public static final String NATION_URI = "/nation";
+    public static final String CHATGPT_URI = "/chatgpt";
 
     // AUTHORITIES
     public static final String AUTH_UNVERIFIED = "UNVERIFIED";
@@ -142,4 +143,11 @@ public class StringConstant {
 
     public static final String FOLLOWING = "following";
     public static final String FOLLOWER = "follower";
+
+    // CHATGPT
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String BEARER = "Bearer ";
+    public static final String MODEL = "text-davinci-003";
+    public static final String MEDIA_TYPE = "application/json; charset=UTF-8";
+    public static final String OPENAI_URL = "https://api.openai.com/v1/completions";
 }
