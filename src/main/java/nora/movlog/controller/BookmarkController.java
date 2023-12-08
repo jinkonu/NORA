@@ -56,4 +56,20 @@ public class BookmarkController {
 
         return "toSeeMoviesPage";
     }
+
+
+    /* DELETE */
+    @ResponseBody
+    @PostMapping("/{movieId}/seen/delete")
+    public void deleteSeenMovie(@PathVariable String movieId,
+                                Authentication auth) {
+        memberService.removeSeenMovie(MemberFinder.getLoginId(auth), movieId);
+    }
+
+    @ResponseBody
+    @PostMapping("/{movieId}/toSee/delete")
+    public void deleteToSeeMovie(@PathVariable String movieId,
+                                 Authentication auth) {
+        memberService.removeToSeeMovie(MemberFinder.getLoginId(auth), movieId);
+    }
 }

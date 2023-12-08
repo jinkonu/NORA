@@ -61,7 +61,6 @@ public class MovieService {
     }
 
 
-
     /* READ */
     // 문자열 기반 검색
     @Transactional
