@@ -16,12 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.UUID;
-
-import static nora.movlog.utils.FileUtility.getFullPath;
 
 @RequiredArgsConstructor
 @Service
@@ -42,14 +37,18 @@ public class ImageService {
         if (multipartFile.isEmpty()) return null;
 
         String originalFileName = multipartFile.getOriginalFilename();
-        String savedFileName = UUID.randomUUID() + "." + extractExt(originalFileName);
+        String savedFileName = getSavedFileNameFrom(originalFileName);
 
-        amazonS3.putObject(bucket, originalFileName, multipartFile.getInputStream(), getMetadataFrom(multipartFile));
+        amazonS3.putObject(bucket, savedFileName, multipartFile.getInputStream(), getMetadataFrom(multipartFile));
         return imageRepository.save(Image.builder()
                 .originalFileName(originalFileName)
                 .savedFileName(savedFileName)
                 .post(post)
                 .build());
+    }
+
+    private String getSavedFileNameFrom(String originalFileName) {
+        return UUID.randomUUID() + "." + extractExt(originalFileName);
     }
 
     private ObjectMetadata getMetadataFrom(MultipartFile multipartFile) {
@@ -70,9 +69,9 @@ public class ImageService {
         Post post = postRepository.findById(postId).get();
         if (post.getImage() == null) return null;
 
-        String originalFileName = post.getImage().getOriginalFileName();
-        UrlResource urlResource = new UrlResource(amazonS3.getUrl(bucket, originalFileName));
-        String contentDisposition = "attachment; filename=\"" + originalFileName + "\"";
+        String savedFileName = post.getImage().getSavedFileName();
+        UrlResource urlResource = new UrlResource(amazonS3.getUrl(bucket, savedFileName));
+        String contentDisposition = "attachment; filename=\"" + savedFileName + "\"";
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
@@ -86,8 +85,8 @@ public class ImageService {
 
     /* DELETE */
     @Transactional
-    public void delete(Image image) throws IOException {
+    public void delete(Image image) {
+        amazonS3.deleteObject(bucket, image.getSavedFileName());
         imageRepository.delete(image);
-        Files.deleteIfExists(Paths.get(getFullPath(image.getSavedFileName())));
     }
 }

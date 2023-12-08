@@ -17,6 +17,8 @@ public class Nation {
     @Id
     private String id;      // DB ID - iso-3166 code
 
+    private String name;
+
 
     /* 도메인 로직 */
     public static Set<Nation> of(Set<String> ids) {
@@ -25,5 +27,9 @@ public class Nation {
                         .id(id)
                         .build())
                 .collect(Collectors.toSet());
+    }
+
+    public void edit(String name) {
+        this.name = name;
     }
 }

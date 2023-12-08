@@ -36,4 +36,9 @@ public class NumberConstant {
 
     // NOTIFICATION
     public static final int BIGGER = 1;
+
+    // CHATGPT
+    public static final int MAX_TOKEN = 600;
+    public static final double TEMPERATURE = 0.0;
+    public static final double TOP_P = 1.0;
 }
