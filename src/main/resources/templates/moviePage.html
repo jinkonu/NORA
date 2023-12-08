@@ -268,11 +268,15 @@
                 .then(data => {
                     document.getElementById('modalBody').innerHTML = data;
                     document.getElementById('myModal').style.display = 'block';
-
-                    document.getElementById('sendTag').addEventListener('click', function() {
-                        var tag = document.getElementById('tag').value;
-                        alert('태그 : ' + tag); // 태그를 제대로 받았는지 확인.
                     
+                    document.getElementById('sendTag').addEventListener('click', function() {
+                        var tags = document.querySelectorAll('.tag-input');
+                        var keywords = [];
+                        tags.forEach(function(tag) {
+                          if(tag.value!="")
+                            keywords.push(tag.value);
+                        });
+
                         fetch('/post/chatgpt', {
                             method: 'POST',
                             headers: {
@@ -280,13 +284,16 @@
                             },
                             body: JSON.stringify({
                                 movieId: movieId,
-                                keywords: [tag]
+                                keywords: keywords
                             }),
                         })
                         .then(response => response.text())  // Change response.json() to response.text()
                         .then(data => {
                             // Update the textarea with the server's response
                             document.querySelector('.Posttextarea').value = data;
+                            tags.forEach(function(tag) {
+                              tag.value="";
+                            });
                         })
                         .catch(error => console.error('Error:', error));
                     });                    
