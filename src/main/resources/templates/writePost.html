@@ -32,25 +32,6 @@
   </form>
 
   <script>
-    document.getElementById('sendTag').addEventListener('click', function() {
-      var tag = document.getElementById('tag').value;
-    
-      fetch('/post/chatgpt', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          keywords: [tag]
-        }),
-      })
-      .then(response => response.json())
-      .then(data => {
-        // Update the textarea with the server's response
-        document.querySelector('.Posttextarea').value = data;
-      })
-      .catch(error => console.error('Error:', error));
-    });    
   </script>
 </body>
 </html>
