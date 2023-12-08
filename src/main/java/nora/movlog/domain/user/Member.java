@@ -109,7 +109,7 @@ public class Member implements UserDetails {
     }
 
     public void removeToSee(Movie movie) {
-        this.seenMovies.remove(movie);
+        this.toSeeMovies.remove(movie);
     }
 
 
