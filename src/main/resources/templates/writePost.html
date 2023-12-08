@@ -12,6 +12,9 @@
 </head>
 
 <body>
+  <input type="text" id="tag" name="tag">
+  <button type="button" id="sendTag">Send Tag</button>
+
   <form method="post" th:action="@{/post}" th:object="${postDto}" enctype="multipart/form-data">
     <!-- <div class="movie-title" th:text="${param.movieTitle} + '에 대한 제 생각은요..'"></div> -->
     <label th:for="movieId"></label>
@@ -20,12 +23,34 @@
     </label>
     <br/>
     <label>
-      <textarea th:field="*{body}" th:placeholder="${param.movieTitle} + '에 대해서 어떻게 생각하시나요?'" required></textarea>
+      <textarea class="Posttextarea" th:field="*{body}" th:placeholder="${param.movieTitle} + '에 대해서 어떻게 생각하시나요?'" required></textarea>
     </label>
     <label>
       <input type="file" th:field="*{image}" accept="image/*">
     </label>
     <button type="submit">POST</button>
   </form>
+
+  <script>
+    document.getElementById('sendTag').addEventListener('click', function() {
+      var tag = document.getElementById('tag').value;
+    
+      fetch('/post/chatgpt', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          keywords: [tag]
+        }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Update the textarea with the server's response
+        document.querySelector('.Posttextarea').value = data;
+      })
+      .catch(error => console.error('Error:', error));
+    });    
+  </script>
 </body>
 </html>
