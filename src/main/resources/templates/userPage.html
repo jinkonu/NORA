@@ -193,8 +193,19 @@
                                 </div>
         
                                 <!-- 게시글 삭제와 같은 기능 이용할 수 있는 아이콘 -->
-                                <div class="post_setting">
+                                <div class="post_setting_self">
                                     <img src="/icons/DotsThree.svg" alt="settings">
+                                    <div class="post_setting_self_pop">
+                                        <div class="post_setting_text">삭제하기</div>
+                                        <span class="post_id" th:text="${post.id}"></span>
+                                    </div>
+                                </div>
+                                <div class="post_setting_else">
+                                    <img src="/icons/DotsThree.svg" alt="settings">
+                                    <div class="post_setting_else_pop">
+                                        <div class="post_setting_text">신고하기</div>
+                                        <span class="post_id" th:text="${post.id}"></span>
+                                    </div>
                                 </div>
 
                             </div>
@@ -270,6 +281,11 @@
                     //console.log("user == page owner")
                     let follow_btn = document.querySelector('.follow_controller');
                     follow_btn.style.display = 'none';
+
+                    let settings = document.querySelectorAll('.post_setting_self');
+                    for (s of settings) {
+                        s.style.display = 'block';
+                    }
                 }
                 else {
                         //follow중인지 체크
@@ -305,6 +321,13 @@
                         .catch(error => {
                             console.log("에러: ", error);
                         });
+
+
+
+                        let settings = document.querySelectorAll('.post_setting_else');
+                        for (s of settings) {
+                            s.style.display = 'block';
+                        }
                     }
             })
             .catch(error => {
@@ -458,6 +481,100 @@
                 .catch(error => {
                     console.log("Error: ", error);
                 });
+            });
+        }
+
+        // post delete
+        let deleteEvent = document.querySelectorAll(".post_setting_self");
+        for (let s of deleteEvent) {
+            s.addEventListener('click', e => {
+                const current = e.currentTarget;
+                const deleteActionKey = current.querySelector('.post_setting_self_pop');
+                deleteActionKey.style.display = 'block';
+                e.stopPropagation(); // 이벤트 버블링 중단
+
+            });
+        }
+        document.addEventListener("click", e => {
+            const deleteEvent = document.querySelectorAll(".post_setting_self");
+            for (let s of deleteEvent) {
+                const deleteActionKey = s.querySelector('.post_setting_self_pop');
+                deleteActionKey.style.display = 'none';
+            }
+        })
+        let deleteEvent_ = document.querySelectorAll(".post_setting_else");
+        for (let s of deleteEvent_) {
+            s.addEventListener('click', e => {
+                const current = e.currentTarget;
+                const deleteActionKey = current.querySelector('.post_setting_else_pop');
+                deleteActionKey.style.display = 'block';
+                e.stopPropagation(); // 이벤트 버블링 중단
+
+            });
+        }
+        document.addEventListener("click", e => {
+            const deleteEvent = document.querySelectorAll(".post_setting_else");
+            for (let s of deleteEvent) {
+                const deleteActionKey = s.querySelector('.post_setting_else_pop');
+                deleteActionKey.style.display = 'none';
+            }
+        })
+
+        /* delete event */
+        const deletePostEvent = document.querySelectorAll(".post_setting_self_pop");
+        for (let s of deletePostEvent) {
+            s.addEventListener('click', e => {
+                e.stopPropagation(); // 클릭 이벤트 전파 중단
+                let postId = s.querySelector('span').innerText;
+                let apiURL = '/post/' + postId + '/delete';
+                console.log(apiURL);
+                fetch (apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                    console.log("Server response: ", data);
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                });
+
+            });
+        }
+
+        /* report event */
+        const reportPostEvent = document.querySelectorAll(".post_setting_else_pop");
+        for (let s of reportPostEvent) {
+            s.addEventListener('click', e => {
+                e.stopPropagation(); // 클릭 이벤트 전파 중단
+                let postId = s.querySelector('span').innerText;
+                let apiURL = '/post/' + postId + '/report';
+                console.log(apiURL);
+                fetch (apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                    console.log("Server response: ", data);
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                });
+
             });
         }
         
