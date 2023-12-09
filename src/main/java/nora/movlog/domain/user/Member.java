@@ -51,6 +51,9 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "to", orphanRemoval = true)
     private List<Notification> notifications;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private Image image;
+
 
     @ManyToMany
     @JoinTable(
