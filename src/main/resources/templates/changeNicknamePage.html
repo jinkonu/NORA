@@ -44,6 +44,14 @@
                     </button>
                 </div>
                 <div class="menu_element">
+                    <button class="menu_button" id="profilepic_btn" value="profilepic">
+                        <div class="menu_icon">
+                            <img src="/icons/Gear.svg" alt="Search"/>
+                        </div>
+                        <div class="menu_button_text">프로필 사진 변경</div>
+                    </button>
+                </div>
+                <div class="menu_element">
                     <button class="menu_button" id="delete_btn" value="delete">
                         <div class="menu_icon">
                             <img src="/icons/Gear.svg" alt="Search"/>
@@ -125,6 +133,12 @@
           }
           if (current.value == "delete") {
             let urlParam = "settings/delete";
+            //let memberId = document.getElementById('user_id').value;
+            //window.open('/' + urlParam + '/' + memberId, '_self');
+            window.open('/' + urlParam, '_self');
+          }
+          if (current.value == "profilepic") {
+            let urlParam = "settings/profilepic";
             //let memberId = document.getElementById('user_id').value;
             //window.open('/' + urlParam + '/' + memberId, '_self');
             window.open('/' + urlParam, '_self');
