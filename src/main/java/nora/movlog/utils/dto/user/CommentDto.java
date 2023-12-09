@@ -18,6 +18,7 @@ public class CommentDto {
     /* Member */
     private String memberLoginId;
     private String memberNickname;
+    private String memberImageUrl;
 
     /* Post */
     private long postId;
@@ -28,6 +29,7 @@ public class CommentDto {
                 .body(comment.getBody())
                 .memberLoginId(comment.getMember().getLoginId())
                 .memberNickname(comment.getMember().getNickname())
+                .memberImageUrl(comment.getMember().getImageUrl())
                 .postId(comment.getPost().getId())
                 .build();
     }
