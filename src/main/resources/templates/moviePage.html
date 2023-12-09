@@ -251,6 +251,7 @@
                             <div class="post_footer_comments" id="post_comments">
                                 <img src="/icons/ChatTeardropDots.svg" width="32" alt="comments"/>
                                 <div th:text="${post.commentCnt}"></div>
+                                <span class="post_id" th:text="${post.id}"></span>
                             </div>
                             <div class="post_footer_likes" id="post_likes">
                                 <img src="/icons/Likes.svg" width="32" alt="likes"/>
@@ -516,8 +517,38 @@
                 .catch(error => {
                     console.log("Error: ", error);
                 });
-        });
-    }
+            });
+        }
+
+        /* 게시물 댓글 수도 마찬가지 포스트 페이지로 */
+        let movePostEvent_comment = document.querySelectorAll(".post_footer_comments");
+            for (let t of movePostEvent_comment) {
+                t.addEventListener("click", move_post => {
+                    let postId = t.querySelector('span').innerText;
+                    let apiURL = '/post/' + postId;
+                    console.log(apiURL);
+                    fetch (apiURL, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            //'Cookie': document.cookie
+                        },
+
+                    })
+                    .then(response => {
+                        console.log(response);
+                        if (apiURL == '/post/' + postId) {
+                           window.location.href = apiURL;
+                        }
+                    })
+                    .then(data => {
+                        console.log("Server response: ", data);
+                    })
+                    .catch(error => {
+                        console.log("Error: ", error);
+                    });
+            });
+        }
 
         /* 게시글 마다 자신이 좋아요 눌렀는지 확인 */
         document.addEventListener("DOMContentLoaded", function() {
