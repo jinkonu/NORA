@@ -165,8 +165,8 @@
                 </div>
                 <div class="horizontal_line"></div>
                 <div id="post_reply">
-                    <div class="reply_profile_img">
-                        <img src="/img/example_profile_img.svg" alt="img"/>
+                    <div class="reply_profile_img" >
+                        <img th:src="${loginMember.ImageUrl}" alt="img"/>
                     </div>
                     <!-- 댓글 폼 처리 방식을 결정해야 함(창이나 페이지로 만들지, 백으로 내용 전달 방식) -->
                     <form name="reply_form" th:method="post" th:action="@{/comment/{postId}(postId=${postId})}">
