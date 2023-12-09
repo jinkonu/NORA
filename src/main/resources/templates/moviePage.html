@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/left_menubar.css">
     <link rel="stylesheet" href="/css/right_trending.css">
     <link rel="stylesheet" href="/css/center_body_movie.css">
+    <link rel="stylesheet" href="/css/post_layout.css">
     <link rel="stylesheet" href="/css/modal_body.css">
     <title>MoviePage</title>
 
@@ -208,6 +209,56 @@
                     </div>
 
                 </div>
+                <div class="user_posts">
+                    <div class="movie_post" th:each="post : ${posts}">
+                        <div class="post_header_container">
+                            <div class="post_header">
+                                <div class="post_member_img">
+                                    <img src="/img/example_profile_img.svg" alt="img">
+                                </div>
+                                <div class="post_infos">
+                                    <div class="post_info">
+                                        <div class="post_member" th:text="${post.memberNickname}"></div>
+                                        <div class="post_member_id" th:text="${post.memberLoginId}"></div>
+                                        <div class="post_time" th:text="${post.createdAt}"></div>
+    
+                                    </div>
+                                    <div class="post_info">
+                                        <div class="post_etc">on</div>
+                                        <div class="post_movie" th:text="${post.movieTitle}"></div>
+                                    </div>
+                                </div>
+    
+                            </div>
+    
+                            <!-- 게시글 삭제와 같은 기능 이용할 수 있는 아이콘 -->
+                            <div class="post_setting">
+                                <img src="/icons/DotsThree.svg" alt="settings">
+                            </div>
+
+                        </div>
+                        <div class="post_content">
+                            <form th:method="get" th:action="@{/post/{postId}}" th:object="${post}">
+                                <div class="post_content_text" th:text="${post.body}"></div>
+                            </form>
+                            <img class="post_content_img" th:src="${post.imageUrl}">
+
+                        </div>
+                        <div class="post_footer">
+                            <div class="post_footer_comments" id="post_comments">
+                                <img src="/icons/ChatTeardropDots.svg" width="32" alt="comments"/>
+                                <div th:text="${post.commentCnt}"></div>
+                            </div>
+                            <div class="post_footer_likes" id="post_likes">
+                                <img src="/icons/Likes.svg" width="32" alt="likes"/>
+                                <span id="post_like" th:text="${post.likeCnt}"></span>
+                                <span id="post_id" th:text="${post.id}"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         
             <!-- right trending -->
@@ -431,6 +482,85 @@
               window.open('/movie' + '/' + urlParam, '_self');
             });
         }
+
+        /* 게시글 마다 자신이 좋아요 눌렀는지 확인 */
+        document.addEventListener("DOMContentLoaded", function() {
+            const likeElements = document.querySelectorAll(".post_footer_likes");
+
+            // 선택된 요소들에 대해 반복문 실행
+            likeElements.forEach(function(likeElement) {
+                const postId = likeElement.querySelector('#post_id').innerText;
+                let apiURL = '/likes/' + postId + '/check';
+
+                fetch(apiURL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+                })
+                .then(response => {
+                    console.log(response);
+                    return response.json();
+                })
+                .then(data => {
+                    if(data == true){
+                        var imgElement = likeElement.querySelector('img');
+                        imgElement.src = "/icons/Likes_Filled.svg";
+                        imgElement.alt = "likes_filled";
+                    }
+                })
+                .catch(error => {
+                    console.log("에러: ", error);
+                });
+            });
+        });
+
+
+        /* likes_control */
+        const likeEvent = document.querySelectorAll(".post_footer_likes");
+        for (let s of likeEvent) {
+            s.addEventListener("click", e => {
+                const current = e.currentTarget;
+                var imgElement = current.querySelector('img');
+                var likesElement = current.querySelector('#post_like');
+                var postId = current.querySelector('#post_id').innerText;
+
+                likes_cnt = parseInt(likesElement.innerText);
+                if (imgElement.alt == "likes") {
+                    imgElement.src = "/icons/Likes_Filled.svg";
+                    imgElement.alt = "likes_filled";
+                    likes_cnt = likes_cnt + 1;
+                    var apiURL = '/likes/' + postId + '/add';
+                }
+                else if (imgElement.alt == "likes_filled") {
+                    imgElement.src = "/icons/Likes.svg";
+                    imgElement.alt = "likes";
+                    likes_cnt = likes_cnt - 1;
+                    var apiURL = '/likes/' + postId + '/delete';
+                }
+                likesElement.innerText = likes_cnt;
+
+                fetch (apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                    console.log("Server response: ", data);
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                });
+            });
+        }
+
 
         var movieId = /*[[${movie.id}]]*/ 'defaultMovieId';
         var movieTitle = /*[[${movie.titleKo}]]*/ 'defaultMovieId';
