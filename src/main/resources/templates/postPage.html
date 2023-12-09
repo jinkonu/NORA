@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/center_body_user.css">
     <link rel="stylesheet" href="/css/useful.css">
     <link rel="stylesheet" href="/css/post_layout.css">
+    <link rel="stylesheet" href="/css/comment_layout.css">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
     <title>postPage</title>
@@ -164,36 +165,44 @@
                     </div>
                 </div>
                 <div class="horizontal_line"></div>
-                <div id="post_reply">
-                    <div class="reply_profile_img" >
+                <div id="write_comment">
+                    <div class="comment_member_img" >
                         <img th:src="${loginMember.ImageUrl}" alt="img"/>
                     </div>
                     <!-- 댓글 폼 처리 방식을 결정해야 함(창이나 페이지로 만들지, 백으로 내용 전달 방식) -->
-                    <form name="reply_form" th:method="post" th:action="@{/comment/{postId}(postId=${postId})}">
-                        <input type="text" class="reply_input" placeholder="댓글을 작성하여 주세요.">
-                        <input type="submit" class="reply_submit" placeholder="게시">
+                    <form name="comment_form" class="comment_form" th:method="post" th:action="@{/comment/{postId}(postId=${postId})}">
+                        <input type="text" class="comment_input" placeholder="댓글을 작성하여 주세요.">
+                        <input type="submit" class="comment_submit" placeholder="게시">
                     </form>
                 </div>
                 <div class="horizontal_line"></div>
-                <div id="post_replies">
-                    <div class="replies" th:each="comment : ${comments}">
-                        <div class="reply_header">
-                            <div class="reply_member_img">
-                                <img th:src="${comment.memberImageUrl}" alt="img">
-                            </div>
-                            <div class="reply_info">
-                                    <div class="reply_member" th:text="${comment.memberNickname}"></div>
-                                    <div class="reply_member_id" th:text="${comment.memberLoginId}"></div>
-                                    <div class="reply_time" th:text="${comment.createdAt}"></div>
-                            </div>
-                            <!-- 자신의 댓글만 삭제 옵션 만들기-->
-                            <div class="reply_setting">
-                                <img src="/icons/DotsThree.svg" alt="settings">
+                <div id="user_comments">
+                    <div class="movie_comment" th:each="comment : ${comments}">
+                        <div class="comment_header_container">
+                            <div class="comment_header">
+                                <div class="comment_member_img">
+                                    <img th:src="${comment.memberImageUrl}" alt="img">
+                                </div>
+
+                                <div class="comment_info">
+                                    <div class="comment_member" th:text="${comment.memberNickname}"></div>
+                                    <div class="comment_member_id" th:text="${comment.memberLoginId}"></div>
+                                    <div class="comment_time" th:text="${comment.createdAt}"></div>
+                                </div>
                             </div>
 
+                            <!-- 댓글 설정 -->
+                            <div class="comment_setting_self">
+                                <img src="/icons/DotsThree.svg" alt="settings">
+                                <div class="comment_setting_self_pop">
+                                    <div class="comment_setting_text">삭제하기</div>
+                                    <span class="comment_id" th:text="${comment.id}"></span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="reply_content">
-                            <div class="reply_content_text" th:text="${comment.body}"></div>
+
+                        <div class="comment_content">
+                            <div class="comment_content_text" th:text="${comment.body}"></div>
                         </div>
                     </div>
                 </div>
