@@ -98,6 +98,11 @@ public class PostService {
                 .toList();
     }
 
+    public boolean isWrittenFrom(String memberLoginId, long postId) {
+        return postRepository.findById(postId).get().getMember().getLikes()
+                .equals(memberLoginId);
+    }
+
 
 
     /* UPDATE */
@@ -121,6 +126,11 @@ public class PostService {
         return postId;
     }
 
+    @Transactional
+    public void report(long postId) {
+        postRepository.findById(postId).get().isReported();
+    }
+
 
 
     /* DELETE */
@@ -129,6 +139,8 @@ public class PostService {
         Optional<Post> optPost = postRepository.findById(postId);
 
         if (optPost.isEmpty()) return null;
+
+
 
         if (optPost.get().getImage() != null)
             imageService.delete(optPost.get().getImage());
