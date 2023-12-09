@@ -151,7 +151,16 @@
     scrollbar-width: none; /* 파이어폭스 */
 }
 
-#search_body::-webkit-scrollbar {
-    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+.user_posts{
+    display: flex;
+    flex-direction: column;
+    width: 796px;
+    overflow-y: auto;
+    
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
 }
 
+.user_posts::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
