@@ -116,6 +116,26 @@ public class SettingsController {
         return "profilepic";
     }
 
+    @PostMapping(PROFILE_PIC_URI)
+    public void changeProfilePic(Authentication auth,
+                                 @ModelAttribute MemberEditDto dto,
+                                 HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+
+        if (dto.getImage().getOriginalFilename().isEmpty()) {
+            out.println("<script> alert('프로필 사진 변경에 실패했습니다.'); location.href='" + SETTINGS_URI + PROFILE_PIC_URI + "' </script>");
+        }
+
+        else {
+            memberService.setProfilePic(MemberFinder.getLoginId(auth), dto.getImage());
+            out.println("<script> alert('프로필 사진 변경에 성공했습니다.'); location.href='" + SETTINGS_URI + PROFILE_PIC_URI + "' </script>");
+        }
+
+        out.close();
+    }
+
 
     // 계정 삭제
     @GetMapping(DELETE_URI)

@@ -3,6 +3,7 @@ package nora.movlog.service.user;
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Movie;
 import nora.movlog.domain.user.Comment;
+import nora.movlog.domain.user.Image;
 import nora.movlog.domain.user.Likes;
 import nora.movlog.domain.user.Member;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
@@ -15,7 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 import static nora.movlog.utils.constant.StringConstant.*;
@@ -28,6 +31,9 @@ public class MemberService {
     private final LikesRepository likesRepository;
     private final CommentRepository commentRepository;
     private final BCryptPasswordEncoder encoder;
+    private final ImageService imageService;
+
+
 
     /* CREATE */
     @Transactional
@@ -118,6 +124,13 @@ public class MemberService {
             member.edit(encoder.encode(dto.getNewPassword()), member.getNickname());
     }
 
+    @Transactional
+    public void setProfilePic(String loginId, MultipartFile multipartFile) throws IOException {
+        Member member = memberRepository.findByLoginId(loginId).get();
+
+        Image image = imageService.saveProfiePicImage(multipartFile, member);
+        member.setProfilePic(image, imageService.getImageUrl(image));
+    }
 
 
     /* DELETE */

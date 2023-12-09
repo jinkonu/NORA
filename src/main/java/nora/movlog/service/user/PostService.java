@@ -43,8 +43,8 @@ public class PostService {
         Post post = postRepository.save(dto.toEntity(member, movie));
 
         if (!dto.getImage().getOriginalFilename().isEmpty()) {
-            Image image = imageService.save(dto.getImage(), post);
-            post.setImage(image, imageService.getImageUrl(image.getSavedFileName()));
+            Image image = imageService.savePostImage(dto.getImage(), post);
+            post.setImage(image, imageService.getImageUrl(image));
         }
 
         return post.getId();
@@ -119,8 +119,8 @@ public class PostService {
             imageService.delete(post.getImage());
             post.setImage(null, null);
 
-            Image image = imageService.save(dto.getNewImage(), post);
-            post.setImage(image, imageService.getImageUrl(image.getOriginalFileName()));
+            Image image = imageService.savePostImage(dto.getNewImage(), post);
+            post.setImage(image, imageService.getImageUrl(image));
         }
 
         return postId;

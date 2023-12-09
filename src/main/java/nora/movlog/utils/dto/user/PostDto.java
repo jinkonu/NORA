@@ -27,6 +27,7 @@ public class PostDto implements Comparable<PostDto> {
     /* Member */
     private String memberLoginId;
     private String memberNickname;
+    private String memberImageUrl;
 
     /* Like */
     private int likeCnt;
@@ -50,6 +51,7 @@ public class PostDto implements Comparable<PostDto> {
                 .movieTitle(post.getMovie().getTitleKo())
                 .memberLoginId(post.getMember().getLoginId())
                 .memberNickname(post.getMember().getNickname())
+                .memberImageUrl(post.getMember().getImageUrl())
                 .likeCnt(post.getLikeCnt())
                 .commentCnt(post.getCommentCnt())
                 .createdAt(formatter.format(post.getCreatedAt()))

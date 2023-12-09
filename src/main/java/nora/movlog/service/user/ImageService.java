@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.user.Image;
+import nora.movlog.domain.user.Member;
 import nora.movlog.domain.user.Post;
 import nora.movlog.repository.user.ImageRepository;
 import nora.movlog.repository.user.PostRepository;
@@ -33,7 +34,17 @@ public class ImageService {
 
     /* CREATE */
     @Transactional
-    public Image save(MultipartFile multipartFile, Post post) throws IOException {
+    public Image savePostImage(MultipartFile multipartFile, Post post) throws IOException {
+        return save(multipartFile, post, null);
+    }
+
+    @Transactional
+    public Image saveProfiePicImage(MultipartFile multipartFile, Member member) throws IOException {
+        return save(multipartFile, null, member);
+    }
+
+    @Transactional
+    private Image save(MultipartFile multipartFile, Post post, Member member) throws IOException {
         if (multipartFile.isEmpty()) return null;
 
         String originalFileName = multipartFile.getOriginalFilename();
@@ -44,6 +55,7 @@ public class ImageService {
                 .originalFileName(originalFileName)
                 .savedFileName(savedFileName)
                 .post(post)
+                .member(member)
                 .build());
     }
 
@@ -78,8 +90,8 @@ public class ImageService {
                 .body(urlResource);
     }
 
-    public String getImageUrl(String fileName) {
-        return amazonS3.getUrl(bucket, fileName).toString();
+    public String getImageUrl(Image image) {
+        return amazonS3.getUrl(bucket, image.getSavedFileName()).toString();
     }
 
 
