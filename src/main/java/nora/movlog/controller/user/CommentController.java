@@ -31,7 +31,7 @@ public class CommentController {
                       Authentication auth) {
         commentService.write(dto, postId, ((UserDetails) auth.getPrincipal()).getUsername());
 
-        return "redirect:" + POST_URI + postId;
+        return "redirect:" + POST_URI + "/" + postId;
     }
 
 

@@ -169,7 +169,7 @@
                         <img src="/img/example_profile_img.svg" alt="img"/>
                     </div>
                     <!-- 댓글 폼 처리 방식을 결정해야 함(창이나 페이지로 만들지, 백으로 내용 전달 방식) -->
-                    <form name="reply_form" th:method="post" th:action="@{/comment/{postId}}">
+                    <form name="reply_form" th:method="post" th:action="@{/comment/{postId}(postId=${postId})}">
                         <input type="text" class="reply_input" placeholder="댓글을 작성하여 주세요.">
                         <input type="submit" class="reply_submit" placeholder="게시">
                     </form>
