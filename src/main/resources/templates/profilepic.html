@@ -66,11 +66,11 @@
         <div class="center_body">
           <div class="form-class">
             <h2>프로필 사진 변경</h2>
-            <form method="post" th:action="@{/settings/profilepic}" th:object="${postDto}" enctype="multipart/form-data">
+            <form method="post" th:action="@{/settings/profilepic}" th:object="${editDto}" enctype="multipart/form-data">
                 <label>
                   <input type="file" th:field="*{image}" accept="image/*">
                 </label>
-                <button type="submit">POST</button>
+                <button type="submit">변경사항 적용</button>
             </form>
           </div>
         </div>

@@ -32,6 +32,9 @@ public class SettingsController {
     private final MemberService memberService;
     private final MemberValidator memberValidator;
 
+
+
+    // 비밀번호 변경
     @GetMapping(PASSWORD_URI)
     public String changePassword(Authentication auth,
                                  Model model) {
@@ -65,6 +68,8 @@ public class SettingsController {
         }
     }
 
+
+    // 닉네임 변경
     @GetMapping(NICKNAME_URI)
     public String changeNickname(Authentication auth,
                                  Model model) {
@@ -100,6 +105,19 @@ public class SettingsController {
         }
     }
 
+
+    // 프로필 사진 변경
+    @GetMapping(PROFILE_PIC_URI)
+    public String profilePicPage(Authentication auth,
+                                 Model model) {
+        model.addAttribute("loginId", MemberFinder.getLoginId(auth));
+        model.addAttribute("editDto", MemberEditDto.builder().build());
+
+        return "profilepic";
+    }
+
+
+    // 계정 삭제
     @GetMapping(DELETE_URI)
     public String deletePage(Authentication auth,
                              Model model) {
