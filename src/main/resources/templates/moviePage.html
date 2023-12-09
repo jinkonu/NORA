@@ -91,7 +91,7 @@
                     <button class="profile">
                         <div class="account">
                             <div class="profile_img">
-                                <img src="/img/example_profile_img.svg" alt="img"/>
+                                <img th:src="${loginMember.imageUrl}" alt="img"/>
                             </div>
                             <div class="user_info">
                                 <div class="user_info_name" th:text="${loginMember.nickname}">
@@ -215,7 +215,7 @@
                         <div class="post_header_container">
                             <div class="post_header">
                                 <div class="post_member_img">
-                                    <img src="/img/example_profile_img.svg" alt="img">
+                                    <img th:src="${post.memberImageUrl}" alt="img"> <!-- 프로필 사진으로 변경 필요. -->
                                 </div>
                                 <div class="post_infos">
                                     <div class="post_info">

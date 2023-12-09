@@ -87,7 +87,7 @@
                     <button class="profile">
                         <div class="account">
                             <div class="profile_img">
-                                <img src="/img/example_profile_img.svg" alt="img"/>
+                                <img th:src="${loginMember.imageUrl}" alt="img"/>
                             </div>
                             <div class="user_info">
                                 <div class="user_info_name" th:text="${loginMember.nickname}">
