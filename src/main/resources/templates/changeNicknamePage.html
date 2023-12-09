@@ -83,14 +83,14 @@
             </form>
           </div>
         </div>
-    
+        
         <!-- right trending -->
         <div class="right_trending">
             <div class="right_trending_content">
                 <div id="inner_search_header">
-                    <select id="subject">
+                    <select class="subject">
                         <option value="movieQuery">Movie</option>
-                        <option value="userQuery">User</option>
+                        <option value="memberQuery">User</option>
                     </select>
                     <div class="right_search">
                         <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
@@ -131,6 +131,32 @@
           }
       });
   }
+
+  const searchEvent = document.querySelectorAll(".search_input");
+        for (let s of searchEvent) {
+            s.addEventListener('keyup', e => {
+                // querySelectorAll시 다시 객체 불러와야됨
+                const current = e.currentTarget;
+                if (e.keyCode == 13 && current.value !== null) {
+                    //let urlParam = new URLSearchParams(location.search);
+                    let urlParam = new URLSearchParams();
+
+                    const dropdown = current.closest("#inner_search_header").querySelector('.subject');
+                    const choose = dropdown.selectedIndex;
+                    if (choose == 1) {
+                        urlParam.set("memberQuery", current.value);
+                    }
+                    else {
+                        urlParam.set("movieQuery", current.value);
+                    }
+
+                    let new_urlParam = urlParam.toString();
+                    window.open('/search' + '?' + new_urlParam, '_self');
+
+                }
+
+            });
+        }
 </script>
 </body>
 </html>
