@@ -555,7 +555,7 @@
             s.addEventListener('click', e => {
                 e.stopPropagation(); // 클릭 이벤트 전파 중단
                 let postId = s.querySelector('span').innerText;
-                let apiURL = '/post/' + postId + '/report';
+                let apiURL = '/post/' + postId + '/';
                 console.log(apiURL);
                 fetch (apiURL, {
                     method: 'POST',
