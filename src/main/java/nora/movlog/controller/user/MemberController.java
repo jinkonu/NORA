@@ -51,6 +51,8 @@ public class MemberController {
     @PostMapping(ID_URI + "/follow")
     public void follow(@PathVariable(name = "id") long followerId,
                        Authentication auth) {
+        log.info("FOLLOW!!!");
+
         String followerLoginId = memberService.profile(followerId).getLoginId();
         String followingLoginId = MemberFinder.getLoginId(auth);
 
@@ -75,6 +77,8 @@ public class MemberController {
     @PostMapping(ID_URI + "/unfollow")
     public void unfollow(@PathVariable(name = "id") long followerId,
                          Authentication auth) {
+        log.info("UNFOLLOW!!!");
+
         String followerLoginId = memberService.profile(followerId).getLoginId();
         String followingLoginId = MemberFinder.getLoginId(auth);
 

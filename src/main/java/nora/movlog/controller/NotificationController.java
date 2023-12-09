@@ -25,7 +25,7 @@ public class NotificationController {
 
     @GetMapping
     public String readNotifications(@RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
-                                    @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
+                                    @RequestParam(defaultValue = DEFAULT_NOTIFICATION_SIZE) int size,
                                     Model model,
                                     Authentication auth) {
         String loginId = MemberFinder.getLoginId(auth);

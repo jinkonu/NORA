@@ -10,6 +10,7 @@ import nora.movlog.utils.dto.NotificationDto;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,8 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
 
+    public static final Sort sort = Sort.by(Sort.Order.desc("lastModifiedAt"));
+
 
 
     /* CREATE */
@@ -36,7 +39,7 @@ public class NotificationService {
             pointcut = "execution( * nora.movlog.service.user.LikesService.add(..))",
             returning = "likes"
     )
-    public void joinFrom(Likes likes) {
+    public void joinLikesFrom(Likes likes) {
         notificationRepository.save(Notification.builder()
                 .to(likes.getPost().getMember())
                 .from(likes.getMember())
@@ -49,7 +52,7 @@ public class NotificationService {
             pointcut = "execution( * nora.movlog.service.user.CommentService.write(..))",
             returning = "comment"
     )
-    public void joinFrom(Comment comment) {
+    public void joinCommentFrom(Comment comment) {
         notificationRepository.save(Notification.builder()
                 .to(comment.getPost().getMember())
                 .from(comment.getMember())
@@ -62,7 +65,7 @@ public class NotificationService {
             pointcut = "execution( * nora.movlog.service.user.MemberService.follow(..))",
             returning = "members"
     )
-    public void joinFrom(Map<String, Member> members) {
+    public void joinFollowFrom(Map<String, Member> members) {
         notificationRepository.save(Notification.builder()
                 .to(members.get(FOLLOWER))
                 .from(members.get(FOLLOWING))
@@ -71,9 +74,22 @@ public class NotificationService {
     }
 
 
+    @AfterReturning(
+            pointcut = "execution( * nora.movlog.service.user.MemberService.unfollow(..))",
+            returning = "members"
+    )
+    public void joinUnfollowFrom(Map<String, Member> members) {
+        notificationRepository.save(Notification.builder()
+                .to(members.get(FOLLOWER))
+                .from(members.get(FOLLOWING))
+                .type(UNFOLLOW)
+                .build());
+    }
+
+
     /* READ */
     public List<NotificationDto> findAll(String loginId, int page, int size) {
-        return notificationRepository.findAllByFromLoginId(loginId, PageRequest.of(page, size))
+        return notificationRepository.findAllByToLoginId(loginId, PageRequest.of(page, size, sort))
                 .stream()
                 .sorted(Notification::compareTo)
                 .map(NotificationDto::of)

@@ -139,11 +139,16 @@ public class MemberService {
     }
 
     @Transactional
-    public void unfollow(String followingId, String followerId) {
+    public Map<String, Member> unfollow(String followingId, String followerId) {
         Member following = memberRepository.findByLoginId(followingId).get();
         Member follower = memberRepository.findByLoginId(followerId).get();
 
         following.unfollows(follower);
+
+        return new HashMap<>(Map.of(
+                FOLLOWING, following,
+                FOLLOWER, follower
+        ));
     }
 
     @Transactional
