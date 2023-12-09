@@ -44,7 +44,7 @@ public class PostService {
 
         if (!dto.getImage().getOriginalFilename().isEmpty()) {
             Image image = imageService.save(dto.getImage(), post);
-            post.setImage(image, imageService.getImageUrl(image.getOriginalFileName()));
+            post.setImage(image, imageService.getImageUrl(image.getSavedFileName()));
         }
 
         return post.getId();

@@ -75,14 +75,13 @@ public class PostController {
 
 
     // 게시글 삭제
+    @ResponseBody
     @PostMapping(ID_URI + "/delete")
-    public String deletePost(@PathVariable(name = "id") long postId,
+    public void deletePost(@PathVariable(name = "id") long postId,
                              Authentication auth) throws IOException {
-        if (!postService.isWrittenFrom(MemberFinder.getLoginId(auth), postId)) return null;
+        if (!postService.isWrittenFrom(MemberFinder.getLoginId(auth), postId)) return;
 
         postService.delete(postId);
-
-        return "redirect:" + MEMBER_URI + memberService.findByLoginId(MemberFinder.getLoginId(auth));
     }
 
 
