@@ -27,6 +27,7 @@ public class Post extends BaseEntity {
 
     /* 포스트 데이터 */
     private String body;
+    private boolean isReported;
 
     /* 연관관계 */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -64,5 +65,9 @@ public class Post extends BaseEntity {
     public void setImage(Image image, String imageUrl) {
         this.image = image;
         this.imageUrl = imageUrl;
+    }
+
+    public void isReported() {
+        this.isReported = true;
     }
 }

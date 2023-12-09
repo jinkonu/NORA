@@ -74,6 +74,26 @@ public class PostController {
     }
 
 
+    // 게시글 삭제
+    @PostMapping(ID_URI + "/delete")
+    public String deletePost(@PathVariable(name = "id") long postId,
+                             Authentication auth) throws IOException {
+        if (!postService.isWrittenFrom(MemberFinder.getLoginId(auth), postId)) return null;
+
+        postService.delete(postId);
+
+        return "redirect:" + MEMBER_URI + memberService.findByLoginId(MemberFinder.getLoginId(auth));
+    }
+
+
+    // 게시글 신고
+    @ResponseBody
+    @PostMapping(ID_URI + "/")
+    public void reportPost(@PathVariable(name = "id") long postId) {
+        postService.report(postId);
+    }
+
+
     // 이미지 다운로드
     @ResponseBody
     @GetMapping(ID_URI + IMAGE_URI)
