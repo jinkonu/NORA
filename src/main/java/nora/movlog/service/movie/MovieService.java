@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static nora.movlog.utils.constant.NumberConstant.*;
 
@@ -44,11 +45,10 @@ public class MovieService {
 
     @Transactional
     public List<Movie> findAndJoinFromTmdb(String query, int dbMoviesSize) {
-        List<Movie> movies = new ArrayList<>();
-
-        for (MovieTmdbDto dto : movieTmdbApiRepository.findByQuery(query, dbMoviesSize))
-            if (findOne(dto.getId()) == null)
-                movies.add(createFromTmdbDto(dto));
+        List<Movie> movies = movieTmdbApiRepository.findByQuery(query, dbMoviesSize).stream()
+                .filter(dto -> findOne(dto.getId()) == null)
+                .map(this::createFromTmdbDto)
+                .collect(Collectors.toList());
 
         joinAll(movies);
         return movies;
