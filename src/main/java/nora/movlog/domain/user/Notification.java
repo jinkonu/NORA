@@ -35,7 +35,8 @@ public class Notification extends BaseEntity implements Comparable<Notification>
     public enum Type {
         COMMENT(COMMENT_TYPE),
         LIKE(LIKES_TYPE),
-        FOLLOW(FOLLOW_TYPE);
+        FOLLOW(FOLLOW_TYPE),
+        UNFOLLOW(UNFOLLOW_TYPE);
 
         private final String name;
 
@@ -54,6 +55,6 @@ public class Notification extends BaseEntity implements Comparable<Notification>
         if (other == null)
             return BIGGER;
 
-        return this.getCreatedAt().compareTo(other.getCreatedAt());
+        return (-1) * this.getCreatedAt().compareTo(other.getCreatedAt());
     }
 }

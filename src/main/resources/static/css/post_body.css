@@ -19,6 +19,13 @@ body {
     flex-direction: column;
   }
 
+  .tag-input {
+    width: 80px; /* Set the desired width */
+    /* You can also add other styles as needed */
+    padding: 5px;
+    box-sizing: border-box; /* This ensures that padding and border are included in the specified width */
+  }
+  
   label {
     font-size: 14px;
     color: #657786;

@@ -63,6 +63,10 @@
 
 }
 
+.post_id {
+    display: none;
+}
+
 .post_etc {
     color: var(--gray-gray-200, #A7A7A7);
     font-weight: 700;
@@ -70,8 +74,49 @@
 }
 
 /* post header안의 setting icon */
-.post_setting {
+.post_setting_self {
     z-index: 1;
+    display: none;
+}
+.post_setting_else {
+    z-index: 1;
+    display: none;
+}
+
+
+.post_setting_self_pop {
+    z-index: 2;
+    border: 1px solid #000;
+    position: relative;
+    width: 100px;
+    top: -10px;
+    right: 70px;
+
+    display: none;
+}
+.post_setting_else_pop {
+    z-index: 2;
+    border: 1px solid #000;
+    position: relative;
+    width: 100px;
+    top: -10px;
+    right: 70px;
+
+    display: none;
+}
+
+.post_setting_self_pop:hover {
+    cursor: default;
+    background-color: var(--gray-gray-200, #A7A7A7);
+}
+
+.post_setting_else_pop:hover {
+    cursor: default;
+    background-color: var(--gray-gray-200, #A7A7A7);
+}
+
+.post_setting_text {
+    padding: 4px 0px 4px 20px;
 }
 
 /* user post의 content */
@@ -113,3 +158,6 @@
     gap: 8px;
 }
 
+#post_id {
+    display: none;
+}

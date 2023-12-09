@@ -32,10 +32,13 @@ public class SettingsController {
     private final MemberService memberService;
     private final MemberValidator memberValidator;
 
+
+
+    // 비밀번호 변경
     @GetMapping(PASSWORD_URI)
     public String changePassword(Authentication auth,
                                  Model model) {
-        String loginId = MemberFinder.getUsernameFrom(auth);
+        String loginId = MemberFinder.getLoginId(auth);
         model.addAttribute("loginId", loginId);
         model.addAttribute("editDto", MemberEditDto.builder().build());
         return "changePasswordPage";
@@ -46,7 +49,7 @@ public class SettingsController {
                                @Valid @ModelAttribute MemberEditDto editDto,
                                BindingResult bindingResult,
                                HttpServletResponse response) throws IOException {
-        String loginId = MemberFinder.getUsernameFrom(auth);
+        String loginId = MemberFinder.getLoginId(auth);
         long id = memberService.findByLoginId(loginId).getId();
         if(memberValidator.validateEditPassword(editDto, bindingResult, id).hasErrors()) {
             PrintWriter out = response.getWriter();
@@ -65,10 +68,12 @@ public class SettingsController {
         }
     }
 
+
+    // 닉네임 변경
     @GetMapping(NICKNAME_URI)
     public String changeNickname(Authentication auth,
                                  Model model) {
-        String loginId = MemberFinder.getUsernameFrom(auth);
+        String loginId = MemberFinder.getLoginId(auth);
         String nickname = memberService.findByLoginId(loginId).getNickname();
         model.addAttribute("loginId", loginId);
         model.addAttribute("oldNickname", nickname);
@@ -81,7 +86,7 @@ public class SettingsController {
                                @Valid @ModelAttribute MemberEditDto editDto,
                                BindingResult bindingResult,
                                HttpServletResponse response) throws IOException {
-        String loginId = MemberFinder.getUsernameFrom(auth);
+        String loginId = MemberFinder.getLoginId(auth);
         long id = memberService.findByLoginId(loginId).getId();
         if (memberValidator.validateEditNickname(editDto, bindingResult, id).hasErrors()) {
             PrintWriter out = response.getWriter();
@@ -100,10 +105,43 @@ public class SettingsController {
         }
     }
 
+
+    // 프로필 사진 변경
+    @GetMapping(PROFILE_PIC_URI)
+    public String profilePicPage(Authentication auth,
+                                 Model model) {
+        model.addAttribute("loginId", MemberFinder.getLoginId(auth));
+        model.addAttribute("editDto", MemberEditDto.builder().build());
+
+        return "profilepic";
+    }
+
+    @PostMapping(PROFILE_PIC_URI)
+    public void changeProfilePic(Authentication auth,
+                                 @ModelAttribute MemberEditDto dto,
+                                 HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+
+        if (dto.getImage().getOriginalFilename().isEmpty()) {
+            out.println("<script> alert('프로필 사진 변경에 실패했습니다.'); location.href='" + SETTINGS_URI + PROFILE_PIC_URI + "' </script>");
+        }
+
+        else {
+            memberService.setProfilePic(MemberFinder.getLoginId(auth), dto.getImage());
+            out.println("<script> alert('프로필 사진 변경에 성공했습니다.'); location.href='" + SETTINGS_URI + PROFILE_PIC_URI + "' </script>");
+        }
+
+        out.close();
+    }
+
+
+    // 계정 삭제
     @GetMapping(DELETE_URI)
     public String deletePage(Authentication auth,
                              Model model) {
-        String loginId = MemberFinder.getUsernameFrom(auth);
+        String loginId = MemberFinder.getLoginId(auth);
         model.addAttribute("loginId", loginId);
         model.addAttribute("deleteDto", new MemberDeleteDto());
         return "deletePage";
@@ -114,7 +152,7 @@ public class SettingsController {
                            @Valid @ModelAttribute MemberDeleteDto dto,
                            BindingResult bindingResult,
                            HttpServletResponse response) throws IOException {
-        String loginId = MemberFinder.getUsernameFrom(auth);
+        String loginId = MemberFinder.getLoginId(auth);
         long id = memberService.findByLoginId(loginId).getId();
         if (memberValidator.validateDelete(dto, bindingResult, id).hasErrors()) {
             PrintWriter out = response.getWriter();

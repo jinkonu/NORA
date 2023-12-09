@@ -24,4 +24,7 @@ public class Image {
     /* 연관관계 */
     @OneToOne(mappedBy = "image")
     private Post post;
+
+    @OneToOne(mappedBy = "image")
+    private Member member;
 }

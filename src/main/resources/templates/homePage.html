@@ -2,224 +2,520 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/main_frame.css">
-  <link rel="stylesheet" href="/css/left_menubar.css">
-  <link rel="stylesheet" href="/css/right_trending.css">
-  <link rel="stylesheet" href="/css/center_body_user.css">
-  <link rel="stylesheet" href="/css/useful.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main_frame.css">
+    <link rel="stylesheet" href="/css/left_menubar.css">
+    <link rel="stylesheet" href="/css/right_trending.css">
+    <link rel="stylesheet" href="/css/homePage.css">
+    <link rel="stylesheet" href="/css/useful.css">
+    <link rel="stylesheet" href="/css/post_layout.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
-  <title>Home</title>
+    <title>HomePage</title>
 </head>
 
 <body>
     <div class="frame">
 
-      <div class="inner_frame">
+        <div class="inner_frame">
 
-        <!-- left menu bar -->
-        <div class="left_menubar">
-          <div class="logo_main">
-            <img src="/icons/logo(main).svg" alt="movlog"/>
-          </div>
+            <!-- left menu bar -->
+            <div class="left_menubar">
+                <div class="logo_main">
+                    <img src="/icons/logo(main).svg" alt="movlog"/>
+                </div>
 
-          <div class="menu">
-            <div class="menu_element">
-              <button class="menu_button" id="home_btn" value="home">
-                <div class="menu_icon">
-                  <img src="/icons/House.svg" alt="home"/>
-                </div>
-                <div class="menu_button_text">홈</div>
-              </button>
-            </div>
-            <div class="menu_element">
-              <button class="menu_button" id="notification_btn" value="notifications">
-                <div class="menu_icon">
-                  <img src="/icons/Heart.svg" alt="notifications"/>
-                </div>
-                <div class="menu_button_text">알림</div>
-              </button>
-            </div>
-            <div class="menu_element">
-              <button class="menu_button" id="search_btn" value="search">
-                <div class="menu_icon">
-                  <img src="/icons/MagnifyingGlass.svg" alt="Search"/>
-                </div>
-                <div class="menu_button_text">검색</div>
-              </button>
-            </div>
-            <div class="menu_element">
-              <button class="menu_button" id="watchedlsit_btn" value="watched">
-                <div class="menu_icon">
-                  <img src="/icons/EyeOpened.svg" alt="WatchList"/>
-                </div>
-                <div class="menu_button_text">내가 본 영화</div>
-              </button>
-            </div>
-            <div class="menu_element">
-              <button class="menu_button" id="watchlist_btn" value="towatch">
-                <div class="menu_icon">
-                  <img src="/icons/EyeClosed.svg" alt="towatchlist"/>
-                </div>
-                <div class="menu_button_text">보고싶은 영화</div>
-              </button>
-            </div>
-            <div class="menu_element">
-              <button class="menu_button" id="profile_btn" value="profile">
-                <div class="menu_icon">
-                  <img src="/icons/UserCircle.svg" alt="profile"/>
-                </div>
-                <div class="menu_button_text">프로필</div>
-              </button>
-            </div>
-            <div class="menu_element">
-              <button class="menu_button" id="settings_btn" value="settings">
-                  <div class="menu_icon">
-                      <img src="/icons/Gear.svg" alt="profile"/>
-                  </div>
-                  <div class="menu_button_text">설정</div>
-              </button>
-          </div>
-          </div>
-
-          <div class="left_footer">
-            <button class="profile">
-              <div class="account">
-                <div class="profile_img">
-                  <img src="/img/example_profile_img.svg" alt="img"/>
-                </div>
-                <div class="user_info">
-                  <div class="user_info_name" th:text="${loginMember.nickname}">
-                    김익명
-                  </div>
-                  <div class="user_info_account" th:text="${loginMember.loginId}">
-                    @anonymouskim123
-                  </div>
-                </div>
-              </div>
-              <div class="more">
-                <img src="/icons/DotsThree.svg" alt="more"/>
-              </div>
-            </button>
-
-            <!-- 로그아웃 버튼 임시 추가 -->
-            <button class="logout_button" th:onclick="location.href='/logout'">
-              <div class="menu_button_text">로그아웃</div>
-            </button>
-            <!-- 로그아웃 버튼 임시 추가 -->
-          </div>
-        </div>
-
-        <!-- center body -->
-        <div class="center_body">
-          <div id="home_body">
-            <div class="view_controller">
-              <div class="view_box">
-                <div class="view_box_contents" id="discover">
-                  <span id="discover_text">탐색</span>
-                  <div class="view_block" id="discover_block"></div>
-                </div>
-              </div>
-              <div class="view_box">
-                <div class="view_box_contents" id="follow">
-                  <span id="follow_text">팔로우</span>
-                  <div class="view_block" id="follow_block"></div>
-                </div>
-              </div>
-            </div>
-            <div class="horizontal_line"></div>
-            <div class="user_posts">
-              <div class="user_post" th:each="post : ${posts}">
-                <div class="post_header_container">
-                  <div class="post_header">
-                    <div class="post_member_img">
-                      <img src="/img/example_profile_img.svg" alt="img">
+                <div class="menu">
+                    <div class="menu_element">
+                        <button class="menu_button" id="home_btn" value="home">
+                            <div class="menu_icon">
+                                <img src="/icons/House.svg" alt="home"/>
+                            </div>
+                            <div class="menu_button_text">홈</div>
+                        </button>
                     </div>
-                    <div class="post_infos">
-                      <div class="post_info">
-                        <div class="post_member" th:text="${post.memberNickname}"></div>
-                        <div class="post_member_id" th:text="${post.memberLoginId}"></div>
-                        <div class="post_time" th:text="${post.createdAt}"></div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="notification_btn" value="notification">
+                            <div class="menu_icon">
+                                <img src="/icons/Heart.svg" alt="notification"/>
+                            </div>
+                            <div class="menu_button_text">알림</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="search_btn" value="search">
+                            <div class="menu_icon">
+                                <img src="/icons/MagnifyingGlass.svg" alt="Search"/>
+                            </div>
+                            <div class="menu_button_text">검색</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="watchedlsit_btn" value="watched">
+                            <div class="menu_icon">
+                                <img src="/icons/EyeOpened.svg" alt="WatchList"/>
+                            </div>
+                            <div class="menu_button_text">내가 본 영화</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="watchlist_btn" value="towatch">
+                            <div class="menu_icon">
+                                <img src="/icons/EyeClosed.svg" alt="towatchlist"/>
+                            </div>
+                            <div class="menu_button_text">보고싶은 영화</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="profile_btn" value="profile">
+                            <div class="menu_icon">
+                                <img src="/icons/UserCircle.svg" alt="profile"/>
+                            </div>
+                            <div class="menu_button_text">프로필</div>
+                        </button>
+                    </div>
+                    <div class="menu_element">
+                        <button class="menu_button" id="settings_btn" value="settings">
+                            <div class="menu_icon">
+                                <img src="/icons/Gear.svg" alt="profile"/>
+                            </div>
+                            <div class="menu_button_text">설정</div>
+                        </button>
+                    </div>
+                </div>
 
-                      </div>
-                      <div class="post_info">
-                        <div class="post_etc">on</div>
-                        <div class="post_movie" th:text="${post.movieTitle}"></div>
-                      </div>
+                <div class="left_footer">
+                    <button class="profile">
+                        <div class="account">
+                            <div class="profile_img">
+                                <img th:src="${loginMember.imageUrl}" alt="img"/>
+                            </div>
+                            <div class="user_info">
+                                <div class="user_info_name" th:text="${loginMember.nickname}">
+                                    김익명
+                                </div>
+                                <div class="user_info_account" th:text="${loginMember.loginId}">
+                                    @anonymouskim123
+                                </div>
+                            </div>
+                        </div>
+                        <div class="more">
+                            <img src="/icons/DotsThree.svg" alt="more"/>
+                        </div>
+                    </button>
+
+                    <!-- 로그아웃 버튼 임시 추가 -->
+                    <button class="logout_button" th:onclick="location.href='/logout'">
+                        <div class="menu_button_text">로그아웃</div>
+                    </button>    
+                    <!-- 로그아웃 버튼 임시 추가 -->
+
+                    <!-- 유저 아이디 저장용 태그 -->
+                    <button id="user_id" th:value="${loginMember.id}"></button>
+
+                </div>
+            </div>
+
+            <!-- center body -->
+            <div class="center_body">
+                <div id="user_body">
+                    <div class="view_controller">
+                        <div class="view_box">
+                            <div class="view_box_contents" id="recommend_view">
+                                <span>추천</span>
+                                <div class="view_block" id="recommend_block"></div>
+                            </div>
+                        </div>
+                        <div class="view_box">
+                            <div class="view_box_contents" id="follow_view">
+                                <span>팔로우</span>
+                                <div class="view_block" id="follow_block"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="horizontal_line"></div>
+                    <div class="user_posts">
+                        <div class="movie_post" th:each="post : ${posts}">
+                            <div class="post_header_container">
+                                <div class="post_header">
+                                    <div class="post_member_img">
+                                        <img th:src="${post.memberImageUrl}" alt="img">
+                                    </div>
+                                    <div class="post_infos">
+                                        <div class="post_info">
+                                            <div class="post_member" th:text="${post.memberNickname}"></div>
+                                            <div class="post_member_id" th:text="${post.memberLoginId}"></div>
+                                            <div class="post_time" th:text="${post.createdAt}"></div>
+        
+                                        </div>
+                                        <div class="post_info">
+                                            <div class="post_etc">on</div>
+                                            <div class="post_movie" th:text="${post.movieTitle}"></div>
+                                        </div>
+                                    </div>
+        
+                                </div>
+        
+                                <!-- 게시글 삭제와 같은 기능 이용할 수 있는 아이콘 -->
+                                <div class="post_setting">
+                                    <img src="/icons/DotsThree.svg" alt="settings">
+                                </div>
+
+                            </div>
+
+                            <div class="post_content">
+                                <form id="post_form" th:method="get" th:action="@{/post/{postId}}" th:object="${post}">
+                                    <div class="post_content_text" id="toPost" th:text="${post.body}"></div>
+                                    <span class="post_id" th:text="${post.id}"></span>
+                                </form>
+                                <img class="post_content_img" th:src="${post.imageUrl}">
+                            </div>
+
+                            <div class="post_footer">
+                                <div class="post_footer_comments" id="post_comments">
+                                    <img src="/icons/ChatTeardropDots.svg" width="32" alt="comments"/>
+                                    <div th:text="${post.commentCnt}"></div>
+                                    <span class="post_id" th:text="${post.id}"></span>
+                                </div>
+                                <div class="post_footer_likes" id="post_likes">
+                                    <img src="/icons/Likes.svg" width="32" alt="likes"/>
+                                    <span id="post_like" th:text="${post.likeCnt}"></span>
+                                    <span id="post_id" th:text="${post.id}"></span>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                  </div>
-
                 </div>
-                <div class="post_content">
-                  <div class="post_content_text" th:text="${post.body}"></div>
-                  <div class="post_content_img"></div>
+            </div>
+        
+            <!-- right trending -->
+            <div class="right_trending">
+                <div class="right_trending_content">
+                    <div id="inner_search_header">
+                        <select class="subject">
+                            <option value="movieQuery">Movie</option>
+                            <option value="memberQuery">User</option>
+                        </select>
+                        <div class="right_search">
+                            <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
+                            <input type="text" class="search_input" placeholder="검색">
+                        </div>
+                    </div>
                 </div>
-                <div class="post_footer">
-                  <div class="post_footer_content" id="post_comments">
-                    <img src="/icons/ChatTeardropDots.svg" width="32" alt="comments"/>
-                    <div>0</div>
-                  </div>
-                  <div class="post_footer_content" id="post_likes">
-                    <img src="/icons/Likes.svg" width="32" alt="likes"/>
-                    <div th:text="${post.likeCnt}"></div>
-                  </div>
-                </div>
-              </div>
             </div>
 
-          </div>
         </div>
-
-
-        <!-- right trending -->
-        <div class="right_trending" id="right">
-          <div class="right_trending_content">
-            <div id="inner_search_header">
-              <select id="subject">
-                  <option value="movieQuery">Movie</option>
-                  <option value="userQuery">User</option>
-              </select>
-              <div class="right_search">
-                <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
-                <input type="text" class="search_input" placeholder="검색">
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
 
     </div>
     <script src="menu_control.js"></script>
     <script>
-            /* view_control */
-            
+        /* view_control */
+
+
+        // /* 자신의 페이지인지 여부 확인 */
+        // document.addEventListener("DOMContentLoaded", function() {
+
+        //     const memberId = document.querySelector('.user_profile_info_id').innerText;
+        //     let apiURL = '/member/' + memberId + '/isSelf';
+
+        //     fetch(apiURL, {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             //'Cookie': document.cookie
+        //         },
+        //     })
+        //     .then(response => {
+        //         console.log(response);
+        //         return response.json();
+        //     })
+        //     .then(data => {
+        //         if(data == true){
+        //             //console.log("user == page owner")
+        //             let follow_btn = document.querySelector('.follow_controller');
+        //             follow_btn.style.display = 'none';
+        //         }
+        //         else {
+        //                 //follow중인지 체크
+        //                 apiURL = '/member/' + memberId + '/isFollowing';
+        //                 fetch(apiURL, {
+        //                     method: 'GET',
+        //                     headers: {
+        //                         'Content-Type': 'application/json',
+        //                         //'Cookie': document.cookie
+        //                     },
+        //                 })
+        //                 .then(response => {
+        //                     console.log(response);
+        //                     return response.json();
+        //                 })
+        //                 .then(data => {
+        //                     if (data == true) {
+        //                         //console.log("following 중입니다!");
+
+        //                         let follow_btn = followEvent.querySelector('#follow_btn');
+        //                         let follow_txt = followEvent.querySelector('#follow_txt');
+
+        //                         follow_btn.style.background = '#EDEFF0';
+        //                         follow_btn.style.color = '#000000';
+        //                         follow_txt.innerText = "팔로우중";
+
+        //                     }
+        //                     else {
+        //                         //console.log("following 중이지 않습니다!");
+
+        //                     }
+        //                 })
+        //                 .catch(error => {
+        //                     console.log("에러: ", error);
+        //                 });
+        //             }
+        //     })
+        //     .catch(error => {
+        //         console.log("에러: ", error);
+        //     });
+        // });
+
+        /* 게시글 누를 때 포스트 상세페이지로 가기 */
+        let movePostEvent = document.querySelectorAll("#post_form");
+        for (let t of movePostEvent) {
+            t.addEventListener("click", move_to_post => {
+                let postId = t.querySelector('span').innerText;
+                let apiURL = '/post/' + postId;
+                console.log(apiURL);
+                fetch (apiURL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+
+                })
+                .then(response => {
+                    console.log(response);
+                    if (apiURL == '/post/' + postId) {
+                       window.location.href = apiURL;
+                    }
+                })
+                .then(data => {
+                    console.log("Server response: ", data);
+
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                });
+            });
+        }
+
+        /* 게시물 댓글 수도 마찬가지 포스트 페이지로 */
+        let movePostEvent_comment = document.querySelectorAll(".post_footer_comments");
+            for (let t of movePostEvent_comment) {
+                t.addEventListener("click", move_post => {
+                    let postId = t.querySelector('span').innerText;
+                    let apiURL = '/post/' + postId;
+                    console.log(apiURL);
+                    fetch (apiURL, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            //'Cookie': document.cookie
+                        },
+
+                    })
+                    .then(response => {
+                        console.log(response);
+                        if (apiURL == '/post/' + postId) {
+                           window.location.href = apiURL;
+                        }
+                    })
+                    .then(data => {
+                        console.log("Server response: ", data);
+                    })
+                    .catch(error => {
+                        console.log("Error: ", error);
+                    });
+            });
+        }
+
+        /* 게시글 마다 자신이 좋아요 눌렀는지 확인 */
+        document.addEventListener("DOMContentLoaded", function() {
+            const likeElements = document.querySelectorAll(".post_footer_likes");
+
+            // 선택된 요소들에 대해 반복문 실행
+            likeElements.forEach(function(likeElement) {
+                const postId = likeElement.querySelector('#post_id').innerText;
+                let apiURL = '/likes/' + postId + '/check';
+
+                fetch(apiURL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+                })
+                .then(response => {
+                    console.log(response);
+                    return response.json();
+                })
+                .then(data => {
+                    if(data == true){
+                        var imgElement = likeElement.querySelector('img');
+                        imgElement.src = "/icons/Likes_Filled.svg";
+                        imgElement.alt = "likes_filled";
+                    }
+                })
+                .catch(error => {
+                    console.log("에러: ", error);
+                });
+            });
+        });
+
+        // /* following_control */
+        // const followEvent = document.querySelector(".follow_controller");
+        // followEvent.addEventListener("click", e => {
+        //     let follow_btn = followEvent.querySelector('#follow_btn');
+        //     let follow_txt = followEvent.querySelector('#follow_txt');
+
+        //     /* profile page의 팔로워 */
+        //     let follower_cnt = document.querySelector('#user_follower');
+        //     let followerCnt = parseInt(follower_cnt.innerText);
+
+        //     const memberId = document.querySelector('.user_profile_info_id').innerText;
+
+        //     if (follow_txt.innerText == "팔로우중") {
+        //         /* 언팔 요청 */
+        //         let apiURL = '/member/' + memberId + '/unfollow';
+
+        //         follow_btn.style.background = 'var(--primary, #9E00FF)';
+        //         follow_btn.style.color = '#FFFDFD';
+        //         follow_txt.innerText = "팔로우하기";
+
+        //         follower_cnt.innerText = followerCnt - 1;
+
+        //         /* 서버에 요청 */
+        //         fetch(apiURL, {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 //'Cookie': document.cookie
+        //             },
+        //         })
+        //         .then(response => {
+        //             console.log(response);
+        //         })
+        //         .then(data => {
+        //             console.log("Server response: ", data);
+        //         })
+        //         .catch(error => {
+        //             console.log("Error: ", error);
+        //         });
+        //     }
+        //     else if (follow_txt.innerText == "팔로우하기") {
+        //         //console.log("follow button clicked!");
+        //         /* 팔로우 요청 */
+        //         let apiURL = '/member/' + memberId + '/follow';
+
+        //         follow_btn.style.background = '#EDEFF0';
+        //         follow_btn.style.color = '#000000';
+        //         follow_txt.innerText = "팔로우중";
+
+        //         follower_cnt.innerText = followerCnt + 1;
+
+        //         /* 서버에 요청 */
+        //         fetch(apiURL, {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 //'Cookie': document.cookie
+        //             },
+        //         })
+        //         .then(response => {
+        //             console.log(response);
+        //         })
+        //         .then(data => {
+        //             console.log("Server response: ", data);
+        //         })
+        //         .catch(error => {
+        //             console.log("Error: ", error);
+        //         });
+        //     }
+        // });
+
+
+        /* likes_control */
+        const likeEvent = document.querySelectorAll(".post_footer_likes");
+        for (let s of likeEvent) {
+            s.addEventListener("click", e => {
+                const current = e.currentTarget;
+                var imgElement = current.querySelector('img');
+                var likesElement = current.querySelector('#post_like');
+                var postId = current.querySelector('#post_id').innerText;
+
+                likes_cnt = parseInt(likesElement.innerText);
+                if (imgElement.alt == "likes") {
+                    imgElement.src = "/icons/Likes_Filled.svg";
+                    imgElement.alt = "likes_filled";
+                    likes_cnt = likes_cnt + 1;
+                    var apiURL = '/likes/' + postId + '/add';
+                }
+                else if (imgElement.alt == "likes_filled") {
+                    imgElement.src = "/icons/Likes.svg";
+                    imgElement.alt = "likes";
+                    likes_cnt = likes_cnt - 1;
+                    var apiURL = '/likes/' + postId + '/delete';
+                }
+                likesElement.innerText = likes_cnt;
+
+                fetch (apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                    console.log("Server response: ", data);
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                });
+            });
+        }
+        
         const searchEvent = document.querySelectorAll(".search_input");
         for (let s of searchEvent) {
             s.addEventListener('keyup', e => {
-                if (e.keyCode == 13) {
-                    // querySelectorAll시 다시 객체 불러와야됨
-                    const current = e.currentTarget;
+                // querySelectorAll시 다시 객체 불러와야됨
+                const current = e.currentTarget;
+                if (e.keyCode == 13 && current.value !== null) {
                     //let urlParam = new URLSearchParams(location.search);
                     let urlParam = new URLSearchParams();
 
-                    const dropdown = document.querySelector("#subject");
+                    const dropdown = current.closest("#inner_search_header").querySelector('.subject');
                     const choose = dropdown.selectedIndex;
                     if (choose == 1) {
-                        urlParam.set("userQuery", current.value);
+                        urlParam.set("memberQuery", current.value);
                     }
                     else {
                         urlParam.set("movieQuery", current.value);
                     }
 
                     let new_urlParam = urlParam.toString();
-                    let new_path = '/search';
-                    window.open(new_path + '?' + new_urlParam, '_self');
+                    window.open('/search' + '?' + new_urlParam, '_self');
+
                 }
+
             });
-        }        
-      </script>
+        }
+
+    </script>
 </body>
+
 </html>

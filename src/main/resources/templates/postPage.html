@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/center_body_user.css">
     <link rel="stylesheet" href="/css/useful.css">
     <link rel="stylesheet" href="/css/post_layout.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
     <title>postPage</title>
 </head>
@@ -87,7 +88,7 @@
                     <button class="profile">
                         <div class="account">
                             <div class="profile_img">
-                                <img src="/img/example_profile_img.svg" alt="img"/>
+                                <img th:src="${loginMember.imageUrl}" alt="img"/>
                             </div>
                             <div class="user_info">
                                 <div class="user_info_name" th:text="${loginMember.nickname}">
@@ -113,31 +114,6 @@
 
             <!-- center body -->
             <div class="center_body">
-                <div class="user_banner">
-                    <div class="user_profile">
-                        <div class="user_profile_img">
-                            <img src="/img/example_profile_img.svg" alt="img"/>
-                        </div>
-                        <div class="user_profile_info">
-                            <div class="user_profile_info_name" th:text="${profileMember.nickname}"></div>
-                            <div class="user_profile_info_account" th:text="${profileMember.loginId}"></div>
-                        </div>
-                    </div>
-                    <div class="user_data">
-                        <div class="user_count" id="post_count">
-                            <div>게시물</div>
-                            <div class="user_count_data" th:text="${#lists.size(posts)}"></div>
-                        </div>
-                        <div class="user_count" id="follower_count">
-                            <div>팔로워</div>
-                            <div class="user_count_data" th:text="${profileMember.followerCnt}"></div>
-                        </div>
-                        <div class="user_count" id="following_count">
-                            <div>팔로우</div>
-                            <div class="user_count_data" th:text="${profileMember.followingCnt}"></div>
-                        </div>
-                    </div>
-                </div>
                 <div id="user_body">
                     <div class="horizontal_line"></div>
                     <div class="current_post">
@@ -145,18 +121,18 @@
                             <div class="post_header_container">
                                 <div class="post_header">
                                     <div class="post_member_img">
-                                        <img src="/img/example_profile_img.svg" alt="img">
+                                        <img th:src="${post.memberImageUrl}" alt="img">
                                     </div>
                                     <div class="post_infos">
                                         <div class="post_info">
-                                            <div class="post_member" th:field="${memberNickname}"></div>
-                                            <div class="post_member_id" th:field="${memberLoginId}"></div>
-                                            <div class="post_time" th:field="${createdAt}"></div>
+                                            <div class="post_member" th:text="${post.memberNickname}"></div>
+                                            <div class="post_member_id" th:text="${post.memberLoginId}"></div>
+                                            <div class="post_time" th:text="${post.createdAt}"></div>
 
                                         </div>
                                         <div class="post_info">
                                             <div class="post_etc">on</div>
-                                            <div class="post_movie" th:field="${movieTitle}"></div>
+                                            <div class="post_movie" th:text="${post.movieTitle}"></div>
                                         </div>
                                     </div>
 
@@ -170,18 +146,18 @@
                             </div>
                             <div class="post_content">
                                 <form action="post/{postId}" method="get">
-                                    <div class="post_content_text" th:field="${body}"></div>
+                                    <div class="post_content_text" th:text="${post.body}"></div>
                                 </form>
-                                <div class="post_content_img"></div>
+                                <img class="post_content_img" th:src="${post.imageUrl}">
                             </div>
                             <div class="post_footer">
                                 <div class="post_footer_comments" id="post_comments">
                                     <img src="/icons/ChatTeardropDots.svg" width="32" alt="comments"/>
-                                    <div th:field="${commentCnt}"></div>
+                                    <div th:text="${post.commentCnt}"></div>
                                 </div>
                                 <div class="post_footer_likes" id="post_likes">
                                     <img src="/icons/Likes.svg" width="32" alt="likes"/>
-                                    <span th:field="${likeCnt}"></span>
+                                    <span th:text="${post.likeCnt}"></span>
                                 </div>
                             </div>
                         </div>
@@ -189,13 +165,13 @@
                 </div>
                 <div class="horizontal_line"></div>
                 <div id="post_reply">
-                    <div class="reply_profile_img">
-                        <img src="/img/example_profile_img.svg" alt="img"/>
+                    <div class="reply_profile_img" >
+                        <img th:src="${loginMember.ImageUrl}" alt="img"/>
                     </div>
                     <!-- 댓글 폼 처리 방식을 결정해야 함(창이나 페이지로 만들지, 백으로 내용 전달 방식) -->
-                    <form name="reply_form">
-                        <input type="text" placeholder="댓글을 작성하여 주세요.">
-                        <input type="submit" placeholder="게시">
+                    <form name="reply_form" th:method="post" th:action="@{/comment/{postId}(postId=${postId})}">
+                        <input type="text" class="reply_input" placeholder="댓글을 작성하여 주세요.">
+                        <input type="submit" class="reply_submit" placeholder="게시">
                     </form>
                 </div>
                 <div class="horizontal_line"></div>
@@ -203,12 +179,12 @@
                     <div class="replies" th:each="comment : ${comments}">
                         <div class="reply_header">
                             <div class="reply_member_img">
-                                <img src="/img/example_profile_img.svg" alt="img">
+                                <img th:src="${comment.memberImageUrl}" alt="img">
                             </div>
                             <div class="reply_info">
-                                    <div class="reply_member" th:text="${post.memberNickname}"></div>
-                                    <div class="reply_member_id" th:text="${post.memberLoginId}"></div>
-                                    <div class="reply_time" th:text="${post.createdAt}"></div>
+                                    <div class="reply_member" th:text="${comment.memberNickname}"></div>
+                                    <div class="reply_member_id" th:text="${comment.memberLoginId}"></div>
+                                    <div class="reply_time" th:text="${comment.createdAt}"></div>
                             </div>
                             <!-- 자신의 댓글만 삭제 옵션 만들기-->
                             <div class="reply_setting">
@@ -217,20 +193,19 @@
 
                         </div>
                         <div class="reply_content">
-                            <div class="reply_content_text" th:text="${post.body}"></div>
+                            <div class="reply_content_text" th:text="${comment.body}"></div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
+        
             <!-- right trending -->
-            <div class="right_trending" id="right">
+            <div class="right_trending">
                 <div class="right_trending_content">
                     <div id="inner_search_header">
-                        <select id="subject">
+                        <select class="subject">
                             <option value="movieQuery">Movie</option>
-                            <option value="userQuery">User</option>
+                            <option value="memberQuery">User</option>
                         </select>
                         <div class="right_search">
                             <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
@@ -268,32 +243,32 @@
                     likesElement.innerText = likes_cnt;
                 });
             }
+        
+        const searchEvent = document.querySelectorAll(".search_input");
+        for (let s of searchEvent) {
+            s.addEventListener('keyup', e => {
+                // querySelectorAll시 다시 객체 불러와야됨
+                const current = e.currentTarget;
+                if (e.keyCode == 13 && current.value !== null) {
+                    //let urlParam = new URLSearchParams(location.search);
+                    let urlParam = new URLSearchParams();
 
-            /* right : search */
-            const searchEvent = document.querySelectorAll(".search_input");
-            for (let s of searchEvent) {
-                s.addEventListener('keyup', e => {
-                    if (e.keyCode == 13) {
-                        // querySelectorAll시 다시 객체 불러와야됨
-                        const current = e.currentTarget;
-                        //let urlParam = new URLSearchParams(location.search);
-                        let urlParam = new URLSearchParams();
-
-                        const dropdown = document.querySelector("#subject");
-                        const choose = dropdown.selectedIndex;
-                        if (choose == 1) {
-                            urlParam.set("userQuery", current.value);
-                        }
-                        else {
-                            urlParam.set("movieQuery", current.value);
-                        }
-
-                        let new_urlParam = urlParam.toString();
-                        let new_path = '/search';
-                        window.open(new_path + '?' + new_urlParam, '_self');
+                    const dropdown = current.closest("#inner_search_header").querySelector('.subject');
+                    const choose = dropdown.selectedIndex;
+                    if (choose == 1) {
+                        urlParam.set("memberQuery", current.value);
                     }
-                });
-            }
+                    else {
+                        urlParam.set("movieQuery", current.value);
+                    }
+
+                    let new_urlParam = urlParam.toString();
+                    window.open('/search' + '?' + new_urlParam, '_self');
+
+                }
+
+            });
+        }
 
         </script>
 </body>

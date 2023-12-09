@@ -7,10 +7,12 @@ import nora.movlog.utils.dto.movie.MovieTmdbDto;
 import nora.movlog.repository.movie.MovieTmdbApiRepository;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static nora.movlog.utils.constant.NumberConstant.*;
 
@@ -24,6 +26,8 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieTmdbApiRepository movieTmdbApiRepository;
     private final MemberRepository memberRepository;
+
+    public static final Sort sort = Sort.by(Sort.Order.desc("popularity"));
 
 
 
@@ -41,11 +45,10 @@ public class MovieService {
 
     @Transactional
     public List<Movie> findAndJoinFromTmdb(String query, int dbMoviesSize) {
-        List<Movie> movies = new ArrayList<>();
-
-        for (MovieTmdbDto dto : movieTmdbApiRepository.findByQuery(query, dbMoviesSize))
-            if (findOne(dto.getId()) == null)
-                movies.add(createFromTmdbDto(dto));
+        List<Movie> movies = movieTmdbApiRepository.findByQuery(query, dbMoviesSize).stream()
+                .filter(dto -> findOne(dto.getId()) == null)
+                .map(this::createFromTmdbDto)
+                .collect(Collectors.toList());
 
         joinAll(movies);
         return movies;
@@ -58,12 +61,11 @@ public class MovieService {
     }
 
 
-
     /* READ */
     // 문자열 기반 검색
     @Transactional
     public List<Movie> search(String query, int pageNumber, int pageSize) {
-        List<Movie> movies = new ArrayList<>(movieRepository.findAllByTitleKoContains(query, PageRequest.of(pageNumber, pageSize))
+        List<Movie> movies = new ArrayList<>(movieRepository.findAllByTitleKoContains(query, PageRequest.of(pageNumber, pageSize, sort))
                 .stream().toList());
 
         if (movies.size() < MIN_SEARCH_LIST_SIZE)
@@ -89,5 +91,21 @@ public class MovieService {
     public Set<Movie> findAllToSeeFrom(String loginId) {
         return memberRepository.findByLoginId(loginId).get()
                 .getToSeeMovies();
+    }
+
+    // 북마크 이미 본 영화 확인
+    public boolean isSeenFrom(String movieId, String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
+                .getSeenMovies().stream()
+                .map(Movie::getId)
+                .anyMatch(id -> id.equals(movieId));
+    }
+
+    // 북마크 보고 싶은 영화 확인
+    public boolean isToSeeFrom(String movieId, String loginId) {
+        return memberRepository.findByLoginId(loginId).get()
+                .getToSeeMovies().stream()
+                .map(Movie::getId)
+                .anyMatch(id -> id.equals(movieId));
     }
 }

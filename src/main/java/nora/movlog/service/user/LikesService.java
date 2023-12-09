@@ -36,7 +36,7 @@ public class LikesService {
 
 
     /* READ */
-    private boolean check(String memberLoginId, long postId) {
+    public boolean check(String memberLoginId, long postId) {
         return likesRepository.existsByMemberLoginIdAndPostId(memberLoginId, postId);
     }
 
@@ -44,6 +44,9 @@ public class LikesService {
     /* DELETE */
     @Transactional
     public void delete(String memberLoginId, long postId) {
+        Post post = postRepository.findById(postId).get();
+        post.changeLike(post.getLikeCnt() - 1);
+
         likesRepository.deleteByMemberLoginIdAndPostId(memberLoginId, postId);
     }
 }

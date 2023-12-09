@@ -27,6 +27,7 @@ public class Post extends BaseEntity {
 
     /* 포스트 데이터 */
     private String body;
+    private boolean isReported;
 
     /* 연관관계 */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,8 +46,7 @@ public class Post extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Image image;
-    private final String rootPath = System.getProperty("user.dir");
-    private final String fileDirection = rootPath + "/src/main/resources/static/img/";
+    private String imageUrl;
 
 
     /* 메서드 */
@@ -62,7 +62,12 @@ public class Post extends BaseEntity {
         this.likeCnt = likeCnt;
     }
 
-    public void setImage(Image image) {
+    public void setImage(Image image, String imageUrl) {
         this.image = image;
+        this.imageUrl = imageUrl;
+    }
+
+    public void isReported() {
+        this.isReported = true;
     }
 }

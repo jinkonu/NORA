@@ -67,6 +67,10 @@
     gap: 10px;
 }
 
+#movie_id {
+    display: none;
+}
+
 .movie_btn {
     display: flex;
     justify-content: center;
@@ -91,10 +95,11 @@
     background-color: #590091; /* 마우스를 버튼 위에 올리면 배경색이 변경됩니다 */
 }
 
-#watchedlist_btn {
-    background: #EDEFF0;
-    color: #303337;
-}
+/* 봤을 때 */
+/* #watchedlist_btn {
+    background: #EDEFF0; //회색
+    color: #303337; //검은
+} */
 
 .btn_content {
     display: flex;
@@ -146,7 +151,16 @@
     scrollbar-width: none; /* 파이어폭스 */
 }
 
-#search_body::-webkit-scrollbar {
-    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+.user_posts{
+    display: flex;
+    flex-direction: column;
+    width: 796px;
+    overflow-y: auto;
+    
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
 }
 
+.user_posts::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}

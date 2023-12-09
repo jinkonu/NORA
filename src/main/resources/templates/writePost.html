@@ -12,6 +12,13 @@
 </head>
 
 <body>
+  <input type="text" id="tag1" name="tag" class="tag-input" placeholder="태그 입력" maxlength="6"> <!-- 최대 글자 수 6개 -->
+  <input type="text" id="tag2" name="tag" class="tag-input" maxlength="6">
+  <input type="text" id="tag3" name="tag" class="tag-input" maxlength="6">
+  <input type="text" id="tag4" name="tag" class="tag-input" maxlength="6">
+  <input type="text" id="tag5" name="tag" class="tag-input" maxlength="6">
+  <button type="button" id="sendTag">Send Tag</button>
+
   <form method="post" th:action="@{/post}" th:object="${postDto}" enctype="multipart/form-data">
     <!-- <div class="movie-title" th:text="${param.movieTitle} + '에 대한 제 생각은요..'"></div> -->
     <label th:for="movieId"></label>
@@ -20,12 +27,15 @@
     </label>
     <br/>
     <label>
-      <textarea th:field="*{body}" th:placeholder="${param.movieTitle} + '에 대해서 어떻게 생각하시나요?'" required></textarea>
+      <textarea class="Posttextarea" th:field="*{body}" th:placeholder="${param.movieTitle} + '에 대해서 어떻게 생각하시나요?'" required></textarea>
     </label>
     <label>
       <input type="file" th:field="*{image}" accept="image/*">
     </label>
     <button type="submit">POST</button>
   </form>
+
+  <script>
+  </script>
 </body>
 </html>

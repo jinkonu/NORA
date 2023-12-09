@@ -48,6 +48,13 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<Likes> likes;
 
+    @OneToMany(mappedBy = "to", orphanRemoval = true)
+    private List<Notification> notifications;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private Image image;
+    private String imageUrl;
+
 
     @ManyToMany
     @JoinTable(
@@ -75,6 +82,11 @@ public class Member implements UserDetails {
     public void edit(String password, String nickname) {
         this.password = password;
         this.nickname = nickname;
+    }
+
+    public void setProfilePic(Image image, String imageUrl) {
+        this.image = image;
+        this.imageUrl = imageUrl;
     }
 
     public void follows(Member follower) {
@@ -106,7 +118,7 @@ public class Member implements UserDetails {
     }
 
     public void removeToSee(Movie movie) {
-        this.seenMovies.remove(movie);
+        this.toSeeMovies.remove(movie);
     }
 
 

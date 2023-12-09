@@ -37,6 +37,8 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
     // for json
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.7.1'
@@ -55,6 +57,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.aspectj:aspectjrt'
     implementation 'org.aspectj:aspectjweaver'
+
+    // for chatgpt
+    implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
 }
 
 tasks.named('test') {

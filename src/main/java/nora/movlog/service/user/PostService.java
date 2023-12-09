@@ -11,6 +11,7 @@ import nora.movlog.repository.movie.interfaces.MovieRepository;
 import nora.movlog.repository.user.PostRepository;
 import nora.movlog.repository.user.MemberRepository;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class PostService {
     private final ImageService imageService;
 
     private static final LocalDateTime homePostsDate = LocalDateTime.now().minusDays(MIN_LATEST_DAYS);
+    public static final Sort sort = Sort.by(Sort.Order.desc("lastModifiedAt"));
 
 
     /* CREATE */
@@ -39,9 +41,11 @@ public class PostService {
         Movie movie = movieRepository.findById(dto.getMovieId()).get();
 
         Post post = postRepository.save(dto.toEntity(member, movie));
-        Image image = imageService.save(dto.getImage(), post);
 
-        if (image != null) post.setImage(image);
+        if (!dto.getImage().getOriginalFilename().isEmpty()) {
+            Image image = imageService.savePostImage(dto.getImage(), post);
+            post.setImage(image, imageService.getImageUrl(image));
+        }
 
         return post.getId();
     }
@@ -55,22 +59,22 @@ public class PostService {
                 .orElseGet(() -> null);
     }
 
-    public List<PostDto> findAllFromMember(long memberId, int page, int size) {
-        return postRepository.findAllByMemberId(memberId, PageRequest.of(page, size)).stream()
+    public List<PostDto> findAllFromMemberId(long memberId, int page, int size) {
+        return postRepository.findAllByMemberId(memberId, PageRequest.of(page, size, sort)).stream()
                 .map(PostDto::of)
                 .sorted(PostDto::compareTo)
                 .toList();
     }
 
     public List<PostDto> findAllFromMemberLoginId(String memberLoginId, int page, int size) {
-        return postRepository.findAllByMemberLoginId(memberLoginId, PageRequest.of(page, size)).stream()
+        return postRepository.findAllByMemberLoginId(memberLoginId, PageRequest.of(page, size, sort)).stream()
                 .map(PostDto::of)
                 .sorted(PostDto::compareTo)
                 .toList();
     }
 
     public List<PostDto> findAllFromMovie(String movieId, int page, int size) {
-        return postRepository.findAllByMovieId(movieId, PageRequest.of(page, size)).stream()
+        return postRepository.findAllByMovieId(movieId, PageRequest.of(page, size, sort)).stream()
                 .map(PostDto::of)
                 .sorted(PostDto::compareTo)
                 .toList();
@@ -94,6 +98,11 @@ public class PostService {
                 .toList();
     }
 
+    public boolean isWrittenFrom(String memberLoginId, long postId) {
+        return postRepository.findById(postId).get().getMember().getLikes()
+                .equals(memberLoginId);
+    }
+
 
 
     /* UPDATE */
@@ -104,18 +113,22 @@ public class PostService {
         if (optPost.isEmpty()) return null;
 
         Post post = optPost.get();
+        post.update(dto);
 
-        if (!dto.getNewImage().isEmpty()) {
+        if (dto.getNewImage() != null) {
             imageService.delete(post.getImage());
-            post.setImage(null);
+            post.setImage(null, null);
 
-            Image image = imageService.save(dto.getNewImage(), post);
-            post.setImage(image);
-
-            post.update(dto);
+            Image image = imageService.savePostImage(dto.getNewImage(), post);
+            post.setImage(image, imageService.getImageUrl(image));
         }
 
         return postId;
+    }
+
+    @Transactional
+    public void report(long postId) {
+        postRepository.findById(postId).get().isReported();
     }
 
 
@@ -126,6 +139,8 @@ public class PostService {
         Optional<Post> optPost = postRepository.findById(postId);
 
         if (optPost.isEmpty()) return null;
+
+
 
         if (optPost.get().getImage() != null)
             imageService.delete(optPost.get().getImage());

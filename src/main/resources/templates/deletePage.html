@@ -3,28 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <title>삭제</title>
+    <link rel="stylesheet" href="/css/main_frame.css">
+    <link rel="stylesheet" href="/css/left_menubar.css">
+    <link rel="stylesheet" href="/css/right_trending.css">
+    <link rel="stylesheet" href="/css/settings.css">
+    <link rel="stylesheet" href="/css/useful.css">
+    <link rel="stylesheet" href="/css/post_layout.css">
 </head>
 <body>
-<div>
-  <h2>계정 삭제</h2>
-  <form th:method="post" th:action="@{/settings/delete}" th:object="${deleteDto}">
-    <div>
-      <label th:for="loginId">이메일 : </label>
-      <label th:text="${loginId}"></label>
+  <div class="frame">
+    <div class="inner_frame">
+        <!-- left menu bar -->
+        <div class="left_menubar">
+            <div class="logo_main">
+                <img src="/icons/logo(main).svg" alt="movlog"/>
+            </div>
+            <div class="menu">
+                <div class="menu_element">
+                    <button class="menu_button" id="home_btn" value="home">
+                        <div class="menu_icon">
+                            <img src="/icons/House.svg" alt="home"/>
+                        </div>
+                        <div class="menu_button_text">홈</div>
+                    </button>
+                </div>
+                <div class="menu_element">
+                    <button class="menu_button" id="password_btn" value="password">
+                        <div class="menu_icon">
+                            <img src="/icons/Gear.svg" alt="notifications"/>
+                        </div>
+                        <div class="menu_button_text">비밀번호 변경</div>
+                    </button>
+                </div>
+                <div class="menu_element">
+                    <button class="menu_button" id="nickname_btn" value="nickname">
+                        <div class="menu_icon">
+                            <img src="/icons/Gear.svg" alt="Search"/>
+                        </div>
+                        <div class="menu_button_text">닉네임 변경</div>
+                    </button>
+                </div>
+                <div class="menu_element">
+                    <button class="menu_button" id="profilepic_btn" value="profilepic">
+                        <div class="menu_icon">
+                            <img src="/icons/Gear.svg" alt="Search"/>
+                        </div>
+                        <div class="menu_button_text">프로필 사진 변경</div>
+                    </button>
+                </div>
+                <div class="menu_element">
+                  <button class="menu_button" id="delete_btn" value="delete">
+                      <div class="menu_icon">
+                          <img src="/icons/Gear.svg" alt="Search"/>
+                      </div>
+                      <div class="menu_button_text">계정 삭제</div>
+                  </button>
+              </div>
+            </div>
+        </div>
+    
+        <!-- center body -->
+        <div class="center_body">
+          <div class="form-class">
+            <h2>계정 삭제</h2>
+            <form th:method="post" th:action="@{/settings/delete}" th:object="${deleteDto}">
+              <div>
+                <label th:for="loginId">이메일 : </label>
+                <label th:text="${loginId}"></label>
+              </div>
+              <br/>
+              <div>
+                <label th:for="password">비밀번호 : </label>
+                <input type="password" class="password-class" th:field="*{password}" required/>
+              </div>
+              <br/>
+              <div>
+                <label th:for="passwordCheck">비밀번호 확인 : </label>
+                <input type="password" class="passwordCheck-class" th:field="*{passwordCheck}" required/>
+              </div>
+              <br/>
+              <button type="submit">삭제</button>
+            </form>
+          </div>
+        </div>
+        
+        <!-- right trending -->
+        <div class="right_trending">
+            <div class="right_trending_content">
+                <div id="inner_search_header">
+                    <select class="subject">
+                        <option value="movieQuery">Movie</option>
+                        <option value="memberQuery">User</option>
+                    </select>
+                    <div class="right_search">
+                        <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
+                        <input type="text" class="search_input" placeholder="검색">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <br/>
-    <div>
-      <label th:for="password">비밀번호 : </label>
-      <input type="password" th:field="*{password}"/>
-    </div>
-    <br/>
-    <div>
-      <label th:for="passwordCheck">비밀번호 확인 : </label>
-      <input type="password" th:field="*{passwordCheck}"/>
-    </div>
-    <br/>
-    <button type="submit">삭제</button>
-  </form>
 </div>
+<script>
+  const menuEvent = document.querySelectorAll(".menu_button");
+  for (let s of menuEvent) {
+      s.addEventListener("click", e => {
+          const current = e.currentTarget;
+          if (current.value == "home") {
+            let urlParam = current.value;
+            window.open('/', '_self');
+          }
+          if (current.value == "password") {
+              let urlParam = "settings/password";
+              //let memberId = document.getElementById('user_id').value;
+              //window.open('/' + urlParam + '/' + memberId, '_self');
+              window.open('/' + urlParam, '_self');
+          }
+          if (current.value == "nickname") {
+              let urlParam = "settings/nickname";
+              //let memberId = document.getElementById('user_id').value;
+              //window.open('/' + urlParam + '/' + memberId, '_self');
+              window.open('/' + urlParam, '_self');
+          }
+          if (current.value == "delete") {
+            let urlParam = "settings/delete";
+            //let memberId = document.getElementById('user_id').value;
+            //window.open('/' + urlParam + '/' + memberId, '_self');
+            window.open('/' + urlParam, '_self');
+          }
+          if (current.value == "profilepic") {
+            let urlParam = "settings/profilepic";
+            //let memberId = document.getElementById('user_id').value;
+            //window.open('/' + urlParam + '/' + memberId, '_self');
+            window.open('/' + urlParam, '_self');
+          }
+      });
+  }
+  document.querySelector("form").addEventListener("submit", function(event) {
+    var password = document.querySelector(".password-class");
+    var passwordCheck = document.querySelector(".passwordCheck-class");
+    var passwordPattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"); // 비밀번호 형식을 정의하는 정규식
+
+    if (!passwordPattern.test(password.value)) {
+        alert("• 비밀번호는 최소 8자리이며, 대문자, 소문자, 특수문자, 숫자를 포함해야 합니다."); // 에러 메시지
+        password.style.borderColor = "red";
+        password.value = ""; // password 초기화.
+        event.preventDefault(); // form 전송 중지
+    } else if (password.value !== passwordCheck.value) {
+        alert("• 비밀번호와 비밀번호 확인이 일치하지 않습니다."); // 에러 메시지
+        password.style.borderColor = "red";
+        passwordCheck.style.borderColor = "red";
+        password.value = ""; // password 초기화.
+        passwordCheck.value = ""; // passwordCheck 초기화.
+        event.preventDefault(); // form 전송 중지
+    }
+  });   
+
+  const searchEvent = document.querySelectorAll(".search_input");
+        for (let s of searchEvent) {
+            s.addEventListener('keyup', e => {
+                // querySelectorAll시 다시 객체 불러와야됨
+                const current = e.currentTarget;
+                if (e.keyCode == 13 && current.value !== null) {
+                    //let urlParam = new URLSearchParams(location.search);
+                    let urlParam = new URLSearchParams();
+
+                    const dropdown = current.closest("#inner_search_header").querySelector('.subject');
+                    const choose = dropdown.selectedIndex;
+                    if (choose == 1) {
+                        urlParam.set("memberQuery", current.value);
+                    }
+                    else {
+                        urlParam.set("movieQuery", current.value);
+                    }
+
+                    let new_urlParam = urlParam.toString();
+                    window.open('/search' + '?' + new_urlParam, '_self');
+
+                }
+
+            });
+        }
+</script>
 </body>
 </html>

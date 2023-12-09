@@ -31,17 +31,18 @@ public class CommentController {
                       Authentication auth) {
         commentService.write(dto, postId, ((UserDetails) auth.getPrincipal()).getUsername());
 
-        return "redirect:" + POST_URI + postId;
+        return "redirect:" + POST_URI + "/" + postId;
     }
 
 
     /* READ */
+    @ResponseBody
     @GetMapping("/{commentId}")
     public CommentDto read(@PathVariable long commentId,
                            Authentication auth) {
         CommentDto comment = commentService.findOne(commentId);
 
-        if (MemberFinder.getUsernameFrom(auth).equals(comment.getMemberLoginId()))
+        if (MemberFinder.getLoginId(auth).equals(comment.getMemberLoginId()))
             return comment;
 
         return null;
@@ -49,15 +50,17 @@ public class CommentController {
 
 
     /* UPDATE */
+    @ResponseBody
     @PostMapping("/{commentId}/edit")
     public void edit(@PathVariable long commentId,
                      @ModelAttribute CommentEditDto dto,
                      Authentication auth) {
-        commentService.edit(commentId, dto, MemberFinder.getUsernameFrom(auth));
+        commentService.edit(commentId, dto, MemberFinder.getLoginId(auth));
     }
 
 
     /* DELETE */
+    @ResponseBody
     @GetMapping("/{commentId}/delete")
     public void delete(@PathVariable long commentId,
                        Authentication auth) {

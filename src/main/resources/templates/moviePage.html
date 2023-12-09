@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/left_menubar.css">
     <link rel="stylesheet" href="/css/right_trending.css">
     <link rel="stylesheet" href="/css/center_body_movie.css">
+    <link rel="stylesheet" href="/css/post_layout.css">
     <link rel="stylesheet" href="/css/modal_body.css">
     <title>MoviePage</title>
 
@@ -20,7 +21,7 @@
     <div class="frame">
 
         <div class="inner_frame">
-    
+
             <!-- left menu bar -->
             <div class="left_menubar">
                 <div class="logo_main">
@@ -37,9 +38,9 @@
                         </button>
                     </div>
                     <div class="menu_element">
-                        <button class="menu_button" id="notification_btn" value="notifications">
+                        <button class="menu_button" id="notification_btn" value="notification">
                             <div class="menu_icon">
-                                <img src="/icons/Heart.svg" alt="notifications"/>
+                                <img src="/icons/Heart.svg" alt="notification"/>
                             </div>
                             <div class="menu_button_text">알림</div>
                         </button>
@@ -90,7 +91,7 @@
                     <button class="profile">
                         <div class="account">
                             <div class="profile_img">
-                                <img src="/img/example_profile_img.svg" alt="img"/>
+                                <img th:src="${loginMember.imageUrl}" alt="img"/>
                             </div>
                             <div class="user_info">
                                 <div class="user_info_name" th:text="${loginMember.nickname}">
@@ -111,6 +112,10 @@
                         <div class="menu_button_text">로그아웃</div>
                     </button>    
                     <!-- 로그아웃 버튼 임시 추가 -->
+
+                    <!-- 유저 아이디 저장용 태그 -->
+                    <button id="user_id" th:value="${loginMember.id}"></button>
+
                 </div>
             </div>
 
@@ -147,6 +152,8 @@
                                         </div>
     
                                     </div>
+
+                                    <span id="movie_id" th:text="${movie.id}"></span>
     
                                     <!-- <div th:each="genre : ${movie.genre}">
                                         <div th:text="${genre.name}"></div>
@@ -161,14 +168,16 @@
                         <div class="movie_btn">
                             <div class="list_btn" id="watchedlist_btn">
                                 <div class="btn_content">
-                                    <img class="btn_icon" src="/icons/EyeOpened.svg" alt="WatchList"/>
-                                    <div class="btn_txt">봤습니다:)</div>
+                                    <img class="btn_icon" src="/icons/EyeClosed.svg"/>
+                                    <!-- notwatched:안봤습니다 watched:봤습니다:) -->
+                                    <span class="btn_txt">안봤습니다</span>
                                 </div>
                             </div>
-                            <div class="list_btn" id="wishlist_btn" onclick="addToSee()">
+                            <div class="list_btn" id="wishlist_btn">
                                 <div class="btn_content">
                                     <!-- <img class="btn_icon" src="/icons/EyeClosed.svg" alt="WatchList"/> -->
-                                    <div class="btn_txt">보고싶은 영화에 담기</div>
+                                    <!-- not_listed:보고싶은 영화에 담기 listed:담았습니다:) -->
+                                    <span class="btn_txt">보고싶은 영화에 담기</span>
                                 </div>
                             </div>
                             <div class="list_btn" id="write_btn" onclick="openModal()">
@@ -200,15 +209,69 @@
                     </div>
 
                 </div>
+
+                <div class="user_posts">
+                    <div class="movie_post" th:each="post : ${posts}">
+                        <div class="post_header_container">
+                            <div class="post_header">
+                                <div class="post_member_img">
+                                    <img th:src="${post.memberImageUrl}" alt="img"> <!-- 프로필 사진으로 변경 필요. -->
+                                </div>
+                                <div class="post_infos">
+                                    <div class="post_info">
+                                        <div class="post_member" th:text="${post.memberNickname}"></div>
+                                        <div class="post_member_id" th:text="${post.memberLoginId}"></div>
+                                        <div class="post_time" th:text="${post.createdAt}"></div>
+    
+                                    </div>
+                                    <div class="post_info">
+                                        <div class="post_etc">on</div>
+                                        <div class="post_movie" th:text="${post.movieTitle}"></div>
+                                    </div>
+                                </div>
+    
+                            </div>
+    
+                            <!-- 게시글 삭제와 같은 기능 이용할 수 있는 아이콘 -->
+                            <div class="post_setting">
+                                <img src="/icons/DotsThree.svg" alt="settings">
+                            </div>
+
+                        </div>
+
+                        <div class="post_content">
+                            <form id="post_form" th:method="get" th:action="@{/post/{postId}}" th:object="${post}">
+                                <div class="post_content_text" id="toPost" th:text="${post.body}"></div>
+                                <span class="post_id" th:text="${post.id}"></span>
+                            </form>
+                            <img class="post_content_img" th:src="${post.imageUrl}">
+                        </div>
+
+                        <div class="post_footer">
+                            <div class="post_footer_comments" id="post_comments">
+                                <img src="/icons/ChatTeardropDots.svg" width="32" alt="comments"/>
+                                <div th:text="${post.commentCnt}"></div>
+                                <span class="post_id" th:text="${post.id}"></span>
+                            </div>
+                            <div class="post_footer_likes" id="post_likes">
+                                <img src="/icons/Likes.svg" width="32" alt="likes"/>
+                                <span id="post_like" th:text="${post.likeCnt}"></span>
+                                <span id="post_id" th:text="${post.id}"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         
             <!-- right trending -->
-            <div class="right_trending" id="right">
+            <div class="right_trending">
                 <div class="right_trending_content">
                     <div id="inner_search_header">
-                        <select id="subject">
+                        <select class="subject">
                             <option value="movieQuery">Movie</option>
-                            <option value="userQuery">User</option>
+                            <option value="memberQuery">User</option>
                         </select>
                         <div class="right_search">
                             <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
@@ -224,29 +287,195 @@
 
     <script src="../menu_control.js"></script>
     <script th:inline="javascript">
+        /* watched 여부 확인 */
+        document.addEventListener("DOMContentLoaded", function() {
+            const movieId = document.querySelector("#movie_id").innerText;
+            const watchedBtn = document.querySelector("#watchedlist_btn");
+            const wishBtn = document.querySelector("#wishlist_btn");
+
+            let apiURL1 = '/movie/' + movieId + '/isSeen';
+            let apiURL2 = '/movie/' + movieId + '/isToSee';
+
+            //is Seen 여부
+            fetch(apiURL1, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    //'Cookie': document.cookie
+                },
+            })
+            .then(response => {
+                console.log(response);
+                return response.json();
+            })
+            .then(data => {
+                if(data == true){
+                    watchedBtn.style.background = '#EDEFF0';
+                    watchedBtn.style.color = '#303337';
+                    watchedBtn.querySelector('img').src = '/icons/EyeOpened.svg';
+                    watchedBtn.querySelector('span').innerText = '봤습니다:)';
+                }
+            })
+            .catch(error => {
+                console.log("에러: ", error);
+            });
+
+            //is To See 여부
+            fetch(apiURL2, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    //'Cookie': document.cookie
+                },
+            })
+            .then(response => {
+                console.log(response);
+                return response.json();
+            })
+            .then(data => {
+                if(data == true){
+                    wishBtn.style.background = '#EDEFF0';
+                    wishBtn.style.color = '#303337';
+                    wishBtn.querySelector('span').innerText = '담았습니다:)';
+                }
+            })
+            .catch(error => {
+                console.log("에러: ", error);
+            });
+        });
+
+        const watchedBtn = document.querySelector("#watchedlist_btn");
+        watchedBtn.addEventListener("click", e => {
+            const movieId = document.querySelector("#movie_id").innerText;
+            let status = watchedBtn.querySelector('span').innerText;
+            if (status == '안봤습니다') {
+                watchedBtn.style.background = '#EDEFF0';
+                watchedBtn.style.color = '#303337';
+                watchedBtn.querySelector('img').src = '/icons/EyeOpened.svg';
+                watchedBtn.querySelector('span').innerText = '봤습니다:)';
+                let apiURL = '/bookmark/' + movieId + '/seen/add';
+
+                fetch(apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                        console.log('요청이 성공적으로 처리되었습니다.', data);
+                })
+                .catch(error => {
+                    console.log("에러: ", error);
+                });
+            }
+            else {
+                watchedBtn.style.background = 'var(--primary, #9E00FF)';
+                watchedBtn.style.color = '#FFFDFD';
+                watchedBtn.querySelector('img').src = '/icons/EyeClosed.svg';
+                watchedBtn.querySelector('span').innerText = '안봤습니다';
+                let apiURL = '/bookmark/' + movieId + '/seen/delete';
+
+                fetch(apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                        console.log('요청이 성공적으로 처리되었습니다.', data);
+                })
+                .catch(error => {
+                    console.log("에러: ", error);
+                });
+            }
+
+        });
+        const wishBtn = document.querySelector("#wishlist_btn");
+        wishBtn.addEventListener("click", e => {
+            const movieId = document.querySelector("#movie_id").innerText;
+            let status = wishBtn.querySelector('span').innerText;
+            if (status == '보고싶은 영화에 담기') {
+                wishBtn.style.background = '#EDEFF0';
+                wishBtn.style.color = '#303337';
+                wishBtn.querySelector('span').innerText = '담았습니다:)';
+                let apiURL = '/bookmark/' + movieId + '/toSee/add';
+
+                fetch(apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                        console.log('요청이 성공적으로 처리되었습니다.', data);
+                })
+                .catch(error => {
+                    console.log("에러: ", error);
+                });
+            }
+            else {
+                wishBtn.style.background = 'var(--primary, #9E00FF)';
+                wishBtn.style.color = '#FFFDFD';
+                wishBtn.querySelector('span').innerText = '보고싶은 영화에 담기';
+                let apiURL = '/bookmark/' + movieId + '/toSee/delete';
+
+                fetch(apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                        console.log('요청이 성공적으로 처리되었습니다.', data);
+                })
+                .catch(error => {
+                    console.log("에러: ", error);
+                });
+            }
+
+        });
+
         /*<![CDATA[*/
+        
         const searchEvent = document.querySelectorAll(".search_input");
         for (let s of searchEvent) {
             s.addEventListener('keyup', e => {
-                if (e.keyCode == 13) {
-                    // querySelectorAll시 다시 객체 불러와야됨
-                    const current = e.currentTarget;
+                // querySelectorAll시 다시 객체 불러와야됨
+                const current = e.currentTarget;
+                if (e.keyCode == 13 && current.value !== null) {
                     //let urlParam = new URLSearchParams(location.search);
                     let urlParam = new URLSearchParams();
 
-                    const dropdown = document.querySelector("#subject");
+                    const dropdown = current.closest("#inner_search_header").querySelector('.subject');
                     const choose = dropdown.selectedIndex;
                     if (choose == 1) {
-                        urlParam.set("userQuery", current.value);
+                        urlParam.set("memberQuery", current.value);
                     }
                     else {
                         urlParam.set("movieQuery", current.value);
                     }
 
                     let new_urlParam = urlParam.toString();
-                    let new_path = '/search';
-                    window.open(new_path + '?' + new_urlParam, '_self');
+                    window.open('/search' + '?' + new_urlParam, '_self');
+
                 }
+
             });
         }
 
@@ -260,6 +489,146 @@
             });
         }
 
+        /* 게시글 누를 때 포스트 상세페이지로 가기 */
+        let movePostEvent = document.querySelectorAll("#post_form");
+        for (let t of movePostEvent) {
+            t.addEventListener("click", move_to_post => {
+                let postId = t.querySelector('span').innerText;
+                let apiURL = '/post/' + postId;
+                console.log(apiURL);
+                fetch (apiURL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+
+                })
+                .then(response => {
+                    console.log(response);
+                    if (apiURL == '/post/' + postId) {
+                       window.location.href = apiURL;
+                    }
+                })
+                .then(data => {
+                    console.log("Server response: ", data);
+
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                });
+            });
+        }
+
+        /* 게시물 댓글 수도 마찬가지 포스트 페이지로 */
+        let movePostEvent_comment = document.querySelectorAll(".post_footer_comments");
+            for (let t of movePostEvent_comment) {
+                t.addEventListener("click", move_post => {
+                    let postId = t.querySelector('span').innerText;
+                    let apiURL = '/post/' + postId;
+                    console.log(apiURL);
+                    fetch (apiURL, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            //'Cookie': document.cookie
+                        },
+
+                    })
+                    .then(response => {
+                        console.log(response);
+                        if (apiURL == '/post/' + postId) {
+                           window.location.href = apiURL;
+                        }
+                    })
+                    .then(data => {
+                        console.log("Server response: ", data);
+                    })
+                    .catch(error => {
+                        console.log("Error: ", error);
+                    });
+            });
+        }
+
+        /* 게시글 마다 자신이 좋아요 눌렀는지 확인 */
+        document.addEventListener("DOMContentLoaded", function() {
+            const likeElements = document.querySelectorAll(".post_footer_likes");
+
+            // 선택된 요소들에 대해 반복문 실행
+            likeElements.forEach(function(likeElement) {
+                const postId = likeElement.querySelector('#post_id').innerText;
+                let apiURL = '/likes/' + postId + '/check';
+
+                fetch(apiURL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+                })
+                .then(response => {
+                    console.log(response);
+                    return response.json();
+                })
+                .then(data => {
+                    if(data == true){
+                        var imgElement = likeElement.querySelector('img');
+                        imgElement.src = "/icons/Likes_Filled.svg";
+                        imgElement.alt = "likes_filled";
+                    }
+                })
+                .catch(error => {
+                    console.log("에러: ", error);
+                });
+            });
+        });
+
+
+        /* likes_control */
+        const likeEvent = document.querySelectorAll(".post_footer_likes");
+        for (let s of likeEvent) {
+            s.addEventListener("click", e => {
+                const current = e.currentTarget;
+                var imgElement = current.querySelector('img');
+                var likesElement = current.querySelector('#post_like');
+                var postId = current.querySelector('#post_id').innerText;
+
+                likes_cnt = parseInt(likesElement.innerText);
+                if (imgElement.alt == "likes") {
+                    imgElement.src = "/icons/Likes_Filled.svg";
+                    imgElement.alt = "likes_filled";
+                    likes_cnt = likes_cnt + 1;
+                    var apiURL = '/likes/' + postId + '/add';
+                }
+                else if (imgElement.alt == "likes_filled") {
+                    imgElement.src = "/icons/Likes.svg";
+                    imgElement.alt = "likes";
+                    likes_cnt = likes_cnt - 1;
+                    var apiURL = '/likes/' + postId + '/delete';
+                }
+                likesElement.innerText = likes_cnt;
+
+                fetch (apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                    console.log("Server response: ", data);
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                });
+            });
+        }
+
+
         var movieId = /*[[${movie.id}]]*/ 'defaultMovieId';
         var movieTitle = /*[[${movie.titleKo}]]*/ 'defaultMovieId';
         function openModal() {
@@ -268,6 +637,35 @@
                 .then(data => {
                     document.getElementById('modalBody').innerHTML = data;
                     document.getElementById('myModal').style.display = 'block';
+                    
+                    document.getElementById('sendTag').addEventListener('click', function() {
+                        var tags = document.querySelectorAll('.tag-input');
+                        var keywords = [];
+                        tags.forEach(function(tag) {
+                          if(tag.value!="")
+                            keywords.push(tag.value);
+                        });
+
+                        fetch('/post/chatgpt', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                movieId: movieId,
+                                keywords: keywords
+                            }),
+                        })
+                        .then(response => response.text())  // Change response.json() to response.text()
+                        .then(data => {
+                            // Update the textarea with the server's response
+                            document.querySelector('.Posttextarea').value = data;
+                            tags.forEach(function(tag) {
+                              tag.value="";
+                            });
+                        })
+                        .catch(error => console.error('Error:', error));
+                    });                    
                 });
         }
         
@@ -277,29 +675,6 @@
                 document.getElementById('modalBody').innerHTML = '';
             }
         });
-
-        function addToSee() {
-            fetch(`/bookmark/${movieId}/toSee/add`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // 성공적으로 요청이 처리되면 수행할 로직
-                    console.log('요청이 성공적으로 처리되었습니다.', data);
-                })
-                .catch(error => {
-                    // 요청이 실패하면 수행할 로직
-                    console.error('에러 발생', error);
-                });
-        }
         /*]]>*/
     </script>
 </body>

@@ -43,6 +43,22 @@
                         <div class="menu_button_text">닉네임 변경</div>
                     </button>
                 </div>
+                <div class="menu_element">
+                    <button class="menu_button" id="profilepic_btn" value="profilepic">
+                        <div class="menu_icon">
+                            <img src="/icons/Gear.svg" alt="Search"/>
+                        </div>
+                        <div class="menu_button_text">프로필 사진 변경</div>
+                    </button>
+                </div>
+                <div class="menu_element">
+                    <button class="menu_button" id="delete_btn" value="delete">
+                        <div class="menu_icon">
+                            <img src="/icons/Gear.svg" alt="Search"/>
+                        </div>
+                        <div class="menu_button_text">계정 삭제</div>
+                    </button>
+                </div>
             </div>
         </div>
     
@@ -75,14 +91,14 @@
             </form>
           </div>
         </div>
-    
+        
         <!-- right trending -->
         <div class="right_trending">
             <div class="right_trending_content">
                 <div id="inner_search_header">
-                    <select id="subject">
+                    <select class="subject">
                         <option value="movieQuery">Movie</option>
-                        <option value="userQuery">User</option>
+                        <option value="memberQuery">User</option>
                     </select>
                     <div class="right_search">
                         <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
@@ -115,8 +131,46 @@
               //window.open('/' + urlParam + '/' + memberId, '_self');
               window.open('/' + urlParam, '_self');
           }
+          if (current.value == "delete") {
+            let urlParam = "settings/delete";
+            //let memberId = document.getElementById('user_id').value;
+            //window.open('/' + urlParam + '/' + memberId, '_self');
+            window.open('/' + urlParam, '_self');
+          }
+          if (current.value == "profilepic") {
+            let urlParam = "settings/profilepic";
+            //let memberId = document.getElementById('user_id').value;
+            //window.open('/' + urlParam + '/' + memberId, '_self');
+            window.open('/' + urlParam, '_self');
+          }
       });
   }
+
+  const searchEvent = document.querySelectorAll(".search_input");
+        for (let s of searchEvent) {
+            s.addEventListener('keyup', e => {
+                // querySelectorAll시 다시 객체 불러와야됨
+                const current = e.currentTarget;
+                if (e.keyCode == 13 && current.value !== null) {
+                    //let urlParam = new URLSearchParams(location.search);
+                    let urlParam = new URLSearchParams();
+
+                    const dropdown = current.closest("#inner_search_header").querySelector('.subject');
+                    const choose = dropdown.selectedIndex;
+                    if (choose == 1) {
+                        urlParam.set("memberQuery", current.value);
+                    }
+                    else {
+                        urlParam.set("movieQuery", current.value);
+                    }
+
+                    let new_urlParam = urlParam.toString();
+                    window.open('/search' + '?' + new_urlParam, '_self');
+
+                }
+
+            });
+        }
 </script>
 </body>
 </html>

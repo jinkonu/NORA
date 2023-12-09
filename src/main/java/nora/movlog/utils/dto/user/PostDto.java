@@ -4,16 +4,10 @@ import lombok.Builder;
 import lombok.Data;
 import nora.movlog.domain.user.Image;
 import nora.movlog.domain.user.Post;
-import nora.movlog.utils.FileUtility;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
-
-import static nora.movlog.utils.FileUtility.getFullPath;
 
 @Builder
 @Data
@@ -33,6 +27,7 @@ public class PostDto implements Comparable<PostDto> {
     /* Member */
     private String memberLoginId;
     private String memberNickname;
+    private String memberImageUrl;
 
     /* Like */
     private int likeCnt;
@@ -43,7 +38,7 @@ public class PostDto implements Comparable<PostDto> {
     /* Image */
     private Image nowImage;
     private MultipartFile newImage;
-    private Resource image;
+    private String imageUrl;
 
     /* Date */
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -56,21 +51,13 @@ public class PostDto implements Comparable<PostDto> {
                 .movieTitle(post.getMovie().getTitleKo())
                 .memberLoginId(post.getMember().getLoginId())
                 .memberNickname(post.getMember().getNickname())
+                .memberImageUrl(post.getMember().getImageUrl())
                 .likeCnt(post.getLikeCnt())
                 .commentCnt(post.getCommentCnt())
                 .createdAt(formatter.format(post.getCreatedAt()))
                 .lastModifiedAt(formatter.format(post.getLastModifiedAt()))
-                .nowImage(post.getImage())
-                .image(toResource(post.getImage()))
+                .imageUrl(post.getImageUrl())
                 .build();
-    }
-
-    private static Resource toResource(Image image) {
-        try {
-            return new UrlResource("file:" + getFullPath(image.getSavedFileName())) ;
-        } catch (IOException e) {
-            return null;
-        }
     }
 
     @Override

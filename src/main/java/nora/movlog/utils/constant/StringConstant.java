@@ -74,6 +74,7 @@ public class StringConstant {
     // MOVIE CONTROLLER
     public static final String DEFAULT_SEARCH_PAGE = "0";
     public static final String DEFAULT_SEARCH_SIZE = "5";
+    public static final String DEFAULT_NOTIFICATION_SIZE = "10";
 
 
     // USER
@@ -121,8 +122,11 @@ public class StringConstant {
     public static final String SETTINGS_URI = "/settings";
     public static final String PASSWORD_URI = "/password";
     public static final String NICKNAME_URI = "/nickname";
+    public static final String PROFILE_PIC_URI = "/profilepic";
     public static final String DELETE_URI = "/delete";
     public static final String IMAGE_URI = "/image";
+    public static final String NATION_URI = "/nation";
+    public static final String CHATGPT_URI = "/chatgpt";
 
     // AUTHORITIES
     public static final String AUTH_UNVERIFIED = "UNVERIFIED";
@@ -135,10 +139,18 @@ public class StringConstant {
 
 
     // NOTIFICATION
-    public static final String COMMENT_TYPE = "comment";
-    public static final String LIKES_TYPE = "likes";
-    public static final String FOLLOW_TYPE = "follow";
+    public static final String COMMENT_TYPE = "댓글을 작성";
+    public static final String LIKES_TYPE = "좋아요";
+    public static final String FOLLOW_TYPE = "팔로우";
+    public static final String UNFOLLOW_TYPE = "언팔로우";
 
     public static final String FOLLOWING = "following";
     public static final String FOLLOWER = "follower";
+
+    // CHATGPT
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String BEARER = "Bearer ";
+    public static final String MODEL = "text-davinci-003";
+    public static final String MEDIA_TYPE = "application/json; charset=UTF-8";
+    public static final String OPENAI_URL = "https://api.openai.com/v1/completions";
 }

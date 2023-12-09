@@ -3,6 +3,7 @@ package nora.movlog.service.user;
 import lombok.RequiredArgsConstructor;
 import nora.movlog.domain.movie.Movie;
 import nora.movlog.domain.user.Comment;
+import nora.movlog.domain.user.Image;
 import nora.movlog.domain.user.Likes;
 import nora.movlog.domain.user.Member;
 import nora.movlog.repository.movie.interfaces.MovieRepository;
@@ -15,11 +16,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 
 import static nora.movlog.utils.constant.StringConstant.*;
 
@@ -31,6 +31,9 @@ public class MemberService {
     private final LikesRepository likesRepository;
     private final CommentRepository commentRepository;
     private final BCryptPasswordEncoder encoder;
+    private final ImageService imageService;
+
+
 
     /* CREATE */
     @Transactional
@@ -102,6 +105,13 @@ public class MemberService {
                 .getToSeeMovies();
     }
 
+    public boolean isFollowing(String followingLoginId, String followerLoginId) {
+        Member follower = memberRepository.findByLoginId(followerLoginId).get();
+        Member following = memberRepository.findByLoginId(followingLoginId).get();
+
+        return following.getFollowings().contains(follower);
+    }
+
 
     /* UPDATE */
     @Transactional
@@ -110,10 +120,17 @@ public class MemberService {
 
         if (dto.getNewPassword() == null) // 닉네임 수정
             member.edit(member.getPassword(), dto.getNewNickname());
-        else // 비밀번호 수정
+        else                              // 비밀번호 수정
             member.edit(encoder.encode(dto.getNewPassword()), member.getNickname());
     }
 
+    @Transactional
+    public void setProfilePic(String loginId, MultipartFile multipartFile) throws IOException {
+        Member member = memberRepository.findByLoginId(loginId).get();
+
+        Image image = imageService.saveProfiePicImage(multipartFile, member);
+        member.setProfilePic(image, imageService.getImageUrl(image));
+    }
 
 
     /* DELETE */
@@ -135,11 +152,16 @@ public class MemberService {
     }
 
     @Transactional
-    public void unfollow(String followingId, String followerId) {
+    public Map<String, Member> unfollow(String followingId, String followerId) {
         Member following = memberRepository.findByLoginId(followingId).get();
         Member follower = memberRepository.findByLoginId(followerId).get();
 
         following.unfollows(follower);
+
+        return new HashMap<>(Map.of(
+                FOLLOWING, following,
+                FOLLOWER, follower
+        ));
     }
 
     @Transactional

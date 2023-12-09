@@ -2,7 +2,6 @@ package nora.movlog.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nora.movlog.domain.user.Member;
 import nora.movlog.service.user.MemberService;
 import nora.movlog.service.user.PostService;
 import nora.movlog.utils.MemberFinder;
@@ -30,26 +29,59 @@ public class MemberController {
                                   @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
                                   Model model,
                                   Authentication auth) {
-        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getUsernameFrom(auth)));
+        model.addAttribute("loginMember", memberService.findByLoginId(MemberFinder.getLoginId(auth)));
         model.addAttribute("profileMember", memberService.profile(id));
-        model.addAttribute("posts", postService.findAllFromMember(id, page, size));
+        model.addAttribute("posts", postService.findAllFromMemberId(id, page, size));
 
         return "userPage";
     }
 
 
-    // 세션 기반 프로필
-    @GetMapping
-    public String profilePageFrom(Authentication auth,
-                                  @RequestParam(defaultValue = DEFAULT_SEARCH_PAGE) int page,
-                                  @RequestParam(defaultValue = DEFAULT_SEARCH_SIZE) int size,
-                                  Model model) {
-        Member loginMember = memberService.findByLoginId(MemberFinder.getUsernameFrom(auth));
+    // 자기 프로필 화면인지 확인
+    @ResponseBody
+    @GetMapping(ID_URI + "/isSelf")
+    public boolean isSelf(@PathVariable long id,
+                          Authentication auth) {
+        return memberService.profile(id).equals(memberService.findByLoginId(MemberFinder.getLoginId(auth)));
+    }
 
-        model.addAttribute("loginMember", loginMember);
-        model.addAttribute("profileMember", loginMember);
-        model.addAttribute("posts", postService.findAllFromMember(loginMember.getId(), page, size));
 
-        return "userPage";
+    // 팔로우 신청
+    @ResponseBody
+    @PostMapping(ID_URI + "/follow")
+    public void follow(@PathVariable(name = "id") long followerId,
+                       Authentication auth) {
+        log.info("FOLLOW!!!");
+
+        String followerLoginId = memberService.profile(followerId).getLoginId();
+        String followingLoginId = MemberFinder.getLoginId(auth);
+
+        memberService.follow(followingLoginId, followerLoginId);
+    }
+
+
+    // 팔로우 여부 조회
+    @ResponseBody
+    @GetMapping(ID_URI + "/isFollowing")
+    public boolean isFollowing(@PathVariable(name = "id") long followerId,
+                               Authentication auth) {
+        String followerLoginId = memberService.profile(followerId).getLoginId();
+        String followingLoginId = MemberFinder.getLoginId(auth);
+
+        return memberService.isFollowing(followingLoginId, followerLoginId);
+    }
+
+
+    // 팔로우 취소
+    @ResponseBody
+    @PostMapping(ID_URI + "/unfollow")
+    public void unfollow(@PathVariable(name = "id") long followerId,
+                         Authentication auth) {
+        log.info("UNFOLLOW!!!");
+
+        String followerLoginId = memberService.profile(followerId).getLoginId();
+        String followingLoginId = MemberFinder.getLoginId(auth);
+
+        memberService.unfollow(followingLoginId, followerLoginId);
     }
 }
