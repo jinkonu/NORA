@@ -262,12 +262,12 @@
             </div>
         
             <!-- right trending -->
-            <div class="right_trending" id="right">
+            <div class="right_trending">
                 <div class="right_trending_content">
                     <div id="inner_search_header">
-                        <select id="subject">
+                        <select class="subject">
                             <option value="movieQuery">Movie</option>
-                            <option value="userQuery">User</option>
+                            <option value="memberQuery">User</option>
                         </select>
                         <div class="right_search">
                             <img src="/icons/MagnifyingGlass.svg" width="24" alt="search"/>
@@ -448,28 +448,30 @@
         });
 
         /*<![CDATA[*/
+        
         const searchEvent = document.querySelectorAll(".search_input");
         for (let s of searchEvent) {
             s.addEventListener('keyup', e => {
-                if (e.keyCode == 13) {
-                    // querySelectorAll시 다시 객체 불러와야됨
-                    const current = e.currentTarget;
+                // querySelectorAll시 다시 객체 불러와야됨
+                const current = e.currentTarget;
+                if (e.keyCode == 13 && current.value !== null) {
                     //let urlParam = new URLSearchParams(location.search);
                     let urlParam = new URLSearchParams();
 
-                    const dropdown = document.querySelector("#subject");
+                    const dropdown = current.closest("#inner_search_header").querySelector('.subject');
                     const choose = dropdown.selectedIndex;
                     if (choose == 1) {
-                        urlParam.set("userQuery", current.value);
+                        urlParam.set("memberQuery", current.value);
                     }
                     else {
                         urlParam.set("movieQuery", current.value);
                     }
 
                     let new_urlParam = urlParam.toString();
-                    let new_path = '/search';
-                    window.open(new_path + '?' + new_urlParam, '_self');
+                    window.open('/search' + '?' + new_urlParam, '_self');
+
                 }
+
             });
         }
 
