@@ -124,14 +124,14 @@
                                     </div>
                                     <div class="post_infos">
                                         <div class="post_info">
-                                            <div class="post_member" th:field="${memberNickname}"></div>
-                                            <div class="post_member_id" th:field="${memberLoginId}"></div>
-                                            <div class="post_time" th:field="${createdAt}"></div>
+                                            <div class="post_member" th:text="${post.memberNickname}"></div>
+                                            <div class="post_member_id" th:text="${post.memberLoginId}"></div>
+                                            <div class="post_time" th:text="${post.createdAt}"></div>
 
                                         </div>
                                         <div class="post_info">
                                             <div class="post_etc">on</div>
-                                            <div class="post_movie" th:field="${movieTitle}"></div>
+                                            <div class="post_movie" th:text="${post.movieTitle}"></div>
                                         </div>
                                     </div>
 
@@ -145,18 +145,18 @@
                             </div>
                             <div class="post_content">
                                 <form action="post/{postId}" method="get">
-                                    <div class="post_content_text" th:field="${body}"></div>
+                                    <div class="post_content_text" th:text="${post.body}"></div>
                                 </form>
-                                <img class="post_content_img" th:src="${imageUrl}">
+                                <img class="post_content_img" th:src="${post.imageUrl}">
                             </div>
                             <div class="post_footer">
                                 <div class="post_footer_comments" id="post_comments">
                                     <img src="/icons/ChatTeardropDots.svg" width="32" alt="comments"/>
-                                    <div th:field="${commentCnt}"></div>
+                                    <div th:text="${post.commentCnt}"></div>
                                 </div>
                                 <div class="post_footer_likes" id="post_likes">
                                     <img src="/icons/Likes.svg" width="32" alt="likes"/>
-                                    <span th:field="${likeCnt}"></span>
+                                    <span th:text="${post.likeCnt}"></span>
                                 </div>
                             </div>
                         </div>
