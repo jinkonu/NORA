@@ -147,15 +147,9 @@
                                         <span class="post_id" th:text="${post.id}"></span>
                                     </div>
                                 </div>
-                                <div class="post_setting_else">
-                                    <img src="/icons/DotsThree.svg" alt="settings">
-                                    <div class="post_setting_else_pop">
-                                        <div class="post_setting_text">신고하기</div>
-                                        <span class="post_id" th:text="${post.id}"></span>
-                                    </div>
-                                </div>
 
                             </div>
+
                             <div class="post_content">
                                 <form action="post/{postId}" method="get">
                                     <div class="post_content_text" th:text="${post.body}"></div>
@@ -238,7 +232,7 @@
         </div>
 
     </div>
-    <script src="menu_control.js"></script>
+    <script src="../menu_control.js"></script>
     <script>
             /* view_control */
 
