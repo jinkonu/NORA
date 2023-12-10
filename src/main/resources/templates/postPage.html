@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/center_body_user.css">
     <link rel="stylesheet" href="/css/useful.css">
     <link rel="stylesheet" href="/css/post_layout.css">
+    <link rel="stylesheet" href="/css/comment_layout.css">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
     <title>postPage</title>
@@ -115,6 +116,9 @@
             <!-- center body -->
             <div class="center_body">
                 <div id="user_body">
+                    <div class="user_profile_info">
+                        <span class="user_profile_info_id" th:text="${loginMember.id}"></span>
+                    </div>
                     <div class="horizontal_line"></div>
                     <div class="current_post">
                         <div class="movie_post" th:object="${post}">
@@ -139,11 +143,23 @@
                                 </div>
 
                                 <!-- 게시글 삭제와 같은 기능 이용할 수 있는 아이콘 -->
-                                <div class="post_setting">
+                                <div class="post_setting_self">
                                     <img src="/icons/DotsThree.svg" alt="settings">
+                                    <div class="post_setting_self_pop">
+                                        <div class="post_setting_text">삭제하기</div>
+                                        <span class="post_id" th:text="${post.id}"></span>
+                                    </div>
+                                </div>
+                                <div class="post_setting_else">
+                                    <img src="/icons/DotsThree.svg" alt="settings">
+                                    <div class="post_setting_else_pop">
+                                        <div class="post_setting_text">신고하기</div>
+                                        <span class="post_id" th:text="${post.id}"></span>
+                                    </div>
                                 </div>
 
                             </div>
+
                             <div class="post_content">
                                 <form action="post/{postId}" method="get">
                                     <div class="post_content_text" th:text="${post.body}"></div>
@@ -164,36 +180,49 @@
                     </div>
                 </div>
                 <div class="horizontal_line"></div>
-                <div id="post_reply">
-                    <div class="reply_profile_img" >
+                <div id="write_comment">
+                    <div class="comment_member_img" >
                         <img th:src="${loginMember.ImageUrl}" alt="img"/>
                     </div>
                     <!-- 댓글 폼 처리 방식을 결정해야 함(창이나 페이지로 만들지, 백으로 내용 전달 방식) -->
-                    <form name="reply_form" th:method="post" th:action="@{/comment/{postId}(postId=${postId})}">
-                        <input type="text" class="reply_input" placeholder="댓글을 작성하여 주세요.">
-                        <input type="submit" class="reply_submit" placeholder="게시">
+                    <form name="comment_form" class="comment_form" th:method="post" th:action="@{/comment/{postId}(postId=${postId})}">
+                        <input type="text" class="comment_input" placeholder="댓글을 작성하여 주세요.">
+                        <input type="submit" class="comment_submit" value="게시">
                     </form>
                 </div>
                 <div class="horizontal_line"></div>
-                <div id="post_replies">
-                    <div class="replies" th:each="comment : ${comments}">
-                        <div class="reply_header">
-                            <div class="reply_member_img">
-                                <img th:src="${comment.memberImageUrl}" alt="img">
+                <div id="user_comments">
+                    <div class="movie_comment" th:each="comment : ${comments}">
+                        <div class="comment_header_container">
+                            <div class="comment_header">
+                                <div class="user_profile_info">
+                                    <span class="user_profile_info_id_comment" th:text="${comment.memberLoginId}"></span>
+                                </div>
+
+                                <div class="comment_member_img">
+                                    <img th:src="${comment.memberImageUrl}" alt="img">
+                                </div>
+
+                                <div class="comment_info">
+                                    <div class="comment_member" th:text="${comment.memberNickname}"></div>
+                                    <div class="comment_member_id" th:text="${comment.memberLoginId}"></div>
+                                    <div class="comment_time" th:text="${comment.createdAt}"></div>
+                                </div>
                             </div>
-                            <div class="reply_info">
-                                    <div class="reply_member" th:text="${comment.memberNickname}"></div>
-                                    <div class="reply_member_id" th:text="${comment.memberLoginId}"></div>
-                                    <div class="reply_time" th:text="${comment.createdAt}"></div>
-                            </div>
-                            <!-- 자신의 댓글만 삭제 옵션 만들기-->
-                            <div class="reply_setting">
+
+                            <!-- 댓글 설정 -->
+                            <div class="comment_setting_self">
                                 <img src="/icons/DotsThree.svg" alt="settings">
+                                <div class="comment_setting_self_pop">
+                                    <div class="comment_setting_text">삭제하기</div>
+                                    <span class="comment_id" th:text="${comment.id}"></span>
+                                </div>
                             </div>
 
                         </div>
-                        <div class="reply_content">
-                            <div class="reply_content_text" th:text="${comment.body}"></div>
+
+                        <div class="comment_content">
+                            <div class="comment_content_text" th:text="${comment.body}"></div>
                         </div>
                     </div>
                 </div>
@@ -218,9 +247,134 @@
         </div>
 
     </div>
-    <script src="menu_control.js"></script>
+    <script src="../menu_control.js"></script>
     <script>
-            /* view_control */
+        /* view_control */
+
+        /* 자신의 페이지인지 여부 확인 */
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const memberId = document.querySelector('.user_profile_info_id').innerText;
+            let apiURL = '/member/' + memberId + '/isSelf';
+
+            fetch(apiURL, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    //'Cookie': document.cookie
+                },
+            })
+            .then(response => {
+                console.log(response);
+                return response.json();
+            })
+            .then(data => {
+                if(data == true){
+                    //console.log("user == page owner")
+
+                    let settings = document.querySelectorAll('.post_setting_self');
+                    for (s of settings) {
+                        s.style.display = 'block';
+                    }
+                }
+                else {
+                        //follow중인지 체크
+                        apiURL = '/member/' + memberId + '/isFollowing';
+                        fetch(apiURL, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                //'Cookie': document.cookie
+                            },
+                        })
+                        .then(response => {
+                            console.log(response);
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data == true) {
+                                //console.log("following 중입니다!");
+                            }
+                            else {
+                                //console.log("following 중이지 않습니다!");
+                            }
+                        })
+                        .catch(error => {
+                            console.log("에러: ", error);
+                        });
+
+
+
+                        let settings = document.querySelectorAll('.post_setting_else');
+                        for (s of settings) {
+                            s.style.display = 'block';
+                        }
+                    }
+            })
+            .catch(error => {
+                console.log("에러: ", error);
+            });
+        });
+
+        /* 코멘트는 각각 확인 */
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const memberId = document.querySelectorAll('.user_profile_info_id_comment').innerText;
+            for(let s of memberId) {
+                let apiURL = '/member/' + s + '/isSelf';
+
+                fetch(apiURL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+                })
+                .then(response => {
+                    console.log(response);
+                    return response.json();
+                })
+                .then(data => {
+                    if(data == true){
+                        //console.log("user == page owner")
+
+                        let setting = document.querySelector('.comment_setting_self');
+                        setting.style.display = 'block';
+                    }
+                    else {
+                            //follow중인지 체크
+                            apiURL = '/member/' + s + '/isFollowing';
+                            fetch(apiURL, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    //'Cookie': document.cookie
+                                },
+                            })
+                            .then(response => {
+                                console.log(response);
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data == true) {
+                                    //console.log("following 중입니다!");
+                                }
+                                else {
+                                    //console.log("following 중이지 않습니다!");
+                                }
+                            })
+                            .catch(error => {
+                                console.log("에러: ", error);
+                            });
+
+                            }
+                        }
+                })
+                .catch(error => {
+                    console.log("에러: ", error);
+                });
+            }
+        });
 
             /* likes_control */
             const likeEvent = document.querySelectorAll(".post_footer_likes");
@@ -243,6 +397,149 @@
                     likesElement.innerText = likes_cnt;
                 });
             }
+
+        // post delete
+        let deleteEvent = document.querySelectorAll(".post_setting_self");
+        for (let s of deleteEvent) {
+            s.addEventListener('click', e => {
+                const current = e.currentTarget;
+                const deleteActionKey = current.querySelector('.post_setting_self_pop');
+                deleteActionKey.style.display = 'block';
+                e.stopPropagation(); // 이벤트 버블링 중단
+
+            });
+        }
+        document.addEventListener("click", e => {
+            const deleteEvent = document.querySelectorAll(".post_setting_self");
+            for (let s of deleteEvent) {
+                const deleteActionKey = s.querySelector('.post_setting_self_pop');
+                deleteActionKey.style.display = 'none';
+            }
+        })
+        let deleteEvent_ = document.querySelectorAll(".post_setting_else");
+        for (let s of deleteEvent_) {
+            s.addEventListener('click', e => {
+                const current = e.currentTarget;
+                const deleteActionKey = current.querySelector('.post_setting_else_pop');
+                deleteActionKey.style.display = 'block';
+                e.stopPropagation(); // 이벤트 버블링 중단
+
+            });
+        }
+        document.addEventListener("click", e => {
+            const deleteEvent = document.querySelectorAll(".post_setting_else");
+            for (let s of deleteEvent) {
+                const deleteActionKey = s.querySelector('.post_setting_else_pop');
+                deleteActionKey.style.display = 'none';
+            }
+        })
+
+        /* delete event */
+        const deletePostEvent = document.querySelectorAll(".post_setting_self_pop");
+        for (let s of deletePostEvent) {
+            s.addEventListener('click', e => {
+                e.stopPropagation(); // 클릭 이벤트 전파 중단
+                let postId = s.querySelector('span').innerText;
+                let apiURL = '/post/' + postId + '/delete';
+                console.log(apiURL);
+                fetch (apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+
+                })
+                .then(response => {
+                    console.log(response);
+                    window.location.href = '/member/' + member.id; // 상세페이지 이전 유저 페이지로 이동(member.id를 진짜 유저페이지의 유저아이디로 변경)
+                })
+                .then(data => {
+                    console.log("Server response: ", data);
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                });
+
+            });
+        }
+
+        /* report event */
+        const reportPostEvent = document.querySelectorAll(".post_setting_else_pop");
+        for (let s of reportPostEvent) {
+            s.addEventListener('click', e => {
+                e.stopPropagation(); // 클릭 이벤트 전파 중단
+                let postId = s.querySelector('span').innerText;
+                let apiURL = '/post/' + postId + '/';
+                console.log(apiURL);
+                fetch (apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                    console.log("Server response: ", data);
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                });
+
+            });
+        }
+
+        // comment delete
+        let deleteCommentEvent = document.querySelectorAll(".comment_setting_self");
+        for (let s of deleteCommentEvent) {
+            s.addEventListener('click', e => {
+                const current = e.currentTarget;
+                const deleteActionKey = current.querySelector('.comment_setting_self_pop');
+                deleteActionKey.style.display = 'block';
+                e.stopPropagation(); // 이벤트 버블링 중단
+
+            });
+        }
+        document.addEventListener("click", e => {
+            const deleteCommentEvent = document.querySelectorAll(".comment_setting_self");
+            for (let s of deleteCommentEvent) {
+                const deleteActionKey = s.querySelector('.comment_setting_self_pop');
+                deleteActionKey.style.display = 'none';
+            }
+        })
+
+        /* delete event */
+        const commentDeletion = document.querySelectorAll(".comment_setting_self_pop");
+        for (let s of commentDeletion) {
+            s.addEventListener('click', e => {
+                e.stopPropagation(); // 클릭 이벤트 전파 중단
+                let commentId = s.querySelector('span').innerText;
+                let apiURL = '/post/' + commentId + '/delete'; //정확한 삭제 url 값 필요
+                console.log(apiURL);
+                fetch (apiURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Cookie': document.cookie
+                    },
+
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .then(data => {
+                    console.log("Server response: ", data);
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                });
+
+            });
+        }
         
         const searchEvent = document.querySelectorAll(".search_input");
         for (let s of searchEvent) {

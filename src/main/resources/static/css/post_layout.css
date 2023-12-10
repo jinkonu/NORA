@@ -126,6 +126,10 @@
     padding: 20px 0px 0px 68px;
 }
 
+.post_form {
+    cursor: pointer;
+}
+
 .post_content_text {
     color: var(--gray-gray-500, #404040);
     font-family: Pretendard Variable;
@@ -149,6 +153,7 @@
     flex-direction: row;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
 }
 
 .post_footer_likes {
