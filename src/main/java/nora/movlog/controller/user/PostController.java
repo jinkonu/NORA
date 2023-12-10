@@ -8,6 +8,7 @@ import nora.movlog.service.user.ImageService;
 import nora.movlog.service.user.MemberService;
 import nora.movlog.service.user.PostService;
 import nora.movlog.utils.MemberFinder;
+import nora.movlog.utils.dto.user.CommentCreateRequestDto;
 import nora.movlog.utils.dto.user.PostCreateRequestDto;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,7 @@ public class PostController {
         model.addAttribute("loginMember", member);
         model.addAttribute("post", postService.findOne(postId));
         model.addAttribute("comments", commentService.findAllFromPost(postId, page, size));
+        model.addAttribute("commentDto", CommentCreateRequestDto.builder().build());
 
         return "postPage";
     }
@@ -75,13 +77,16 @@ public class PostController {
 
 
     // 게시글 삭제
-    @ResponseBody
     @PostMapping(ID_URI + "/delete")
-    public void deletePost(@PathVariable(name = "id") long postId,
+    public String deletePost(@PathVariable(name = "id") long postId,
                              Authentication auth) throws IOException {
-        if (!postService.isWrittenFrom(MemberFinder.getLoginId(auth), postId)) return;
+        Member member = memberService.findByLoginId(MemberFinder.getLoginId(auth));
+
+        if (!postService.isWrittenFrom(member.getLoginId(), postId)) return null;
 
         postService.delete(postId);
+
+        return "redirect:" + MEMBER_URI + member.getId();
     }
 
 
