@@ -52,7 +52,7 @@ public class ChatGptService {
             prompt += "'" + keywords.get(i) + "'";
             if (i != keywordSize - 1) prompt += ", ";
         }
-        prompt += "의 키워드를 넣어서 200자 이내로 작성해줘.";
+        prompt += "의 키워드를 넣어서 200자 미만으로 작성해줘.";
 
         return this.getResponse(
                 this.buildHttpEntity(

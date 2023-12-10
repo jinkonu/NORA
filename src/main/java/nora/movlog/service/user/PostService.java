@@ -99,8 +99,7 @@ public class PostService {
     }
 
     public boolean isWrittenFrom(String memberLoginId, long postId) {
-        return postRepository.findById(postId).get().getMember().getLikes()
-                .equals(memberLoginId);
+        return postRepository.findById(postId).get().getMember().getLoginId().equals(memberLoginId);
     }
 
 
