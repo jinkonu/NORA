@@ -14,12 +14,14 @@ public class MemberJoinRequestDto {
     private String password;
     private String passwordCheck;
     private String nickname;
+    private static final String defaultProfilePic = "https://movlog-bucket.s3.ap-northeast-2.amazonaws.com/3a8523f2-bd76-4be1-b2b7-8f2c592133ed.avif";
 
     public Member toEntity(String encodedPassword) {
         return Member.builder()
                 .loginId(loginId)
                 .password(encodedPassword)
                 .nickname(nickname)
+                .imageUrl(defaultProfilePic)
                 .createdAt(LocalDateTime.now())
                 .memberAuth(AUTH_UNVERIFIED)
                 .followings(new HashSet<>())
